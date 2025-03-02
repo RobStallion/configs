@@ -12,9 +12,9 @@ Plug 'junegunn/fzf.vim'         " Vim integration for fzf
 Plug 'tpope/vim-fugitive'       " Git integration
 Plug 'airblade/vim-gitgutter'   " Git diff markers in sign column
 
-" " LSP support
-" Plug 'prabirshrestha/vim-lsp'   " LSP client for Vim
-" Plug 'mattn/vim-lsp-settings'   " Auto-configures language servers (optional but simplifies setup)
+" LSP support
+Plug 'prabirshrestha/vim-lsp'   " LSP client for Vim
+Plug 'mattn/vim-lsp-settings'   " Auto-configures language servers (optional but simplifies setup)
 
 " Standby plugins
 " Plug 'preservim/nerdtree'       " File explorer
