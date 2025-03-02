@@ -47,36 +47,9 @@ nnoremap * *zz
 nnoremap # #zz
 
 " Add mapping to quickly stop search highlighting
-nnoremap <leader>h :nohlsearch<CR>
+nnoremap <C-h> :nohlsearch<CR>
 
 " Add shortcuts for save, quit, and save-quit operations
 nnoremap <leader>w :w<CR>
 nnoremap <leader>q :q<CR>
 nnoremap <leader>wq :wq<CR>wq<CR>
-
-" " LSP configuration
-" if executable('pylsp')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'pylsp',
-"         \ 'cmd': {server_info->['pylsp']},
-"         \ 'whitelist': ['python'],
-"         \ })
-" endif
-
-" if executable('typescript-language-server')
-"     au User lsp_setup call lsp#register_server({
-"         \ 'name': 'typescript-language-server',
-"         \ 'cmd': {server_info->['typescript-language-server', '--stdio']},
-"         \ 'whitelist': ['javascript', 'typescript'],
-"         \ })
-" endif
-
-" " Keybindings for LSP
-" nnoremap <leader>gd :LspDefinition<CR>
-" nnoremap <leader>h :LspHover<CR>
-" nnoremap <leader>gr :LspReferences<CR>
-" nnoremap <leader>rn :LspRename<CR>
-
-" " Enable diagnostics (optional)
-" let g:lsp_diagnostics_enabled = 1
-" let g:lsp_diagnostics_echo_cursor = 1  " Show errors under cursor
