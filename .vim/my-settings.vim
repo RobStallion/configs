@@ -48,7 +48,7 @@ nnoremap * *zz
 nnoremap # #zz
 
 " Add mapping to quickly stop search highlighting
-nnoremap <C-h> :nohlsearch<CR>
+nnoremap H :nohlsearch<CR>
 
 " Add shortcuts for save, quit, and save-quit operations
 nnoremap <leader>w :w<CR>
