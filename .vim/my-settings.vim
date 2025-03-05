@@ -24,12 +24,13 @@ set smartindent               " Smarter auto-indenting
 
 " UI and usability
 set backspace=indent,eol,start " Make backspace work as expected
-set wildmenu                  " Enhanced command-line completion
+set wildmenu                   " Enhanced command-line completion
 set wildmode=list:longest,full " Set completion behavior
-set mouse=a                   " Enable mouse support in all modes
-set clipboard=unnamed         " Use system clipboard
-set history=1000              " Increase command history
-set undolevels=1000           " Increase undo levels
+set mouse=a                    " Enable mouse support in all modes
+set clipboard=unnamed          " Use system clipboard
+set history=1000               " Increase command history
+set undolevels=1000            " Increase undo levels
+set splitright                 " Opens vertical splits on the right by defualt
 
 " Navigate split windows with Ctrl+hjkl
 nnoremap <C-j> <C-w>j
