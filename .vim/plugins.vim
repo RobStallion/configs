@@ -18,9 +18,7 @@ Plug 'tpope/vim-fugitive'       " Git integration
 Plug 'airblade/vim-gitgutter'   " Git diff markers in sign column
 
 
-" LSP support
-Plug 'prabirshrestha/vim-lsp'   " LSP client for Vim
-Plug 'mattn/vim-lsp-settings'   " Auto-configures language servers (optional but simplifies setup)
+" Plug 'prabirshrestha/vim-lsp'   " LSP client for Vim
 
 
 Plug 'vim-airline/vim-airline'  " Customizable status line with themes and useful info

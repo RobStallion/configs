@@ -13,5 +13,5 @@ call plug#end()
 
 " Source settings configuration files
 source ~/.vim/settings/fzf.vim
-source ~/.vim/settings/lsp.vim
+" source ~/.vim/settings/lsp.vim
 source ~/.vim/my-settings.vim
