@@ -35,3 +35,5 @@ endfunction
 
 " Optional: Autoformat on save for Python files
 autocmd BufWritePre *.py call FormatWithRuff()
+
+" add a go to definition function

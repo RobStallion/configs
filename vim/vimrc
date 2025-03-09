@@ -8,7 +8,7 @@ let mapleader = " "
 
 " Vim-Plug setup
 call plug#begin('~/.vim/plugged')
-source ~/.vim/plugins.vim
+source ~/.vim/plugin-config/plugins.vim
 call plug#end()
 
 " Source settings configuration files

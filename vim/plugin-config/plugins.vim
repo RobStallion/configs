@@ -1,5 +1,3 @@
-" ~/.vim/plugins.vim
-
 " Plugin list managed by Vim-Plug
 
 
