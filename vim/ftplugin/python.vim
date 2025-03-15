@@ -36,4 +36,5 @@ endfunction
 " Optional: Autoformat on save for Python files
 autocmd BufWritePre *.py call FormatWithRuff()
 
-" add a go to definition function
+" attempt at go to def using RG
+nnoremap <leader>gd :RG def\s+<C-R><C-W>\b<CR>
