@@ -26,8 +26,10 @@ vim.opt.relativenumber = true
 vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 
+vim.opt.fileformat = 'unix'
+
 vim.api.nvim_create_autocmd('TextYankPost', {
-    desc = 'Highlight when yanking text', 
+    desc = 'Highlight when yanking text',
     group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
     callback = function()
         vim.highlight.on_yank()
