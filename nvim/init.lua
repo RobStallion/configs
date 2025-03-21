@@ -1,44 +1,35 @@
--- Bootstrap lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
-    vim.fn.system({
-        "git",
-        "clone",
-        "--filter=blob:none",
-        "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable",
-        lazypath,
-    })
-end
-vim.opt.rtp:prepend(lazypath)
+require("config.lazy")
 
--- Set leader key before lazy
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+-- Mappings
+vim.keymap.set('n', ';', ':')
+vim.keymap.set('v', ';', ':')
 
--- Initialize lazy.nvim
-require("lazy").setup("plugins")
+vim.keymap.set('n', '<C-h>', '<C-w>h')
+vim.keymap.set('n', '<C-j>', '<C-w>j')
+vim.keymap.set('n', '<C-k>', '<C-w>k')
+vim.keymap.set('n', '<C-l>', '<C-w>l')
 
--- Basic Settings
+vim.keymap.set('n', 'n', 'nzz')
+vim.keymap.set('n', 'N', 'Nzz')
+vim.keymap.set('n', '*', '*zz')
+vim.keymap.set('n', '#', '#zz')
+
+vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>')
+vim.keymap.set('n', '<leader>x', ':.lua<CR>')
+vim.keymap.set('v', '<leader>x', ':lua<CR>')
+
+-- Add mapping to quickly stop search highlighting
+vim.keymap.set('n', 'H', ':nohlsearch<CR>')
+
 vim.opt.number = true
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
+vim.opt.splitright = true
+vim.opt.clipboard = "unnamedplus"
 
--- Indentation
-vim.opt.expandtab = true
-vim.opt.shiftwidth = 4
-vim.opt.tabstop = 4
-vim.opt.smartindent = true
-
--- Search improvements
-vim.opt.ignorecase = true
-vim.opt.smartcase = true
-
--- Performance and UX
-vim.opt.updatetime = 300
-vim.opt.timeoutlen = 500
-
--- Some extra quality of life improvements
-vim.opt.hidden = true        -- Allow switching buffers without saving
-vim.opt.termguicolors = true -- Enable 24-bit RGB colors
-vim.opt.cursorline = true    -- Highlight the current line
-vim.opt.signcolumn = "yes"   -- Always show the signcolumn
+vim.api.nvim_create_autocmd('TextYankPost', {
+    desc = 'Highlight when yanking text', 
+    group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
+    callback = function()
+        vim.highlight.on_yank()
+    end
+})
