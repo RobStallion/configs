@@ -6,7 +6,6 @@ vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = false
 
-
 -- Mappings
 vim.keymap.set('n', ';', ':')
 vim.keymap.set('v', ';', ':')
