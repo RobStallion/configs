@@ -2,17 +2,29 @@
 return {
   'nvim-telescope/telescope.nvim',
   tag = '0.1.8',
-  enabled = false,
+  enabled = true,
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'nvim-tree/nvim-web-devicons',
-    'BurntSushi/ripgrep',
+    -- 'BurntSushi/ripgrep',
+    { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   },
   config = function()
+    require('telescope').setup {
+      pickers = {
+        find_files = {
+          theme = "ivy",
+        }
+      }
+    }
+
     local builtin = require('telescope.builtin')
-    -- Set up key mappings for Telescope
-    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Find files' })
-    vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
-    vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find buffers' })
+
+    vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Search in current project' })
+    vim.keymap.set('n', '<leader>fn', function()
+      builtin.find_files { cwd = vim.fn.stdpath('config') }
+    end, { desc = 'Search in Neovim config' })
+
+    -- vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
+    -- vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Find buffers' })
   end
 }

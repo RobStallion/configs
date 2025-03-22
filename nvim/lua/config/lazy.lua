@@ -27,6 +27,7 @@ require("lazy").setup({
     { "folke/tokyonight.nvim", config = function() vim.cmd.colorscheme "tokyonight" end },
     { import = "plugins" },
   },
+  change_detection = { notify = false },
   -- automatically check for plugin updates
   checker = { enabled = true },
 })
