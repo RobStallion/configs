@@ -9,16 +9,24 @@ return {
     { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
   },
   config = function()
-    require('telescope').setup {
+    local telescope = require('telescope')
+    local builtin = require('telescope.builtin')
+
+    telescope.setup {
       pickers = {
         find_files = {
           theme = "ivy",
         }
+      },
+
+      extensions = {
+        fzf = {}
       }
     }
 
-    local builtin = require('telescope.builtin')
+    telescope.load_extension('fzf')
 
+    vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = 'Search help docs' })
     vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Search in current project' })
     vim.keymap.set('n', '<leader>fn', function()
       builtin.find_files { cwd = vim.fn.stdpath('config') }
