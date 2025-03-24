@@ -18,8 +18,9 @@ return {
   config = function()
     local lspconfig = require('lspconfig')
 
-    lspconfig.lua_ls.setup {} -- lua
-    lspconfig.ruff.setup {}   -- python
+    lspconfig.lua_ls.setup {}   -- lua
+    lspconfig.ruff.setup {}     -- python
+    lspconfig.marksman.setup {} -- markdown
 
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(args)
