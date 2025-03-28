@@ -17,10 +17,11 @@ return {
 
   config = function()
     local lspconfig = require('lspconfig')
+    local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-    lspconfig.lua_ls.setup {}   -- lua
-    lspconfig.ruff.setup {}     -- python
-    lspconfig.marksman.setup {} -- markdown
+    lspconfig.lua_ls.setup { capabilities = capabilities } -- lua
+    lspconfig.ruff.setup {}                                -- python
+    lspconfig.marksman.setup {}                            -- markdown
 
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function(args)

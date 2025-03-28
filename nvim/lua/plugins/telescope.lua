@@ -30,17 +30,31 @@ return {
     vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Live grep' })
     vim.keymap.set('n', '<leader>fr', builtin.lsp_references, { desc = 'Search references' })
 
-    vim.keymap.set('n', '<leader>fn', function()
+    -- shortcut to neovim config
+    vim.keymap.set('n', '<leader>en', function()
       builtin.find_files({
         cwd = vim.fn.stdpath('config')
       })
     end, { desc = 'Search in Neovim config' })
+
+    -- shortcut to neovim packages
+    -- helpful to figure out how things work
+    vim.keymap.set('n', '<leader>enp', function()
+      local data_path = vim.fn.stdpath('data')
+      assert(type(data_path) == 'string', "stdpath('data') returned non-string")
+
+      builtin.find_files({
+        cwd = vim.fs.joinpath(data_path, 'lazy')
+      })
+    end, { desc = 'Search in Neovim config' })
+
 
     telescope.setup {
       defaults = {
         mappings = {
           i = {
             ["<CR>"] = function(prompt_bufnr)
+              local actions = require('telescope.actions')
               local state = require('telescope.actions.state')
               local picker = state.get_current_picker(prompt_bufnr)
               local cwd = picker.cwd or vim.fn.getcwd() -- Fallback to current dir if cwd not set
@@ -55,10 +69,9 @@ return {
               end
 
               -- Close Telescope
-              require('telescope.actions').close(prompt_bufnr)
+              actions.close(prompt_bufnr)
 
               -- Get the absolute path of the picker's cwd (Neovim config directory)
-
               -- If there are selections, replace the current buffer with the first file
               if #selections > 0 then
                 -- Construct the full path for the first file
