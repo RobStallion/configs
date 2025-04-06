@@ -5,6 +5,7 @@ vim.opt.relativenumber = true
 vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = false
+vim.opt.smartcase = true
 
 -- Mappings
 vim.keymap.set('n', ';', ':')
@@ -37,3 +38,5 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end
 })
+
+vim.lsp.enable({ "lua" })
