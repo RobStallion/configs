@@ -39,4 +39,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end
 })
 
-vim.lsp.enable({ "lua", "ruff", "pyright" })
+vim.lsp.enable({
+  "lua",
+  "ruff",
+  "pyright"
+})

@@ -11,12 +11,10 @@ return {
           'vim'
         }
       },
-      workspace = { library = vim.api.nvim_get_runtime_file('', true) },
       telemetry = { enable = false },
     },
   },
   on_attach = function(client, bufnr)
-    print(client.name, "attached")
     vim.api.nvim_create_autocmd("BufWritePre", {
       buffer = bufnr,
       callback = function()
