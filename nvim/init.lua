@@ -5,7 +5,15 @@ vim.opt.relativenumber = true
 vim.opt.splitright = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = false
+vim.opt.ignorecase = true
 vim.opt.smartcase = true
+
+-- Tab settings
+vim.opt.expandtab = true
+vim.opt.tabstop = 2
+vim.opt.shiftwidth = 2
+vim.opt.softtabstop = 2
+vim.opt.smartindent = true
 
 -- Mappings
 vim.keymap.set('n', ';', ':')
@@ -30,6 +38,13 @@ vim.keymap.set('v', '<leader>x', ':lua<CR>')
 
 -- Add mapping to quickly stop search highlighting
 vim.keymap.set('n', 'H', ':nohlsearch<CR>')
+
+-- Copy filename without extension to clipboard
+vim.keymap.set('n', '<leader>fn', function()
+  local filename = vim.fn.expand('%:t:r')
+  vim.fn.setreg('+', filename)
+  vim.notify('Copied filename: ' .. filename)
+end, { desc = 'Copy filename without extension' })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking text',
