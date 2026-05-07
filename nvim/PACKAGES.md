@@ -2,13 +2,6 @@
 
 Reference list of plugins considered but not installed. Review when the current setup feels limiting. Sorted roughly by likely value.
 
-## Discoverability
-
-### which-key.nvim
-Popup menu that shows available keymaps when you pause on a leader prefix. Zero behavior change if you don't pause — purely additive. Helpful once `<leader>*` bindings grow past ~10.
-- Repo: `folke/which-key.nvim`
-- Effort: low, ~10 lines of config.
-
 ## Navigation & file management
 
 ### oil.nvim
