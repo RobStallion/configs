@@ -35,7 +35,10 @@ vim.keymap.set('n', '#', '#zz')
 vim.keymap.set('n', 'H', ':nohlsearch<CR>')
 
 -- Lua: source file / run line / run selection
-vim.keymap.set('n', '<leader>lf', '<cmd>source %<CR>', { desc = 'Source current file' })
+vim.keymap.set('n', '<leader>lf', function()
+  vim.cmd('source %')
+  vim.notify('Sourced ' .. vim.fn.expand('%:t'))
+end, { desc = 'Source current file' })
 vim.keymap.set('n', '<leader>ll', ':.lua<CR>',         { desc = 'Run current line as Lua' })
 vim.keymap.set('v', '<leader>ll', ':lua<CR>',          { desc = 'Run selection as Lua' })
 
