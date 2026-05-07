@@ -39,6 +39,7 @@ return {
       sync_install = false,
       ignore_install = {},
       modules = {},
+      indent = { enable = true },
       highlight = {
         enable = true,
         -- to disable slow treesitter highlight for large files
