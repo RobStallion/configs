@@ -39,6 +39,7 @@ return {
       sync_install = false,
       ignore_install = {},
       modules = {},
+      -- disable = { "python" } can be added if treesitter indent misbehaves for a filetype
       indent = { enable = true },
       highlight = {
         enable = true,
