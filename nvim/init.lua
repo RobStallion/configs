@@ -56,8 +56,23 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking text',
   group = vim.api.nvim_create_augroup('highlight-yank', { clear = true }),
   callback = function()
-    vim.highlight.on_yank()
+    vim.hl.on_yank()
   end
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp-format-on-save', { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client or not client.supports_method('textDocument/formatting') then return end
+    vim.api.nvim_create_autocmd('BufWritePre', {
+      buffer = args.buf,
+      group = vim.api.nvim_create_augroup('lsp-format-buf-' .. args.buf, { clear = true }),
+      callback = function()
+        vim.lsp.buf.format({ bufnr = args.buf, async = false })
+      end,
+    })
+  end,
 })
 
 vim.lsp.enable({
