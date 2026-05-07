@@ -7,6 +7,8 @@ return {
     dependencies = {},
     opts = {},
     keys = {
+      { "<leader>f.", "<cmd>FzfLua resume<CR>", desc = "Resume last picker" },
+
       -- Files
       { "<leader>ff", "<cmd>FzfLua files<CR>",    desc = "Find files" },
       { "<leader>fb", "<cmd>FzfLua buffers<CR>",  desc = "Find buffers" },
