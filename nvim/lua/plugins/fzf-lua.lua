@@ -7,24 +7,27 @@ return {
     dependencies = {},
     opts = {},
     keys = {
-      { "<leader>ff", "<cmd>FzfLua files<CR>",          desc = "Find Files in current project" },
-      { "<leader>fg", "<cmd>FzfLua live_grep<CR>",      desc = "Live grep in current project" },
-      { "<leader>fh", "<cmd>FzfLua helptags<CR>",       desc = "Search help tags" },
-      { "<leader>fr", "<cmd>FzfLua lsp_references<CR>", desc = "Search references" },
+      -- Files
+      { "<leader>ff", "<cmd>FzfLua files<CR>",    desc = "Find files" },
+      { "<leader>fb", "<cmd>FzfLua buffers<CR>",  desc = "Find buffers" },
+      { "<leader>fr", "<cmd>FzfLua oldfiles<CR>", desc = "Recent files" },
       {
-        "<leader>fs",
-        function()
-          require("fzf-lua").files({ query = vim.fn.expand("<cfile>") })
-        end,
-        desc = "Search file under cursor"
+        "<leader>fc",
+        function() require("fzf-lua").files({ cwd = "~/.config/nvim" }) end,
+        desc = "Find in nvim config",
       },
       {
-        "<leader>en",
-        function()
-          require("fzf-lua").files({ cwd = '~/.config/nvim' })
-        end,
-        desc = "Search nvim config"
+        "<leader>fw",
+        function() require("fzf-lua").files({ query = vim.fn.expand("<cfile>") }) end,
+        desc = "Find file matching word under cursor",
       },
+
+      -- Search
+      { "<leader>sg", "<cmd>FzfLua live_grep<CR>",            desc = "Live grep" },
+      { "<leader>sw", "<cmd>FzfLua grep_cword<CR>",           desc = "Grep word under cursor" },
+      { "<leader>sh", "<cmd>FzfLua helptags<CR>",             desc = "Search help tags" },
+      { "<leader>sr", "<cmd>FzfLua lsp_references<CR>",       desc = "LSP references" },
+      { "<leader>ss", "<cmd>FzfLua lsp_document_symbols<CR>", desc = "Document symbols" },
     },
     config = function()
       require('fzf-lua').setup({

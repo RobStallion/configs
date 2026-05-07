@@ -31,20 +31,26 @@ vim.keymap.set('n', 'N', 'Nzz')
 vim.keymap.set('n', '*', '*zz')
 vim.keymap.set('n', '#', '#zz')
 
--- quickly source a file, line or selected lines
-vim.keymap.set('n', '<leader><leader>x', '<cmd>source %<CR>')
-vim.keymap.set('n', '<leader>x', ':.lua<CR>')
-vim.keymap.set('v', '<leader>x', ':lua<CR>')
-
 -- Add mapping to quickly stop search highlighting
 vim.keymap.set('n', 'H', ':nohlsearch<CR>')
 
--- Copy filename without extension to clipboard
-vim.keymap.set('n', '<leader>fn', function()
-  local filename = vim.fn.expand('%:t:r')
-  vim.fn.setreg('+', filename)
-  vim.notify('Copied filename: ' .. filename)
-end, { desc = 'Copy filename without extension' })
+-- Lua: source file / run line / run selection
+vim.keymap.set('n', '<leader>lf', '<cmd>source %<CR>', { desc = 'Source current file' })
+vim.keymap.set('n', '<leader>ll', ':.lua<CR>',         { desc = 'Run current line as Lua' })
+vim.keymap.set('v', '<leader>ll', ':lua<CR>',          { desc = 'Run selection as Lua' })
+
+-- Yank helpers (to system clipboard)
+vim.keymap.set('n', '<leader>yf', function()
+  local name = vim.fn.expand('%:t:r')
+  vim.fn.setreg('+', name)
+  vim.notify('Yanked filename: ' .. name)
+end, { desc = 'Yank filename (no extension)' })
+
+vim.keymap.set('n', '<leader>yp', function()
+  local path = vim.fn.expand('%:p')
+  vim.fn.setreg('+', path)
+  vim.notify('Yanked path: ' .. path)
+end, { desc = 'Yank full file path' })
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking text',
