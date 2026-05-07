@@ -34,13 +34,16 @@ vim.keymap.set('n', '#', '#zz')
 -- Add mapping to quickly stop search highlighting
 vim.keymap.set('n', 'H', ':nohlsearch<CR>')
 
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'Show diagnostic float' })
+
 -- Lua: source file / run line / run selection
 vim.keymap.set('n', '<leader>lf', function()
   vim.cmd('source %')
   vim.notify('Sourced ' .. vim.fn.expand('%:t'))
 end, { desc = 'Source current file' })
-vim.keymap.set('n', '<leader>ll', ':.lua<CR>',         { desc = 'Run current line as Lua' })
-vim.keymap.set('v', '<leader>ll', ':lua<CR>',          { desc = 'Run selection as Lua' })
+
+vim.keymap.set('n', '<leader>ll', ':.lua<CR>', { desc = 'Run current line as Lua' })
+vim.keymap.set('v', '<leader>ll', ':lua<CR>', { desc = 'Run selection as Lua' })
 
 -- Yank helpers (to system clipboard)
 vim.keymap.set('n', '<leader>yf', function()
