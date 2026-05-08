@@ -1,17 +1,15 @@
 vim.keymap.set('n', ';', ':')
 vim.keymap.set('v', ';', ':')
 
--- Window navigation
-vim.keymap.set('n', '<C-h>', '<C-w>h')
-vim.keymap.set('n', '<C-j>', '<C-w>j')
-vim.keymap.set('n', '<C-k>', '<C-w>k')
-vim.keymap.set('n', '<C-l>', '<C-w>l')
-
--- Window resize
-vim.keymap.set('n', '<C-Up>',    '<cmd>resize +2<CR>',          { desc = 'Increase window height' })
-vim.keymap.set('n', '<C-Down>',  '<cmd>resize -2<CR>',          { desc = 'Decrease window height' })
-vim.keymap.set('n', '<C-Left>',  '<cmd>vertical resize -2<CR>', { desc = 'Decrease window width' })
-vim.keymap.set('n', '<C-Right>', '<cmd>vertical resize +2<CR>', { desc = 'Increase window width' })
+-- Window navigation + resize (smart-splits.nvim)
+vim.keymap.set('n', '<C-h>', require('smart-splits').move_cursor_left)
+vim.keymap.set('n', '<C-j>', require('smart-splits').move_cursor_down)
+vim.keymap.set('n', '<C-k>', require('smart-splits').move_cursor_up)
+vim.keymap.set('n', '<C-l>', require('smart-splits').move_cursor_right)
+vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
+vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
+vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
+vim.keymap.set('n', '<A-l>', require('smart-splits').resize_right)
 
 -- Centre screen after search jumps
 vim.keymap.set('n', 'n', 'nzz')
