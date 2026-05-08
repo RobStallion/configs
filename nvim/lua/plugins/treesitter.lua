@@ -7,7 +7,7 @@ return {
     config = function()
       require("nvim-treesitter").install({
         "bash", "c", "diff", "elixir", "go", "gowork",
-        "html", "javascript", "jsdoc", "json", "jsonc",
+        "html", "javascript", "jsdoc", "json",
         "lua", "luadoc", "luap", "markdown", "markdown_inline",
         "printf", "python", "query", "regex", "sql", "toml",
         "tsx", "typescript", "vim", "vimdoc", "xml", "yaml",
@@ -51,14 +51,14 @@ return {
       vim.keymap.set({ "x", "o" }, "ic", function() sel.select_textobject("@class.inner", "textobjects") end)
 
       -- ]m/[m/]M/[M = function, ]]/[[/][/[] = class
-      vim.keymap.set({ "n", "x", "o" }, "]m", function() mv.goto_next_start("@function.outer",     "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]M", function() mv.goto_next_end("@function.outer",       "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]m", function() mv.goto_next_start("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]M", function() mv.goto_next_end("@function.outer", "textobjects") end)
       vim.keymap.set({ "n", "x", "o" }, "[m", function() mv.goto_previous_start("@function.outer", "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[M", function() mv.goto_previous_end("@function.outer",   "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "]]", function() mv.goto_next_start("@class.outer",        "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "][", function() mv.goto_next_end("@class.outer",          "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[[", function() mv.goto_previous_start("@class.outer",    "textobjects") end)
-      vim.keymap.set({ "n", "x", "o" }, "[]", function() mv.goto_previous_end("@class.outer",      "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[M", function() mv.goto_previous_end("@function.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "]]", function() mv.goto_next_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "][", function() mv.goto_next_end("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[[", function() mv.goto_previous_start("@class.outer", "textobjects") end)
+      vim.keymap.set({ "n", "x", "o" }, "[]", function() mv.goto_previous_end("@class.outer", "textobjects") end)
     end,
   },
 }
