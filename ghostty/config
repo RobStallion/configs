@@ -2,15 +2,17 @@
 # Toggled manually by commenting out one line. (Auto light/dark via
 # `theme = light:Catppuccin Latte,dark:Catppuccin Macchiato` is supported but
 # not currently used.)
-theme = Catppuccin Latte
+theme = Catppuccin Mocha
 # theme = Catppuccin Macchiato
+# theme = Catppuccin Frappe
+# theme = Catppuccin Latte
 
 # ── Font ──────────────────────────────────────────────────────────────────────
 # JetBrainsMono Nerd Font supplies the glyphs used by starship (e.g. ⎈ for
 # kubernetes, git status icons). Install with:
 #   brew install --cask font-jetbrains-mono-nerd-font
 font-family = JetBrainsMono Nerd Font
-font-size = 16
+font-size = 18
 
 # ── macOS keys ────────────────────────────────────────────────────────────────
 # Make ⌥+letter send escape sequences (needed for Alt-b/Alt-f word-jump in zsh
