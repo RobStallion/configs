@@ -3,7 +3,7 @@ add_newline = false
 format = """
 $character\
 $directory\
-$aws\
+$kubernetes\
 $nodejs\
 $python\
 $ruby\
@@ -36,22 +36,19 @@ min_time = 2000
 format = "took [$duration](yellow) "
 
 [aws]
-# Only show when an AWS context is actually active (avoids noise everywhere).
-# `disabled = false` is the default; we set symbol/format compact.
-symbol = "☁ "
-format = "on [$symbol($profile )($region)]($style) "
-style = "bold blue"
-[aws.region_aliases]
-eu-west-1 = "ew1"
-eu-west-2 = "ew2"
-us-east-1 = "ue1"
+disabled = true
+
+[kubernetes]
+disabled = false
+symbol = "⎈ "
+format = "[$symbol$context](bold #f5a97f) "
 
 [gcloud]
 disabled = true
 
 [git_branch]
 symbol = ""
-format = "[$branch](bold purple) "
+format = "[$branch](blue) "
 
 [git_status]
 format = "[$all_status](yellow)"
