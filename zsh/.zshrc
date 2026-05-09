@@ -1,6 +1,3 @@
-# Homebrew - must be early so user bins can override
-eval "$(/opt/homebrew/bin/brew shellenv)"
-
 export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="robbyrussell"
 
@@ -16,7 +13,6 @@ export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bin
 # vim & nvim
 alias v="nvim -O"
 # alias v="vim -O"
-alias vvv="v ~/.vim/"
 alias vtv="v ~/.tool-versions"
 
 # commenting out for now but may come back to this in the future
@@ -24,13 +20,12 @@ alias vtv="v ~/.tool-versions"
 #     v $(fzf)
 # }
 
-# zshrc
+# zshrc
 alias vz="v ~/.zshrc"
 alias sz='. ~/.zshrc'
 
 # git
 alias gbb="git branch | cat"
-alias grau='git remote add upsteam'
 
 # kube
 alias k="kubectl"
@@ -113,8 +108,12 @@ case ":${PATH}:" in
         export PATH="$BUN_INSTALL/bin:$PATH"
         ;;
 esac
-# bun completions
-[ -s "/Users/robertfrancis/.bun/_bun" ] && source "/Users/robertfrancis/.bun/_bun"
+# bun completions — lazy: load on first `bun` call, not every shell start
+bun() {
+  unfunction bun
+  [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+  command bun "$@"
+}
 
 # asdf
 # add asdf shims to PATH if they aren't added yet
