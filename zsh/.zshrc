@@ -94,51 +94,15 @@ function kc() {
   kubectl config use-context "$1"
 }
 
-# deno
-. "/Users/robertfrancis/.deno/env"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-# add bun to PATH if it isn't added yet
-case ":${PATH}:" in
-    *:"$BUN_INSTALL/bin":*)
-        ;;
-    *)
-        # Prepending path in case a system-installed bun needs to be overridden
-        export PATH="$BUN_INSTALL/bin:$PATH"
-        ;;
-esac
 # bun completions — lazy: load on first `bun` call, not every shell start
+# (PATH for bun is set in .zprofile)
 bun() {
   unfunction bun
   [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
   command bun "$@"
 }
 
-# asdf
-# add asdf shims to PATH if they aren't added yet
-case ":${PATH}:" in
-    *:"$HOME/.asdf/shims":*)
-        ;;
-    *)
-        # Prepending path in case system-installed binaries need to be overridden
-        export PATH="$HOME/.asdf/shims:$PATH"
-        ;;
-esac
-
-# cargo
-# add cargo to PATH if it isn't added yet
-case ":${PATH}:" in
-    *:"$HOME/.cargo/bin":*)
-        ;;
-    *)
-        # Appending path in case system-installed binaries need to be overridden
-        export PATH="$PATH:$HOME/.cargo/bin"
-        ;;
-esac
-
 # uv
-. "$HOME/.local/bin/env"
 alias uvsh='source .venv/bin/activate'
 
 export LITE_LLM_API_KEY='sk-Mz2oWnVIrIgFXboTp4F-Mg'
