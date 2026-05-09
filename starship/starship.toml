@@ -53,17 +53,17 @@ disabled = true
 format = "[$branch](blue) "
 
 [git_status]
-format = "[$all_status](yellow)"
-conflicted = "!"
-staged = "+"
-modified = "·"
-untracked = "?"
-deleted = "✘"
-stashed = "$"
-renamed = "»"
-ahead = "↑"
-behind = "↓"
-diverged = "↕"
+format = "$all_status$ahead_behind"
+conflicted = "[!](bold red)"
+staged = "[+](green)"
+modified = "[·](yellow)"
+untracked = "[?](bright-black)"
+deleted = "[✘](red)"
+stashed = "[$](purple)"
+renamed = "[»](cyan)"
+ahead = "[↑](cyan)"
+behind = "[↓](red)"
+diverged = "[↕](bold red)"
 
 [nodejs]
 format = "[node $version](green) "

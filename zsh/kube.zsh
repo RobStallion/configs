@@ -41,8 +41,3 @@ function kns() {
   kubectl config set-context ${ctx} --namespace="${ns}"
   echo "Namespace set to $ns"
 }
-
-# set kube context
-function kc() {
-  kubectl config use-context "$1"
-}

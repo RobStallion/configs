@@ -27,7 +27,7 @@ unset _brew_cache       # clean up — no reason for this var to leak into the e
 
 # ── deno ──────────────────────────────────────────────────────────────────────
 # Adds ~/.deno/bin to PATH so the `deno` binary can be found.
-. "/Users/robertfrancis/.deno/env"
+. "$HOME/.deno/env"
 
 # ── bun ───────────────────────────────────────────────────────────────────────
 # BUN_INSTALL is where bun lives. We export it so other tools can reference it,
@@ -69,7 +69,13 @@ esac
 
 # ── uv (Python) ───────────────────────────────────────────────────────────────
 # Adds ~/.local/bin to PATH so the `uv` binary can be found.
-. "$HOME/.local/bin/env"
+[ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
+
+# ── Editor ────────────────────────────────────────────────────────────────────
+# Used by git commit (no -m), kubectl edit, crontab -e, Ctrl+X+E in zsh, etc.
+# Without this, those tools fall back to system vi, not nvim.
+export EDITOR=nvim
+export VISUAL=nvim
 
 # ── starship ──────────────────────────────────────────────────────────────────
 # Starship looks for ~/.config/starship.toml by default. Our config lives in

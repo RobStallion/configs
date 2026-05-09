@@ -3,7 +3,7 @@
 # `theme = light:Catppuccin Latte,dark:Catppuccin Macchiato` is supported but
 # not currently used.)
 theme = Catppuccin Latte
-theme = Catppuccin Macchiato
+# theme = Catppuccin Macchiato
 
 # ── Font ──────────────────────────────────────────────────────────────────────
 # JetBrainsMono Nerd Font supplies the glyphs used by starship (e.g. ⎈ for
