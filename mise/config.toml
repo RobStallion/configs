@@ -1,0 +1,3 @@
+[settings]
+# Shimless mode is enabled via `mise activate zsh` in zsh/mise.zsh.
+# No shims directory — PATH is injected directly on cd.

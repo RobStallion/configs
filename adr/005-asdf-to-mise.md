@@ -1,7 +1,26 @@
 # ADR-005: Migrate from asdf to mise
 
 **Date**: 2026-05-09
-**Status**: Proposed (not yet executed)
+**Status**: Accepted (executed 2026-05-09, soak period in progress)
+
+## For / Against
+
+**For mise:**
+- 5–10× faster shim resolution (Rust binary vs shell script)
+- Shimless mode available: zero per-invocation cost via PATH injection on `cd`
+- Reads `.tool-versions` directly — zero project-side changes required
+- Actively maintained; asdf development has slowed
+- `mise.toml` is a superset of `.tool-versions` with richer config when needed
+
+**Against mise:**
+- Newer, less battle-tested than asdf
+- Shimless mode changes PATH semantics — tools absent outside `.tool-versions` dirs; risky for scripts/cron
+- One more binary to keep updated
+- Minor plugin compat risk for niche asdf plugins
+
+**Conclusion:** Switch. Speed gain is real and measurable. Risk is low — mise reads existing `.tool-versions` files unchanged, and asdf stays dormant during the soak period as a fallback. Shimless chosen over shimmed: mise prepends to PATH on `cd` so it always wins over brew, and global `~/.tool-versions` ensures tools are available everywhere.
+
+---
 
 ## Context
 
@@ -18,81 +37,62 @@ many times per run inherit this overhead linearly.
 - Reads the same `.tool-versions` file (and `.mise.toml`)
 - Same plugin ecosystem (`asdf` plugins work via compatibility layer)
 - Compiled binary instead of shell shim → ~5–10× faster resolution
-- Optional shimless mode (`mise activate`) injects PATH on `cd` instead of
-  using shims at all — zero per-invocation cost
+- Shimless mode (`mise activate`) injects PATH on `cd` instead of using shims
+  at all — zero per-invocation cost
 
 ## Decision
 
-Replace asdf with mise. Use shimless `mise activate zsh` mode (PATH-based) for
-maximum speed.
+Replace asdf with mise in shimless mode (`mise activate zsh`). Shimless was
+chosen over shimmed because mise prepends its paths at `cd` time, winning over
+brew regardless of PATH order. Global `~/.tool-versions` keeps all tools
+available outside project dirs, so shimless carries no practical downside.
 
-## Migration plan
+## What changed
 
-1. **Install mise**
-   ```sh
-   brew install mise
-   ```
+`.tool-versions` was pruned and bumped as part of this migration:
 
-2. **Inventory current asdf state** — capture before changing anything:
-   ```sh
-   asdf current > /tmp/asdf-current-snapshot.txt
-   asdf plugin list > /tmp/asdf-plugins-snapshot.txt
-   ls ~/.tool-versions ~/code/*/.tool-versions 2>/dev/null > /tmp/tool-versions-files.txt
-   ```
+**Removed from version management** (moved to brew — no version pinning needed):
+`bat`, `fd`, `neovim`, `lua-language-server`
 
-3. **Install plugins + versions in mise** — mise reads `.tool-versions` directly,
-   so existing project files keep working. Install the global versions first:
-   ```sh
-   # For each runtime in `asdf current`:
-   mise use --global node@<version>
-   mise use --global python@<version>
-   # ...etc
-   ```
+**Removed entirely** (unused runtimes):
+`elixir`, `erlang`, `clojure`, `java`, `lein`, `argo`, `kubectx`
 
-4. **Switch shell activation** — edit `zsh/.zprofile`:
-   - Remove the asdf shims block (lines for `$HOME/.asdf/shims` PATH guard)
-   - Add: `eval "$(mise activate zsh --shims)"` for transitional period, OR
-   - Add: `eval "$(mise activate zsh)"` for full shimless (PATH per-dir)
+**Removed** (native management preferred):
+`gcloud` (managed via `gcloud components update`),
+`ruff` (managed via `uv tool install`),
+`poetry` (vfox plugin broken on 2.x; managed per-project via `uv tool install poetry`)
 
-   Cache the activation output in the same pattern as `brew shellenv` (ADR-002)
-   to avoid the subprocess on every shell start.
+**Remaining tools** (all bumped to latest stable/LTS):
+`nodejs`, `kubectl`, `terraform`, `golang`, `python`, `yq`, `kustomize`, `uv`, `gomplate`, `bun`
 
-5. **Verify**:
-   ```sh
-   which node python ruby     # should resolve via mise, not ~/.asdf/shims
-   node --version              # should match `asdf current`'s version
-   cd ~/code/<some-project>
-   node --version              # project-pinned version still wins
-   ```
+**Shell wiring:**
+- `zsh/mise.zsh` added — cached `mise activate zsh` (same pattern as starship init)
+- Sourced first in `.zshrc` so all subsequent modules see mise-managed PATH
+- `zsh/.zprofile` asdf block commented out (not deleted — rollback available)
+- `mise/config.toml` added to repo, symlinked to `~/.config/mise/config.toml`
+- `~/.tool-versions` symlinked to repo for version control
 
-6. **Remove asdf** (only after a week of mise running cleanly):
-   ```sh
-   brew uninstall asdf         # or however it was installed
-   rm -rf ~/.asdf
-   ```
-   Keep `~/.tool-versions` files — mise reads them.
+**Python attestation note:** cpython 3.13.0 predates mise's GitHub artifact
+attestation support. `MISE_PYTHON_GITHUB_ATTESTATIONS=false` set in `.zprofile`
+as a workaround. Remove when Python is bumped to a version that has attestations.
 
 ## Rollback
 
-If mise misbehaves:
-1. Comment out `mise activate` in `.zprofile`
-2. Re-add the `~/.asdf/shims` PATH block
-3. asdf data at `~/.asdf` is untouched until step 6
+1. Comment out `source ~/.config/zsh/mise.zsh` in `.zshrc`
+2. Uncomment the asdf block in `.zprofile`
+3. `~/.asdf` is untouched — asdf is immediately functional again
+
+## Remove asdf (after soak period ~2026-05-16)
+
+```sh
+brew uninstall asdf
+rm -rf ~/.asdf
+# Delete the commented asdf block from zsh/.zprofile
+```
 
 ## Consequences
 
-- Per-invocation cost drops from ~50–150ms to ~5–15ms (shimmed) or ~0ms (shimless)
-- `.tool-versions` files keep working — no project changes needed
-- Shimless mode means `node` is only on PATH in dirs with a version file. Scripts
-  that assume `node` is always present need updating (rare).
-- One more tool to remember to update (`brew upgrade mise`)
-- ADR-001-style write-up of what asdf actually provided is unnecessary — the
-  feature set maps 1:1.
-
-## Open questions
-
-- Shimmed vs shimless: pick one upfront. Shimless is faster but changes PATH
-  semantics. If anything outside an interactive shell calls `node` (cron jobs,
-  launch agents), shimmed is safer.
-- mise has a config file (`~/.config/mise/config.toml`). Decide whether to
-  symlink it from this repo for consistency with starship/zsh modules.
+- Per-invocation cost: ~0ms (shimless PATH injection vs ~50–150ms asdf shims)
+- `.tool-versions` files in projects keep working — no project changes needed
+- `poetry` managed per-project via `uv tool install poetry` rather than globally
+- `mise/config.toml` in repo keeps version management config under source control

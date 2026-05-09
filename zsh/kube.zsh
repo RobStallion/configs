@@ -3,7 +3,7 @@
 alias k="kubectl"
 
 # Cached kubectl completion. Without this, `kubectl get <Tab>` and friends
-# don't expand resources/namespaces. asdf shims `kubectl`, so resolve via
+# don't expand resources/namespaces. kubectl is managed by mise; resolve via
 # `command -v` and cache the generated init to skip a fork on each shell.
 # `compdef k=kubectl` reuses the same completion for the `k` alias.
 _kctl_cache="$HOME/.cache/zsh_kubectl_init"

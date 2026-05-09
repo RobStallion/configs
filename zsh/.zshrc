@@ -1,14 +1,13 @@
 # ── Modules ───────────────────────────────────────────────────────────────────
+source ~/.config/zsh/mise.zsh      # FIRST: sets up PATH via mise activate; all tools below depend on this
 source ~/.config/zsh/options.zsh
-source ~/.config/zsh/completions.zsh
+source ~/.config/zsh/completions.zsh # before kube.zsh: runs compinit; kube.zsh calls compdef which requires it
 source ~/.config/zsh/keybindings.zsh
 source ~/.config/zsh/git-aliases.zsh
 source ~/.config/zsh/kube.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/claude.zsh
-# plugins.zsh sourced LAST so fast-syntax-highlighting and zsh-autosuggestions
-# wrap the final set of ZLE widgets (everything else is in place by now).
-source ~/.config/zsh/plugins.zsh
+source ~/.config/zsh/plugins.zsh    # LAST: fast-syntax-highlighting and zsh-autosuggestions wrap ZLE widgets
 
 # ── nvim ──────────────────────────────────────────────────────────────────────
 alias v="nvim -O"

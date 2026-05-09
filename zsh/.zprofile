@@ -43,17 +43,19 @@ case ":${PATH}:" in
         ;;
 esac
 
-# ── asdf ──────────────────────────────────────────────────────────────────────
-# asdf manages multiple runtime versions (node, ruby, python, etc.).
-# Its shims directory intercepts calls to versioned tools and routes to the
-# right version. Must be on PATH for `node`, `python`, etc. to work.
-case ":${PATH}:" in
-    *:"$HOME/.asdf/shims":*)
-        ;;  # already on PATH, do nothing
-    *)
-        export PATH="$HOME/.asdf/shims:$PATH"
-        ;;
-esac
+# ── mise ──────────────────────────────────────────────────────────────────────
+# cpython 3.13.0 predates mise's attestation support; disable for installs.
+# Safe to remove when Python is upgraded to a version that has attestations.
+export MISE_PYTHON_GITHUB_ATTESTATIONS=false
+
+# ── asdf (disabled — replaced by mise) ───────────────────────────────────────
+# case ":${PATH}:" in
+#     *:"$HOME/.asdf/shims":*)
+#         ;;
+#     *)
+#         export PATH="$HOME/.asdf/shims:$PATH"
+#         ;;
+# esac
 
 # ── cargo (Rust) ──────────────────────────────────────────────────────────────
 # Adds ~/.cargo/bin to PATH so Rust-installed binaries (e.g. ripgrep, bat) are found.
