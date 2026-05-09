@@ -43,18 +43,21 @@ alias kc1="kubectl config use-context eks-01"
 alias kc2="kubectl config use-context eks-02"
 
 # set kube namespace
-# TODO: hardcoded "recharge" fallback is work-specific — move to a private
-# override file (e.g. .zsh_secrets) if/when this config gets shared.
 function kns() {
   local ctx ns nsExists
   ctx=$(kubectl config current-context)
   ns=$1
 
+  if [[ -z "$ns" ]]; then
+    echo "usage: kns <namespace>" >&2
+    return 1
+  fi
+
   # verify that the namespace exists
   nsExists=$(kubectl get namespace "$ns" --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
-  if [ -z "$nsExists" ]; then
-    echo "Namespace ($ns) not found, using recharge"
-    ns="recharge"
+  if [[ -z "$nsExists" ]]; then
+    echo "Namespace ($ns) not found" >&2
+    return 1
   fi
 
   kubectl config set-context "${ctx}" --namespace="${ns}"
