@@ -16,9 +16,6 @@ alias vtv="v ~/.tool-versions"
 alias vz="v ~/.zshrc"
 alias sz='. ~/.zshrc'
 
-# ── git ───────────────────────────────────────────────────────────────────────
-alias gbb="git branch | cat"
-
 # ── kube ──────────────────────────────────────────────────────────────────────
 alias k="kubectl"
 
@@ -54,8 +51,9 @@ alias zz="zed ~/.zshrc"
 
 # ── Functions ─────────────────────────────────────────────────────────────────
 
-# Opens the github page for a given repo
-function gh() {
+# Opens the github page for a given repo (renamed from `gh` to avoid
+# shadowing the GitHub CLI if it ever gets installed).
+function gho() {
   # check if we pass in a remote
   url=`git config remote.$1.url`
   if [ -n "$url" ]; then
@@ -99,10 +97,11 @@ bun() {
 # ── uv ────────────────────────────────────────────────────────────────────────
 alias uvsh='source .venv/bin/activate'
 
-# ── Claude ────────────────────────────────────────────────────────────────────
-export LITE_LLM_API_KEY='sk-Mz2oWnVIrIgFXboTp4F-Mg'
+# ── Secrets ───────────────────────────────────────────────────────────────────
+# API keys etc. live in ~/.zsh_secrets (outside this repo, mode 600).
+[ -f ~/.zsh_secrets ] && source ~/.zsh_secrets
 
-export ANTHROPIC_AUTH_TOKEN='sk-Mz2oWnVIrIgFXboTp4F-Mg'
+# ── Claude ────────────────────────────────────────────────────────────────────
 export ANTHROPIC_BASE_URL='https://litellm.external-ai.rvu.cloud'
 
 export CLAUDE_CODE_EFFORT_LEVEL='max'

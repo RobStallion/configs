@@ -3,6 +3,7 @@ add_newline = false
 format = """
 $character\
 $directory\
+$aws\
 $nodejs\
 $python\
 $ruby\
@@ -21,12 +22,32 @@ error_symbol = "[➜](bold red)"
 [directory]
 style = "bold cyan"
 truncation_length = 3
-truncate_to_repo = false
+truncate_to_repo = true       # in a repo: show path relative to repo root
+truncation_symbol = "…/"      # leading "…/" when path is truncated
 format = "[$path]($style) "
+
+# Optional: per-dir aliases. Uncomment + tweak to shorten common paths.
+# [directory.substitutions]
+# "~/code/personal" = "personal"
+# "~/code/work"     = "work"
 
 [cmd_duration]
 min_time = 2000
 format = "took [$duration](yellow) "
+
+[aws]
+# Only show when an AWS context is actually active (avoids noise everywhere).
+# `disabled = false` is the default; we set symbol/format compact.
+symbol = "☁ "
+format = "on [$symbol($profile )($region)]($style) "
+style = "bold blue"
+[aws.region_aliases]
+eu-west-1 = "ew1"
+eu-west-2 = "ew2"
+us-east-1 = "ue1"
+
+[gcloud]
+disabled = true
 
 [git_branch]
 symbol = ""
@@ -37,10 +58,10 @@ format = "[$all_status](yellow)"
 conflicted = "!"
 staged = "+"
 modified = "·"
-untracked = "·"
-deleted = "·"
-stashed = ""
-renamed = ""
+untracked = "?"
+deleted = "✘"
+stashed = "$"
+renamed = "»"
 ahead = "↑"
 behind = "↓"
 diverged = "↕"

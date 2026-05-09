@@ -69,3 +69,9 @@ esac
 # ── uv (Python) ───────────────────────────────────────────────────────────────
 # Adds ~/.local/bin to PATH so the `uv` binary can be found.
 . "$HOME/.local/bin/env"
+
+# ── starship ──────────────────────────────────────────────────────────────────
+# Starship looks for ~/.config/starship.toml by default. Our config lives in
+# ~/.config/starship/starship.toml (whole dir symlinked from the repo), so
+# point STARSHIP_CONFIG at it explicitly.
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"

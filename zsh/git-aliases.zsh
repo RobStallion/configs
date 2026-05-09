@@ -62,6 +62,7 @@ alias gapa='git add --patch'          # interactive/selective staging
 # branch
 alias gb='git branch'
 alias gba='git branch --all'
+alias gbb='git branch | cat'          # list branches without paging
 alias gbd='git branch --delete'
 alias gbD='git branch --delete --force'
 
