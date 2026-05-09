@@ -1,11 +1,15 @@
-# Starship config — robbyrussell-style prompt
-# green ➜ (red on error), cyan basename, blue git:(, red branch, yellow ✗
-
 add_newline = false
 
 format = """
 $character\
 $directory\
+$nodejs\
+$python\
+$ruby\
+$cmd_duration\
+"""
+
+right_format = """
 $git_branch\
 $git_status\
 """
@@ -20,16 +24,35 @@ truncation_length = 3
 truncate_to_repo = false
 format = "[$path]($style) "
 
+[cmd_duration]
+min_time = 2000
+format = "took [$duration](yellow) "
+
 [git_branch]
 symbol = ""
-format = "[git:(](blue)[$branch](bold red)[)](blue)"
+format = "[$branch](bold purple) "
 
 [git_status]
-format = "[ $conflicted$staged$modified$untracked](yellow)"
-conflicted = "✗"
-staged = "✗"
-modified = "✗"
-untracked = "✗"
-ahead = ""
-behind = ""
-diverged = ""
+format = "[$all_status](yellow)"
+conflicted = "!"
+staged = "+"
+modified = "·"
+untracked = "·"
+deleted = "·"
+stashed = ""
+renamed = ""
+ahead = "↑"
+behind = "↓"
+diverged = "↕"
+
+[nodejs]
+symbol = ""
+format = "[node $version](green) "
+
+[python]
+symbol = ""
+format = "[py $version](yellow) "
+
+[ruby]
+symbol = ""
+format = "[rb $version](red) "
