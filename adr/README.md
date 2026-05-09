@@ -29,3 +29,4 @@ What's better, what's worse, what to watch out for.
 | [002](002-brew-shellenv.md) | brew shellenv caching in zprofile | Active |
 | [003](003-bun-completions.md) | bun completions lazy load | Active |
 | [004](004-starship.md) | Replace oh-my-zsh with starship + modular zsh | Active |
+| [005](005-asdf-to-mise.md) | Migrate from asdf to mise | Proposed |

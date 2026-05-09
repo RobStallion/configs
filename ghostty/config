@@ -1,9 +1,28 @@
-# Themes
+# ── Theme ─────────────────────────────────────────────────────────────────────
+# Toggled manually by commenting out one line. (Auto light/dark via
+# `theme = light:Catppuccin Latte,dark:Catppuccin Macchiato` is supported but
+# not currently used.)
 theme = Catppuccin Latte
-# theme = Catppuccin Macchiato
+theme = Catppuccin Macchiato
 
+# ── Font ──────────────────────────────────────────────────────────────────────
+# JetBrainsMono Nerd Font supplies the glyphs used by starship (e.g. ⎈ for
+# kubernetes, git status icons). Install with:
+#   brew install --cask font-jetbrains-mono-nerd-font
+font-family = JetBrainsMono Nerd Font
 font-size = 16
 
-unfocused-split-opacity = 0.6
+# ── macOS keys ────────────────────────────────────────────────────────────────
+# Make ⌥+letter send escape sequences (needed for Alt-b/Alt-f word-jump in zsh
+# and for word motions in nvim). Default false → ⌥ produces special chars (∂, ƒ).
+macos-option-as-alt = true
 
+# ── UI ────────────────────────────────────────────────────────────────────────
+unfocused-split-opacity = 0.6
+cursor-style = block
+mouse-hide-while-typing = true
+
+# ── Clipboard ─────────────────────────────────────────────────────────────────
 copy-on-select = clipboard
+# Confirmation prompt on multi-line / suspicious pastes. Keep on as a safety net.
+clipboard-paste-protection = true

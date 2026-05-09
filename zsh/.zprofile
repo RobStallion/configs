@@ -57,7 +57,8 @@ esac
 
 # ── cargo (Rust) ──────────────────────────────────────────────────────────────
 # Adds ~/.cargo/bin to PATH so Rust-installed binaries (e.g. ripgrep, bat) are found.
-# Appended rather than prepended so system versions of tools aren't silently overridden.
+# Appended rather than prepended so brew versions of tools (rg, bat) win — they're
+# kept up to date by `brew upgrade`, whereas cargo-installed binaries are not.
 case ":${PATH}:" in
     *:"$HOME/.cargo/bin":*)
         ;;  # already on PATH, do nothing

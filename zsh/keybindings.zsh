@@ -27,10 +27,16 @@ autoload -Uz edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-# Bracketed paste — paste text literally (no accidental execution)
+# Alt+. — insert last word from previous command (e.g. `mv foo.txt bar.txt`,
+# next prompt: `cat ` + Alt+. → `cat bar.txt`). Standard readline binding,
+# not enabled by default in zsh.
+bindkey "^[." insert-last-word
+
+# Make Ctrl+w / Alt+b/f stop at slashes so path edits work as expected.
+# Default WORDCHARS includes `/`, so Ctrl+w on `/path/to/file` deletes the lot.
+WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
+
+# Bracketed paste — paste text literally (no accidental execution).
+# Must be registered AFTER any other self-insert hooks so it wins on paste.
 autoload -Uz bracketed-paste-magic
 zle -N bracketed-paste bracketed-paste-magic
-
-# URL quoting — auto-escape URLs when pasted
-autoload -Uz url-quote-magic
-zle -N self-insert url-quote-magic

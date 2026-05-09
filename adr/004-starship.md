@@ -40,3 +40,19 @@ Modular structure chosen so each piece can be commented out independently for te
 - No plugin ecosystem, but the only OMZ plugin in use was `git` (now replaced by
   `git-aliases.zsh`)
 - starship reads `.git/` on every prompt — negligible cost (~5ms), no process spawn
+
+## Measurements
+
+Measured with `for i in 1 2 3 4 5; do /usr/bin/time -p zsh -ic exit 2>&1 | grep real; done`
+on 2026-05-09, after starship init caching applied:
+
+```
+real 0.11   # cold (cache miss / FS cold)
+real 0.03
+real 0.03
+real 0.03
+real 0.02
+```
+
+Warm median ~30ms. Well under the <30ms target on warm runs; cold path stays under
+the old 167ms OMZ baseline. Re-run after any change to .zshrc / .zprofile / modules.

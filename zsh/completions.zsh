@@ -11,9 +11,6 @@ else
   compinit -d "$HOME/.zcompdump"
 fi
 
-# Also enable bash-style completions (needed by some tools)
-autoload -Uz bashcompinit && bashcompinit
-
 # ── Completion behaviour ──────────────────────────────────────────────────────
 
 # Tab opens a menu when multiple matches exist

@@ -2,3 +2,6 @@ vim/plugged
 vim/.netrwhist
 .claude/
 CLAUDE.md
+
+# Secrets — sourced by .zshrc, never committed.
+zsh/.zsh_secrets

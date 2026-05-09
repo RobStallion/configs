@@ -105,7 +105,6 @@ alias gma='git merge --abort'
 alias gl='git pull'
 alias gp='git push'
 alias gpf='git push --force-with-lease'
-alias gpf!='git push --force'
 alias ggpull='git pull origin "$(git_current_branch)"'
 alias ggpush='git push origin "$(git_current_branch)"'
 

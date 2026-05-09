@@ -1,13 +1,13 @@
-add_newline = false
+add_newline = true
 
 format = """
-$character\
 $directory\
-$kubernetes\
 $nodejs\
 $python\
 $ruby\
+$kubernetes\
 $cmd_duration\
+$character\
 """
 
 right_format = """
@@ -42,12 +42,14 @@ disabled = true
 disabled = false
 symbol = "⎈ "
 format = "[$symbol$context](bold #f5a97f) "
+# Only render when inside a repo with kube manifests. Detected by folder name —
+# common patterns across repos: `kube/`, `k8s/`, `__kube__/`.
+detect_folders = ["kube", "k8s", "__kube__"]
 
 [gcloud]
 disabled = true
 
 [git_branch]
-symbol = ""
 format = "[$branch](blue) "
 
 [git_status]
@@ -64,13 +66,10 @@ behind = "↓"
 diverged = "↕"
 
 [nodejs]
-symbol = ""
 format = "[node $version](green) "
 
 [python]
-symbol = ""
 format = "[py $version](yellow) "
 
 [ruby]
-symbol = ""
 format = "[rb $version](red) "
