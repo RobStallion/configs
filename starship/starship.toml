@@ -1,0 +1,35 @@
+# Starship config — robbyrussell-style prompt
+# green ➜ (red on error), cyan basename, blue git:(, red branch, yellow ✗
+
+add_newline = false
+
+format = """
+$character\
+$directory\
+$git_branch\
+$git_status\
+"""
+
+[character]
+success_symbol = "[➜](bold green)"
+error_symbol = "[➜](bold red)"
+
+[directory]
+style = "bold cyan"
+truncation_length = 3
+truncate_to_repo = false
+format = "[$path]($style) "
+
+[git_branch]
+symbol = ""
+format = "[git:(](blue)[$branch](bold red)[)](blue)"
+
+[git_status]
+format = "[ $conflicted$staged$modified$untracked](yellow)"
+conflicted = "✗"
+staged = "✗"
+modified = "✗"
+untracked = "✗"
+ahead = ""
+behind = ""
+diverged = ""

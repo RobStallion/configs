@@ -25,6 +25,7 @@ What's better, what's worse, what to watch out for.
 
 | # | Title | Status |
 |---|-------|--------|
-| [001](001-oh-my-zsh.md) | oh-my-zsh as zsh framework | Active |
+| [001](001-oh-my-zsh.md) | oh-my-zsh as zsh framework | Superseded by 004 |
 | [002](002-brew-shellenv.md) | brew shellenv caching in zprofile | Active |
 | [003](003-bun-completions.md) | bun completions lazy load | Active |
+| [004](004-starship.md) | Replace oh-my-zsh with starship + modular zsh | Active |

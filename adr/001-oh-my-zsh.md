@@ -1,7 +1,7 @@
 # ADR-001: oh-my-zsh as zsh framework
 
 **Date**: 2026-05-09
-**Status**: Active
+**Status**: Superseded by [ADR-004](004-starship.md)
 
 ## Context
 

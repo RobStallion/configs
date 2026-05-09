@@ -1,33 +1,25 @@
-export ZSH="$HOME/.oh-my-zsh"
-ZSH_THEME="robbyrussell"
+# ── Modules ───────────────────────────────────────────────────────────────────
+source ~/.config/zsh/options.zsh
+source ~/.config/zsh/completions.zsh
+source ~/.config/zsh/keybindings.zsh
+source ~/.config/zsh/git-aliases.zsh
 
-plugins=(git)
-
-source $ZSH/oh-my-zsh.sh
-
-# FZF
+# ── FZF ───────────────────────────────────────────────────────────────────────
 export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 export FZF_DEFAULT_OPTS="--preview='bat --color=always --style=numbers {}' --bind up:preview-up,down:preview-down -m --preview-window right:60%"
 
-
-# vim & nvim
+# ── nvim ──────────────────────────────────────────────────────────────────────
 alias v="nvim -O"
-# alias v="vim -O"
 alias vtv="v ~/.tool-versions"
 
-# commenting out for now but may come back to this in the future
-# function v.() {
-#     v $(fzf)
-# }
-
-# zshrc
+# ── zshrc ─────────────────────────────────────────────────────────────────────
 alias vz="v ~/.zshrc"
 alias sz='. ~/.zshrc'
 
-# git
+# ── git ───────────────────────────────────────────────────────────────────────
 alias gbb="git branch | cat"
 
-# kube
+# ── kube ──────────────────────────────────────────────────────────────────────
 alias k="kubectl"
 
 alias kg="kubectl get"
@@ -54,11 +46,13 @@ alias kdc="kubectl describe cronjob"
 alias kc1="kubectl config use-context eks-01"
 alias kc2="kubectl config use-context eks-02"
 
-# rest
+# ── rest ──────────────────────────────────────────────────────────────────────
 alias xx="exit"
 alias s="open -a SourceTree ."
 alias z="zed ."
 alias zz="zed ~/.zshrc"
+
+# ── Functions ─────────────────────────────────────────────────────────────────
 
 # Opens the github page for a given repo
 function gh() {
@@ -102,26 +96,23 @@ bun() {
   command bun "$@"
 }
 
-# uv
+# ── uv ────────────────────────────────────────────────────────────────────────
 alias uvsh='source .venv/bin/activate'
 
+# ── Claude ────────────────────────────────────────────────────────────────────
 export LITE_LLM_API_KEY='sk-Mz2oWnVIrIgFXboTp4F-Mg'
 
-# Claude
 export ANTHROPIC_AUTH_TOKEN='sk-Mz2oWnVIrIgFXboTp4F-Mg'
 export ANTHROPIC_BASE_URL='https://litellm.external-ai.rvu.cloud'
 
 export CLAUDE_CODE_EFFORT_LEVEL='max'
 export ANTHROPIC_MODEL='opusplan'
 
-# export ANTHROPIC_DEFAULT_HAIKU_MODEL=rvu-default-haiku
-# export ANTHROPIC_DEFAULT_SONNET_MODEL=rvu-default-sonnet
-# export ANTHROPIC_DEFAULT_OPUS_MODEL=rvu-default-opus
-# export ANTHROPIC_DEFAULT_OPUS_MODEL='claude-opus-4-6'
+export ANTHROPIC_DEFAULT_HAIKU_MODEL='rvu-default-haiku'
+export ANTHROPIC_DEFAULT_SONNET_MODEL='rvu-default-sonnet'
+export ANTHROPIC_DEFAULT_OPUS_MODEL='rvu-default-opus'
 
 export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1
-# export CAVEMAN_DEFAULT_MODE='ultra'
 
-# dbt
-# export DBT_PROJECT_DIR="./dbt"
-#
+# ── Prompt ────────────────────────────────────────────────────────────────────
+eval "$(starship init zsh)"
