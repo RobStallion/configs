@@ -2,14 +2,18 @@
 # -d: use explicit dumpfile path so we can track it.
 # Fast path: if the dump is fresh (modified <24h ago), skip compinit's
 # security/audit walk via -C. Otherwise run a full compinit to refresh it.
-# The (#qN.mh-24) glob qualifier matches the file only if mtime is within
-# the last 24 hours; empty result = stale, so we run the full check.
+# The (N.mh-24) glob qualifier matches the file only if mtime is within
+# the last 24 hours (N = nullglob, .  = regular file, mh-24 = mtime <24h).
+# Glob qualifiers don't expand inside `[[ -n ]]`, so assign to an array and
+# check its length instead.
 autoload -Uz compinit
-if [[ -n "$HOME/.zcompdump"(#qN.mh-24) ]]; then
+_zdump=($HOME/.zcompdump(N.mh-24))
+if (( ${#_zdump} )); then
   compinit -C -d "$HOME/.zcompdump"
 else
   compinit -d "$HOME/.zcompdump"
 fi
+unset _zdump
 
 # ── Completion behaviour ──────────────────────────────────────────────────────
 

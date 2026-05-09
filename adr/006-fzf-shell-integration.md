@@ -1,7 +1,7 @@
 # ADR-006: fzf shell integration
 
 **Date**: 2026-05-09
-**Status**: Proposed (not yet executed)
+**Status**: Active
 
 ## Context
 
@@ -27,9 +27,14 @@ These are separate from fzf-lua. The shell integration is loaded via
 
 ## Decision
 
-Deferred. Shell history search via Ctrl+R is partially covered by zsh's own
-`up-line-or-beginning-search` (prefix search). File picking is well-handled by
-fzf-lua inside nvim. No immediate gap.
+Enable shell integration. Prefix-search via `up-line-or-beginning-search` only
+helps when you remember the start of the command — fzf's substring/fuzzy match
+on Ctrl+R catches the rest. Ctrl+T and Alt+C are useful in a terminal even with
+fzf-lua inside nvim (e.g. `cp <Ctrl+T>`, `cd <Alt+C>`).
+
+Cached `fzf --zsh` to avoid the subprocess on every shell start. Per-binding
+opts kept out of `FZF_DEFAULT_OPTS` so fzf-lua isn't polluted with shell-only
+flags like preview windows.
 
 ## Migration plan (when ready)
 

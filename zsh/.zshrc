@@ -6,6 +6,9 @@ source ~/.config/zsh/git-aliases.zsh
 source ~/.config/zsh/kube.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/claude.zsh
+# plugins.zsh sourced LAST so fast-syntax-highlighting and zsh-autosuggestions
+# wrap the final set of ZLE widgets (everything else is in place by now).
+source ~/.config/zsh/plugins.zsh
 
 # ── nvim ──────────────────────────────────────────────────────────────────────
 alias v="nvim -O"

@@ -17,6 +17,16 @@ font-size = 16
 # and for word motions in nvim). Default false → ⌥ produces special chars (∂, ƒ).
 macos-option-as-alt = true
 
+# ── Shell integration ─────────────────────────────────────────────────────────
+# Auto-detect works, but pin explicitly so it never silently regresses.
+# Features:
+#   cursor — change cursor shape based on prompt vs running command
+#   sudo   — keep working dir / TERM info across `sudo`
+#   title  — set window title to current cwd / running cmd
+# Enables OSC 7 (cwd reporting), prompt marks, and ⌘↑/⌘↓ jump-prompt.
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
 # ── UI ────────────────────────────────────────────────────────────────────────
 unfocused-split-opacity = 0.6
 cursor-style = block

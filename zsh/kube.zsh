@@ -2,6 +2,22 @@
 
 alias k="kubectl"
 
+# Cached kubectl completion. Without this, `kubectl get <Tab>` and friends
+# don't expand resources/namespaces. asdf shims `kubectl`, so resolve via
+# `command -v` and cache the generated init to skip a fork on each shell.
+# `compdef k=kubectl` reuses the same completion for the `k` alias.
+_kctl_cache="$HOME/.cache/zsh_kubectl_init"
+_kctl_bin=$(command -v kubectl)
+if [[ -n "$_kctl_bin" ]]; then
+  if [[ ! -f "$_kctl_cache" || "$_kctl_bin" -nt "$_kctl_cache" ]]; then
+    mkdir -p "$HOME/.cache"
+    "$_kctl_bin" completion zsh > "$_kctl_cache"
+  fi
+  source "$_kctl_cache"
+  compdef k=kubectl
+fi
+unset _kctl_cache _kctl_bin
+
 alias kg="kubectl get"
 alias kd="kubectl describe"
 
@@ -27,17 +43,20 @@ alias kc1="kubectl config use-context eks-01"
 alias kc2="kubectl config use-context eks-02"
 
 # set kube namespace
+# TODO: hardcoded "recharge" fallback is work-specific — move to a private
+# override file (e.g. .zsh_secrets) if/when this config gets shared.
 function kns() {
-  ctx=`kubectl config current-context`
+  local ctx ns nsExists
+  ctx=$(kubectl config current-context)
   ns=$1
 
   # verify that the namespace exists
-  nsExists=`kubectl get namespace $ns --no-headers --output=go-template={{.metadata.name}} 2> /dev/null`
-  if [ -z $nsExists ]; then
+  nsExists=$(kubectl get namespace "$ns" --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+  if [ -z "$nsExists" ]; then
     echo "Namespace ($ns) not found, using recharge"
     ns="recharge"
   fi
 
-  kubectl config set-context ${ctx} --namespace="${ns}"
+  kubectl config set-context "${ctx}" --namespace="${ns}"
   echo "Namespace set to $ns"
 }

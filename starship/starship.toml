@@ -1,16 +1,26 @@
 add_newline = true
 
+# Top-level keys (`format`, `right_format`, `palette`) MUST appear BEFORE any
+# [table] header — TOML rule: once a [section] starts, every following
+# `key = value` is part of that section. Putting `format` after [palettes.rcm]
+# silently moves it into the palette table and starship falls back to defaults.
+
+palette = "rcm"
+
 format = """
 $directory\
 $nodejs\
 $python\
 $ruby\
-$kubernetes\
 $cmd_duration\
+$status\
 $character\
 """
 
+# Right-aligned: contextual info that's nice to glance at but not the primary
+# focus (kube context, git branch, git status). Keeps the left side clean.
 right_format = """
+$kubernetes\
 $git_branch\
 $git_status\
 """
@@ -18,6 +28,14 @@ $git_status\
 [character]
 success_symbol = "[➜](bold green)"
 error_symbol = "[➜](bold red)"
+
+[status]
+# Shows the actual exit code on failure (e.g. 127 = not found, 130 = SIGINT).
+# The red ➜ from [character] still fires too — this just adds the number.
+disabled = false
+format = "[$symbol$status]($style) "
+symbol = "✘ "
+style = "bold red"
 
 [directory]
 style = "bold cyan"
@@ -41,7 +59,7 @@ disabled = true
 [kubernetes]
 disabled = false
 symbol = "⎈ "
-format = "[$symbol$context](bold #f5a97f) "
+format = "[$symbol$context](bold peach) "
 # Only render when inside a repo with kube manifests. Detected by folder name —
 # common patterns across repos: `kube/`, `k8s/`, `__kube__/`.
 detect_folders = ["kube", "k8s", "__kube__"]
@@ -59,7 +77,9 @@ staged = "[+](green)"
 modified = "[·](yellow)"
 untracked = "[?](bright-black)"
 deleted = "[✘](red)"
-stashed = "[$](purple)"
+# Use a TOML literal string ('...') so the leading $ stays literal —
+# starship treats unescaped $ in basic strings as a variable prefix.
+stashed = '[\$](purple)'
 renamed = "[»](cyan)"
 ahead = "[↑](cyan)"
 behind = "[↓](red)"
@@ -73,3 +93,9 @@ format = "[py $version](yellow) "
 
 [ruby]
 format = "[rb $version](red) "
+
+# ── Palettes ──────────────────────────────────────────────────────────────────
+# Defined LAST so the table header doesn't absorb top-level keys above. Add
+# new palettes below and switch via the top-level `palette = "..."` line.
+[palettes.rcm]
+peach = "#f5a97f"
