@@ -46,9 +46,6 @@ bun() {
   command bun "$@"
 }
 
-# ── uv ────────────────────────────────────────────────────────────────────────
-alias uvsh='source .venv/bin/activate'
-
 # ── Secrets ───────────────────────────────────────────────────────────────────
 # API keys etc. live in zsh/.zsh_secrets (gitignored, sourced via the symlinked dir).
 [ -f ~/.config/zsh/.zsh_secrets ] && source ~/.config/zsh/.zsh_secrets

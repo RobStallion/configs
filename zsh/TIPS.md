@@ -6,7 +6,7 @@ Reference for getting more out of the current shell setup (zsh + ghostty + stars
 
 Bound by `fzf --zsh` (cached in `~/.cache/zsh_fzf_init`):
 
-- `<C-r>` — fuzzy-search command history (sorted, exact match)
+- `<C-r>` — fuzzy-search command history (reverse-chronological, exact match)
 - `<C-t>` — fuzzy-pick file/dir into the current command line, with `bat` preview
 - `<M-c>` — fuzzy-pick a directory and `cd` into it, with `eza --tree` preview
 
@@ -88,7 +88,6 @@ Tab completion works on both `kubectl` and `k` once cache is built (regenerates 
 | `v` / `vz` / `vtv` | `nvim -O` / edit `.zshrc` / edit `.tool-versions` |
 | `sz` | source `.zshrc` |
 | `xx` | `exit` |
-| `uvsh` | `source .venv/bin/activate` (for uv) |
 | `s` / `z` | open SourceTree / Zed in cwd |
 | `gho [remote]` | open GitHub page for current repo (defaults to `origin`) |
 
@@ -118,7 +117,7 @@ Other:
 Format defined in `starship/starship.toml`:
 
 - Left side: `directory` → language version (node/python/ruby) → command duration → exit status → prompt char
-- Right side: `kubernetes` (only if a `kube/`, `k8s/`, or `__kube__/` folder is present in the repo) → git branch → git status
+- Right side: `kubernetes` (when repo root contains `kube/`, `k8s/`, or `__kube__/` — visible at all depths within that repo) → git branch → git status
 
 Status symbols on the right:
 - `+` staged · `·` modified · `?` untracked · `✘` deleted · `»` renamed · `$` stashed · `!` conflicted
