@@ -11,7 +11,7 @@ return {
       },
     },
     pyright = {
-      -- disableOrganizeImports = true,
+      disableOrganizeImports = true,
     },
   },
 }

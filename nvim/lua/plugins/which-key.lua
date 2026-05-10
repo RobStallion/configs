@@ -8,6 +8,7 @@ return {
       { "<leader>s", group = "search" },
       { "<leader>y", group = "yank" },
       { "<leader>l", group = "lua" },
+      { "<leader>h", group = "hunks" },
     },
   },
 }

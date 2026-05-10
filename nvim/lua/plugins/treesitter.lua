@@ -42,7 +42,7 @@ return {
           local lang = vim.treesitter.language.get_lang(args.match)
           if not lang or not pcall(vim.treesitter.get_parser, buf, lang) then return end
 
-          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(buf))
           if ok and stats and stats.size > 100 * 1024 then return end
 
           pcall(vim.treesitter.start, buf, lang)
