@@ -78,6 +78,7 @@ esac
 # Without this, those tools fall back to system vi, not nvim.
 export EDITOR=nvim
 export VISUAL=nvim
+export MANPAGER='nvim +Man!'
 
 # ── starship ──────────────────────────────────────────────────────────────────
 # Starship looks for ~/.config/starship.toml by default. Our config lives in

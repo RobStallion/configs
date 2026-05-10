@@ -77,7 +77,7 @@ Run `alias | grep '^g'` to see the full set.
 | `kgsa` / `kdsa` | get/describe serviceaccount |
 | `kgc` / `kdc` | get/describe cronjob |
 | `kc1` / `kc2` | switch context to `eks-01` / `eks-02` |
-| `kns <ns>` | set current namespace (falls back to `recharge` if missing) |
+| `kns <ns>` | set current namespace (errors if namespace not found) |
 
 Tab completion works on both `kubectl` and `k` once cache is built (regenerates when the binary updates).
 

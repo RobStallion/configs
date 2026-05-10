@@ -30,12 +30,11 @@ function gho() {
   # check if we pass in a remote
   url=$(git config remote.$1.url)
   if [ -n "$url" ]; then
-    open $url
+    open "$url"
     return
   fi
 
   open "$(git config remote.origin.url)"
-  return
 }
 
 # bun completions — lazy: load on first `bun` call, not every shell start
