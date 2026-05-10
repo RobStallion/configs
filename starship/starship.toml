@@ -20,7 +20,7 @@ $character\
 # Right-aligned: contextual info that's nice to glance at but not the primary
 # focus (kube context, git branch, git status). Keeps the left side clean.
 right_format = """
-$kubernetes\
+${custom.kube}\
 $git_branch\
 $git_status\
 """
@@ -57,12 +57,19 @@ format = "took [$duration](yellow) "
 disabled = true
 
 [kubernetes]
-disabled = false
+disabled = true  # replaced by custom.kube below
+
+# Show kube context anywhere within a project that has a kube manifests dir.
+# detect_folders triggers on the parent (dir that contains kube/k8s/__kube__),
+# but disappears once you cd into those dirs. This custom module walks to the
+# git root and checks there instead, so context stays visible throughout the
+# project tree.
+[custom.kube]
+command = "kubectl config current-context"
+when = 'command -v kubectl > /dev/null 2>&1 && root=$(git rev-parse --show-toplevel 2>/dev/null) && (test -d "$root/kube" || test -d "$root/k8s" || test -d "$root/__kube__")'
 symbol = "⎈ "
-format = "[$symbol$context](bold peach) "
-# Only render when inside a repo with kube manifests. Detected by folder name —
-# common patterns across repos: `kube/`, `k8s/`, `__kube__/`.
-detect_folders = ["kube", "k8s", "__kube__"]
+style = "bold peach"
+format = "[$symbol$output]($style) "
 
 [gcloud]
 disabled = true

@@ -11,70 +11,40 @@ picking (`<leader>ff`), live grep (`<leader>sg`), buffers, LSP references, etc.
 `rg` (respects .gitignore, surfaces hidden files).
 
 Shell-level fzf integration (Ctrl+R for history, Ctrl+T for file insert, Alt+C
-for cd) is **not currently configured**. The previous `fzf.zsh` attempted to
-set `FZF_DEFAULT_OPTS` with a broken `up:preview-up,down:preview-down` binding
+for cd) is **implemented** in `zsh/fzf.zsh`. The previous attempt set
+`FZF_DEFAULT_OPTS` with a broken `up:preview-up,down:preview-down` binding
 that rebound the arrow keys to preview scroll — breaking result navigation. That
-was removed.
+was removed and per-binding opts are now set via `FZF_CTRL_R_OPTS` /
+`FZF_CTRL_T_OPTS` / `FZF_ALT_C_OPTS` instead of `FZF_DEFAULT_OPTS`, so
+fzf-lua is not polluted with shell-specific flags.
 
-## What shell integration would provide
+## What shell integration provides
 
-- **Ctrl+R** — fuzzy search over shell history (replaces stock zsh history search)
+- **Ctrl+R** — fuzzy history search (replaces stock prefix-only history search)
 - **Ctrl+T** — fuzzy file picker; inserts selected path into the command line
 - **Alt+C** — fuzzy cd into subdirectory
 
-These are separate from fzf-lua. The shell integration is loaded via
-`source <(fzf --zsh)` and respects `FZF_DEFAULT_OPTS` for per-binding config.
+These are separate from fzf-lua. Shell integration is loaded via cached
+`fzf --zsh` output (same caching pattern as brew/starship/mise).
 
 ## Decision
 
 Enable shell integration. Prefix-search via `up-line-or-beginning-search` only
-helps when you remember the start of the command — fzf's substring/fuzzy match
-on Ctrl+R catches the rest. Ctrl+T and Alt+C are useful in a terminal even with
+helps when you remember the start of the command — fzf's substring match on
+Ctrl+R catches the rest. Ctrl+T and Alt+C are useful in a terminal even with
 fzf-lua inside nvim (e.g. `cp <Ctrl+T>`, `cd <Alt+C>`).
 
-Cached `fzf --zsh` to avoid the subprocess on every shell start. Per-binding
-opts kept out of `FZF_DEFAULT_OPTS` so fzf-lua isn't polluted with shell-only
-flags like preview windows.
+Per-binding opts (`FZF_CTRL_R_OPTS` etc.) kept out of `FZF_DEFAULT_OPTS` so
+fzf-lua isn't polluted with shell-only flags like preview windows.
 
-## Migration plan (when ready)
-
-1. **Enable shell integration** — add to `zsh/.zshrc` after the modules block:
-   ```zsh
-   # fzf shell integration — Ctrl+R, Ctrl+T, Alt+C
-   source <(fzf --zsh)
-   ```
-   Or cache it like `brew shellenv` / `starship init` to avoid the subprocess:
-   ```zsh
-   _fzf_cache="$HOME/.cache/zsh_fzf_init"
-   if [[ ! -f "$_fzf_cache" || "$(command -v fzf)" -nt "$_fzf_cache" ]]; then
-     fzf --zsh > "$_fzf_cache"
-   fi
-   source "$_fzf_cache"
-   unset _fzf_cache
-   ```
-
-2. **Configure per-binding opts** — set opts per command, not globally in
-   `FZF_DEFAULT_OPTS` (global opts apply to fzf-lua too):
-   ```zsh
-   # Ctrl+R — history search: no preview, chronological fallback
-   export FZF_CTRL_R_OPTS="--no-preview --sort --exact"
-
-   # Ctrl+T — file picker: bat preview on the right
-   export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers {}' --preview-window right:55%"
-   export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-
-   # Alt+C — directory picker: tree preview
-   export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons=auto {}' --preview-window right:55%"
-   ```
-
-3. **Navigation binding** — if adding preview windows, use `ctrl-u`/`ctrl-d`
-   to scroll preview (not `up`/`down` — those must navigate results):
-   ```zsh
-   export FZF_DEFAULT_OPTS="--bind ctrl-u:preview-up,ctrl-d:preview-down"
-   ```
+`FZF_CTRL_R_OPTS` uses `--no-sort` to preserve reverse-chronological order —
+the most recent matching command stays at the top. `--sort` would reorder by
+fzf's string-scoring heuristics, which is counterproductive for history search
+(especially combined with `--exact`, where all matches are equal-quality hits).
 
 ## Consequences
 
-- Ctrl+R becomes significantly more useful (fuzzy, not prefix-only)
-- Keeps `FZF_DEFAULT_OPTS` lean so fzf-lua isn't polluted with shell-specific opts
-- Subprocess on shell start is avoidable via caching (same pattern as brew/starship)
+- Ctrl+R is fuzzy substring search over full history, not prefix-only
+- Ctrl+T previews files via `bat`; Alt+C previews dirs via `eza --tree`
+- `FZF_DEFAULT_OPTS` stays empty so fzf-lua behaviour is unaffected
+- Shell start cost avoided via binary-mtime-gated cache
