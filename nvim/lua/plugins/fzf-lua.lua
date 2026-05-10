@@ -43,6 +43,10 @@ return {
         fzf_opts = {
           ['--layout'] = 'reverse', -- Matches ivy's bottom-up style
         },
+        grep = {
+          -- Include dotfiles and respect .gitignore; mirrors FZF_DEFAULT_COMMAND.
+          rg_opts = "--column --line-number --no-heading --color=always --smart-case --max-columns=4096 --hidden --glob=!.git",
+        },
       })
     end,
   }
