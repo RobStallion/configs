@@ -34,7 +34,7 @@ function gho() {
     return
   fi
 
-  open $(git config remote.origin.url)
+  open "$(git config remote.origin.url)"
   return
 }
 

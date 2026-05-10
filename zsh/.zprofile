@@ -27,7 +27,7 @@ unset _brew_cache       # clean up — no reason for this var to leak into the e
 
 # ── deno ──────────────────────────────────────────────────────────────────────
 # Adds ~/.deno/bin to PATH so the `deno` binary can be found.
-. "$HOME/.deno/env"
+[ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"
 
 # ── bun ───────────────────────────────────────────────────────────────────────
 # BUN_INSTALL is where bun lives. We export it so other tools can reference it,

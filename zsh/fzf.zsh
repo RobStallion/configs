@@ -23,7 +23,7 @@ unset _fzf_cache _fzf_bin
 # Per-binding opts (kept out of FZF_DEFAULT_OPTS so fzf-lua isn't polluted with
 # shell-only opts like preview windows).
 # Ctrl+R — history: no preview, exact-match for fewer false hits.
-export FZF_CTRL_R_OPTS="--no-preview --sort --exact"
+export FZF_CTRL_R_OPTS="--no-preview --no-sort --exact"
 # Ctrl+T — file picker: bat preview on the right.
 export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers {}' --preview-window right:55%"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
