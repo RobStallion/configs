@@ -83,4 +83,19 @@ return {
       vim.keymap.set({ "n", "x", "o" }, "[]", function() mv.goto_previous_end("@class.outer", "textobjects") end)
     end,
   },
+  {
+    "bezhermoso/tree-sitter-ghostty",
+    ft = "ghostty",
+    build = function(plugin)
+      vim.system({
+        "cc", "-o", plugin.dir .. "/ghostty.so",
+        "-shared", "-fPIC", "-Os",
+        "-I", plugin.dir .. "/src",
+        plugin.dir .. "/src/parser.c",
+      }):wait()
+    end,
+    config = function(plugin)
+      vim.treesitter.language.add("ghostty", { path = plugin.dir .. "/ghostty.so" })
+    end,
+  },
 }

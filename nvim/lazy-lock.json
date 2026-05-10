@@ -11,5 +11,6 @@
   "nvim-treesitter-textobjects": { "branch": "main", "commit": "851e865342e5a4cb1ae23d31caf6e991e1c99f1e" },
   "smart-splits.nvim": { "branch": "master", "commit": "9053ebd394c38fe55fd2f4710daec27411c34fb9" },
   "tokyonight.nvim": { "branch": "main", "commit": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6" },
+  "tree-sitter-ghostty": { "branch": "main", "commit": "4a0fd2ae492c6bbfd13a134067ee4258f0e0f189" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
 }
