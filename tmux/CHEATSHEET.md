@@ -106,7 +106,8 @@ so `Cmd-v` pastes them anywhere.
 | `v` | Begin character selection |
 | `C-v` | Toggle rectangle (block) selection |
 | `V` | Line selection |
-| `y` | Yank selection → system clipboard, exit copy mode |
+| `y` | Yank selection → clipboard (or whole line if no selection), exit copy mode |
+| `Y` | Yank cursor → end of line → clipboard, exit copy mode |
 | `Enter` | Same as `y` |
 
 ### Mouse
