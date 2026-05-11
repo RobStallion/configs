@@ -20,7 +20,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     -- Only register format-on-save if this client actually supports formatting.
     -- e.g. pyright skips this, ruff takes it.
-    if not client or not client.supports_method('textDocument/formatting') then return end
+    if not client or not client:supports_method('textDocument/formatting') then return end
     -- Buffer-scoped group with clear=true prevents stacking callbacks if the
     -- LSP restarts and re-attaches to the same buffer.
     vim.api.nvim_create_autocmd('BufWritePre', {

@@ -48,15 +48,6 @@ esac
 # Safe to remove when Python is upgraded to a version that has attestations.
 export MISE_PYTHON_GITHUB_ATTESTATIONS=false
 
-# ── asdf (disabled — replaced by mise) ───────────────────────────────────────
-# case ":${PATH}:" in
-#     *:"$HOME/.asdf/shims":*)
-#         ;;
-#     *)
-#         export PATH="$HOME/.asdf/shims:$PATH"
-#         ;;
-# esac
-
 # ── cargo (Rust) ──────────────────────────────────────────────────────────────
 # Adds ~/.cargo/bin to PATH so Rust-installed binaries (e.g. ripgrep, bat) are found.
 # Appended rather than prepended so brew versions of tools (rg, bat) win — they're
