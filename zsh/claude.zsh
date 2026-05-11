@@ -2,7 +2,8 @@
 # Auth tokens + base URL live in .zsh_secrets (gitignored).
 
 export CLAUDE_CODE_EFFORT_LEVEL='max'
-export ANTHROPIC_MODEL='opusplan'
+# export ANTHROPIC_MODEL='opusplan'
+export ANTHROPIC_MODEL='rvu-default-opus'
 
 export ANTHROPIC_DEFAULT_HAIKU_MODEL='rvu-default-haiku'
 export ANTHROPIC_DEFAULT_SONNET_MODEL='rvu-default-sonnet'

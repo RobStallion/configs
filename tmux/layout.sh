@@ -24,6 +24,9 @@ tmux select-pane -t "${SESSION}:.1" -T "claude"
 tmux select-pane -t "${SESSION}:.2" -T "terminal"
 tmux select-pane -t "${SESSION}:.3" -T "editor"
 
+# Auto-run claude in the top-left pane
+tmux send-keys -t "${SESSION}:.1" "claude" Enter
+
 # Start in editor pane (right)
 tmux select-pane -t "${SESSION}:.3"
 

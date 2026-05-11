@@ -27,6 +27,7 @@ Sessions persist after you close the terminal. `tmux attach` brings you back.
 | `prefix d` | Detach (leaves session running) |
 | `prefix $` | Rename current session |
 | `prefix s` | Interactive session picker |
+| `prefix x` | Kill current session (with confirm) |
 
 ---
 
@@ -49,7 +50,6 @@ Sessions persist after you close the terminal. `tmux attach` brings you back.
 |---|---|
 | `prefix \|` | Split vertically (side by side) |
 | `prefix -` | Split horizontally (top/bottom) |
-| `prefix x` | Close current pane |
 | `prefix z` | **Zoom** — toggle pane fullscreen |
 | `prefix {` | Swap pane left |
 | `prefix }` | Swap pane right |
@@ -73,15 +73,54 @@ Matches nvim resize bindings.
 
 ## Copy mode
 
+`prefix v` enters a **vim-like normal mode** over the pane's scrollback. Navigate
+with all the usual vim motions, then visual-select and yank to copy.
+
+Selections (mouse or keyboard) go to the **macOS system clipboard** via `pbcopy`,
+so `Cmd-v` pastes them anywhere.
+
+### Entering / exiting
+
 | Key | Action |
 |---|---|
 | `prefix v` | Enter copy mode |
-| `v` | Begin selection (in copy mode) |
-| `y` | Copy selection + exit copy mode |
-| `q` | Exit copy mode |
-| `C-u / C-d` | Scroll up / down |
-| `/` | Search forward |
-| `?` | Search backward |
+| `q` or `Esc` | Exit copy mode |
+
+### Navigation (vim motions)
+
+| Key | Action |
+|---|---|
+| `h j k l` | Move cursor |
+| `w / b` | Next / prev word |
+| `0 / $` | Line start / end |
+| `gg / G` | Top / bottom of buffer |
+| `C-u / C-d` | Half-page up / down |
+| `/ pattern` | Search forward |
+| `? pattern` | Search backward |
+| `n / N` | Next / prev match |
+
+### Selection + copy
+
+| Key | Action |
+|---|---|
+| `v` | Begin character selection |
+| `C-v` | Toggle rectangle (block) selection |
+| `V` | Line selection |
+| `y` | Yank selection → system clipboard, exit copy mode |
+| `Enter` | Same as `y` |
+
+### Mouse
+
+Click-drag inside a pane selects within that pane only and copies to the system
+clipboard on release. Hold **Option** while dragging to bypass tmux and use
+Ghostty's native selection (spans panes).
+
+### Paste
+
+| Key | Action |
+|---|---|
+| `Cmd-v` | Paste from system clipboard (anywhere) |
+| `prefix ]` | Paste from tmux buffer |
 
 ---
 
