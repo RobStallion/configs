@@ -1,5 +1,6 @@
 vim/plugged
 vim/.netrwhist
+tmux/plugins/
 .claude/
 CLAUDE.md
 
