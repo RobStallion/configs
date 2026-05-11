@@ -35,3 +35,13 @@ zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 
 # Verbose descriptions above each completion group
 zstyle ':completion:*:descriptions' format '%B%d%b'
+
+# ── Lazy completions ──────────────────────────────────────────────────────────
+
+# bun completions — lazy: load on first `bun` call, not every shell start
+# (PATH for bun is set in .zprofile)
+bun() {
+  unfunction bun 2>/dev/null
+  [ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+  command bun "$@"
+}

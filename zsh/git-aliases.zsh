@@ -140,3 +140,18 @@ alias gsb='git status --short --branch'
 # misc
 alias grt='cd "$(git rev-parse --show-toplevel || echo .)"'  # cd to repo root
 alias gfg='git ls-files | grep'                               # grep tracked files
+
+# ── Functions ─────────────────────────────────────────────────────────────────
+
+# Opens the github page for a given repo (renamed from `gh` to avoid
+# shadowing the GitHub CLI if it ever gets installed).
+function gho() {
+  # check if we pass in a remote
+  url=$(git config remote.$1.url)
+  if [ -n "$url" ]; then
+    open "$url"
+    return
+  fi
+
+  open "$(git config remote.origin.url)"
+}
