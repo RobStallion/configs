@@ -6,3 +6,6 @@ CLAUDE.md
 
 # Secrets — sourced by .zshrc, never committed.
 zsh/.zsh_secrets
+
+# Rust build artifacts
+claude/statusline/target/
