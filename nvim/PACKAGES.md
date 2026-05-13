@@ -71,10 +71,6 @@ Auto-detect `shiftwidth` and `expandtab` from the file you open. Removes the mis
 - Repo: `tpope/vim-sleuth`
 - Effort: install-and-forget.
 
-### mini.pairs
-Auto-insert closing brackets/quotes. Already part of `mini.nvim` — commented out in `lua/plugins/mini.lua`. Opinionated; some prefer typing pairs manually.
-- Enable: uncomment the line in `mini.lua`.
-
 ## Worth knowing about but probably skip
 
 - **nvim-tree / neo-tree** — tree-style file explorers. `fzf-lua files` + oil/mini.files covers this need.

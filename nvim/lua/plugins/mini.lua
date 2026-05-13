@@ -15,8 +15,8 @@ return {
           local location      = MiniStatusline.section_location({ trunc_width = 75 })
 
           return MiniStatusline.combine_groups({
-            { hl = mode_hl,                  strings = { mode } },
-            { hl = "MiniStatuslineDevinfo",  strings = { diagnostics } },
+            { hl = mode_hl,                 strings = { mode } },
+            { hl = "MiniStatuslineDevinfo", strings = { diagnostics } },
             "%<",
             { hl = "MiniStatuslineFilename", strings = { filename } },
             "%=",
@@ -28,7 +28,7 @@ return {
     })
     require("mini.ai").setup()
     require("mini.surround").setup()
-    -- require("mini.pairs").setup()
+    require("mini.pairs").setup()
     -- require("mini.operators").setup()
   end
 }
