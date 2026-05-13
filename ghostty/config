@@ -12,7 +12,7 @@ theme = Catppuccin Mocha
 # kubernetes, git status icons). Install with:
 #   brew install --cask font-jetbrains-mono-nerd-font
 font-family = JetBrainsMono Nerd Font
-font-size = 18
+font-size = 16
 
 # ── macOS keys ────────────────────────────────────────────────────────────────
 # Make ⌥+letter send escape sequences (needed for Alt-b/Alt-f word-jump in zsh
