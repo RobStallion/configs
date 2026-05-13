@@ -22,4 +22,5 @@ vim.lsp.enable({
   "ruff",
   "pyright",
   "gopls",
+  "ts_ls",
 })
