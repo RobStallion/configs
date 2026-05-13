@@ -27,7 +27,8 @@ tmux select-pane -t "${SESSION}:.3" -T "editor"
 # Auto-run claude in the top-left pane
 tmux send-keys -t "${SESSION}:.1" "claude" Enter
 
-# Start in editor pane (right)
-tmux select-pane -t "${SESSION}:.3"
+# Navigate 1 → right: primes directional tracking so C-h returns to claude
+tmux select-pane -t "${SESSION}:.1"
+tmux select-pane -R
 
 tmux attach-session -t "$SESSION"
