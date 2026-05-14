@@ -23,4 +23,5 @@ vim.lsp.enable({
   "pyright",
   "gopls",
   "ts_ls",
+  "jsonls",
 })
