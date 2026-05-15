@@ -37,8 +37,9 @@ Sessions persist after you close the terminal. `tmux attach` brings you back.
 |---|---|
 | `prefix c` | New window |
 | `prefix ,` | Rename window |
-| `prefix n` | Next window |
-| `prefix p` | Previous window |
+| `prefix n` / `prefix p` | Next / previous window |
+| `S-Left` / `S-Right` | Next / previous window (no prefix) |
+| `prefix l` | Jump to last window |
 | `prefix 1–9` | Jump to window by number |
 | `prefix q` | Close window (with confirm) |
 
@@ -153,3 +154,31 @@ Ghostty's native selection (spans panes).
 ```
 
 Zoom the editor pane with `prefix z` while coding. Zoom out to return.
+
+Pane labels above each pane (`claude` / `terminal` / `editor`) come from
+`tmux select-pane -T <name>` set by the layout script.
+
+---
+
+## Shell helpers (zsh/tmux.zsh)
+
+| Command | Action |
+|---|---|
+| `t [name]` | Attach/create session `name` (default `base`), window `home` |
+| `tp <project>` | Open `<project>` with full dev layout (claude/terminal/editor). Outside tmux: new session. Inside tmux: new window |
+| `ts [project]` | Vertical split inside current window. No arg: splits in current pane's cwd |
+| `tw <project>` | Plain new window for `<project>` (no layout) |
+
+`<project>` is matched against directories under `~/code` (depth 3); fzf disambiguates multiple matches.
+
+---
+
+## Status bar layout
+
+```
+[session] [window-chips] [📁 path]                                  
+```
+
+- `session` — current tmux session name
+- `window-chips` — one chip per window in the session, active highlighted
+- `path` — git-aware: `<repo>/<subpath>` inside a repo, last two segments outside

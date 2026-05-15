@@ -34,7 +34,9 @@ tp() {
     return
   fi
 
-  tmux new-window -c "$dir" -n "$name"
+  # Launch claude in the first pane (matches layout.sh behavior). When claude
+  # exits, exec a login shell so the pane stays alive instead of closing.
+  tmux new-window -c "$dir" -n "$name" "claude; exec ${SHELL:-zsh} -l"
   tmux split-window -h -l 67% -c "$dir"
   tmux select-pane -L
   tmux split-window -v -l 18% -c "$dir"
@@ -68,15 +70,20 @@ if [[ -n "$TMUX" ]]; then
   add-zsh-hook chpwd _tmux_refresh_on_cd
 fi
 
-# ts <project> — open project as a vertical split in the current tmux window.
+# ts [project] — open a vertical split in the current tmux window.
+# No arg: split inherits current pane's working directory (same as `prefix |`).
 ts() {
-  local dir
-  dir="$(_tmux_find_dir "${1:?usage: ts <project>}")" || return 1
-
   if [[ -z "$TMUX" ]]; then
     echo "ts: must be inside tmux" >&2
     return 1
   fi
 
+  if [[ -z "$1" ]]; then
+    tmux split-window -h -c "#{pane_current_path}"
+    return
+  fi
+
+  local dir
+  dir="$(_tmux_find_dir "$1")" || return 1
   tmux split-window -h -c "$dir"
 }
