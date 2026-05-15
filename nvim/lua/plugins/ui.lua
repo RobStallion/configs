@@ -18,10 +18,10 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("catppuccin-mocha") -- # Darkest
+      -- vim.cmd.colorscheme("catppuccin-mocha") -- # Darkest
       -- vim.cmd.colorscheme("catppuccin-macchiato") -- # Medium contrast
       -- vim.cmd.colorscheme("catppuccin-frappe") -- # Less vibrant
-      -- vim.cmd.colorscheme("catppuccin-latte") -- # Light
+      vim.cmd.colorscheme("catppuccin-latte") -- # Light
     end
   },
 }
