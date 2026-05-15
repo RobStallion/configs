@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Dev layout: left 1/3 (Claude Code top, terminal bottom), right 2/3 (nvim/editor)
-# Usage: ./layout.sh [session-name]
+# Usage: ./dev-session.sh [session-name]
 
 SESSION="${1:-dev}"
 

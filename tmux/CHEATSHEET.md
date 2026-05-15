@@ -138,8 +138,8 @@ Ghostty's native selection (spans panes).
 ## Dev layout
 
 ```bash
-~/.config/tmux/layout.sh          # launch 3-pane dev session
-~/.config/tmux/layout.sh myname   # use custom session name
+~/.config/tmux/dev-session.sh          # launch 3-pane dev session
+~/.config/tmux/dev-session.sh myname   # use custom session name
 ```
 
 ```

@@ -30,11 +30,11 @@ tp() {
   name="$(basename "$dir")"
 
   if [[ -z "$TMUX" ]]; then
-    ~/.config/tmux/layout.sh "$name" "$dir"
+    ~/.config/tmux/dev-session.sh "$name" "$dir"
     return
   fi
 
-  # Launch claude in the first pane (matches layout.sh behavior). When claude
+  # Launch claude in the first pane (matches dev-session.sh behavior). When claude
   # exits, exec a login shell so the pane stays alive instead of closing.
   tmux new-window -c "$dir" -n "$name" "claude; exec ${SHELL:-zsh} -l"
   tmux split-window -h -l 67% -c "$dir"
