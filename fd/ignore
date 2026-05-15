@@ -1,0 +1,16 @@
+tmux/plugins/
+vim/plugged/
+claude/statusline/target/
+
+# JS/TS
+node_modules/
+dist/
+.next/
+
+# Python
+__pycache__/
+.venv/
+*.pyc
+
+# Go
+vendor/
