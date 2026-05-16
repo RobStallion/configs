@@ -91,6 +91,22 @@ Tab completion works on both `kubectl` and `k` once cache is built (regenerates 
 | `s` / `z` | open SourceTree / Zed in cwd |
 | `gho [remote]` | open GitHub page for current repo (defaults to `origin`) |
 
+## Theme switching
+
+`theme [variant]` — switches Catppuccin variant in both Ghostty and Neovim simultaneously.
+
+```
+theme latte      # switch to Catppuccin Latte (light)
+theme mocha      # switch to Catppuccin Mocha (dark)
+theme macchiato  # other variants also supported
+theme frappe
+theme            # no arg: toggle between latte and current dark variant
+```
+
+Ghostty hot-reloads immediately. New Neovim instances open with the updated theme; running instances are unaffected.
+
+State is stored in `~/.config/ghostty/theme.conf` (gitignored). Defined in `zsh/theme.zsh`.
+
 ## Ghostty shortcuts
 
 Window / tabs / splits:
