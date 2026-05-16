@@ -23,7 +23,7 @@ vim.api.nvim_create_user_command('LspRestart', function()
   vim.api.nvim_create_autocmd('LspDetach', {
     group = vim.api.nvim_create_augroup('lsp-restart-' .. bufnr, { clear = true }),
     buffer = bufnr,
-    callback = function(args)
+    callback = function(_)
       remaining = remaining - 1
       if remaining == 0 then
         vim.api.nvim_del_augroup_by_name('lsp-restart-' .. bufnr)
