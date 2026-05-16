@@ -1,5 +1,5 @@
 // Claude Code statusline.
-// Source of truth: ~/code/personal/my-configs/claude/statusline/src/main.rs
+// Source of truth: ~/code/personal/configs/claude/statusline/src/main.rs
 // Compiled binary symlinked to ~/.claude/statusline-command and invoked from settings.json.
 //
 // Layout:
