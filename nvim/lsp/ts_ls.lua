@@ -9,4 +9,9 @@ return {
       path = vim.fn.fnamemodify(tsserver_bin, ":h:h") .. "/lib/tsserver.js",
     },
   },
+  settings = {
+    implicitProjectConfiguration = {
+      checkJs = true,
+    },
+  },
 }
