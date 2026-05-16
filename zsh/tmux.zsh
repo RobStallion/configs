@@ -21,30 +21,40 @@ _tmux_find_dir() {
   echo "$result"
 }
 
-# tp <project> — open project in tmux with full dev layout (claude/terminal/editor).
+# tp <project> [panes] — open project in tmux with dev layout.
+# panes=2: 50/50 claude|editor. panes=3 (default): claude/terminal|editor.
 # Outside tmux: starts a new session. Inside tmux: opens a new window.
 tp() {
-  local dir
-  dir="$(_tmux_find_dir "${1:?usage: tp <project>}")" || return 1
+  local dir panes
+  dir="$(_tmux_find_dir "${1:?usage: tp <project> [panes]}")" || return 1
+  panes="${2:-3}"
   local name
   name="$(basename "$dir")"
 
   if [[ -z "$TMUX" ]]; then
-    ~/.config/tmux/dev-session.sh "$name" "$dir"
+    ~/.config/tmux/dev-session.sh "$name" "$dir" "$panes"
     return
   fi
 
-  # Launch claude in the first pane (matches dev-session.sh behavior). When claude
-  # exits, exec a login shell so the pane stays alive instead of closing.
+  # Launch claude in the first pane. When claude exits, exec a login shell so
+  # the pane stays alive instead of closing.
   tmux new-window -c "$dir" -n "$name" "claude; exec ${SHELL:-zsh} -l"
-  tmux split-window -h -l 67% -c "$dir"
-  tmux select-pane -L
-  tmux split-window -v -l 18% -c "$dir"
-  tmux select-pane -t ":.1" -T "claude"
-  tmux select-pane -t ":.2" -T "terminal"
-  tmux select-pane -t ":.3" -T "editor"
-  tmux select-pane -t ":.1"
-  tmux select-pane -R
+
+  if [[ "$panes" == "2" ]]; then
+    tmux split-window -h -p 50 -c "$dir"
+    tmux select-pane -t ":.1" -T "claude"
+    tmux select-pane -t ":.2" -T "editor"
+    tmux select-pane -t ":.2"
+  else
+    tmux split-window -h -l 67% -c "$dir"
+    tmux select-pane -L
+    tmux split-window -v -l 18% -c "$dir"
+    tmux select-pane -t ":.1" -T "claude"
+    tmux select-pane -t ":.2" -T "terminal"
+    tmux select-pane -t ":.3" -T "editor"
+    tmux select-pane -t ":.1"
+    tmux select-pane -R
+  fi
 }
 
 # tw <project> — open project in a plain new tmux window (single pane).

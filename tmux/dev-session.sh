@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
-# Dev layout: left 1/3 (Claude Code top, terminal bottom), right 2/3 (nvim/editor)
-# Usage: ./dev-session.sh [session-name]
+# Dev layout with configurable pane count.
+# Usage: ./dev-session.sh [session-name] [dir] [panes]
+#   panes=2: 50/50 claude|editor
+#   panes=3 (default): left 1/3 (claude top, terminal bottom), right 2/3 editor
 
 SESSION="${1:-dev}"
+PANES="${3:-3}"
 
 if tmux has-session -t "$SESSION" 2>/dev/null; then
   tmux attach-session -t "$SESSION"
@@ -15,20 +18,27 @@ fi
 tmux new-session -d -s "$SESSION" -x "$(tput cols)" -y "$(tput lines)" \
   "claude; exec ${SHELL:-zsh} -l"
 
-# Right pane = 67% width (becomes editor)
-tmux split-window -h -l 67%
+if [[ "$PANES" == "2" ]]; then
+  tmux split-window -h -p 50
+  tmux select-pane -t "${SESSION}:.1" -T "claude"
+  tmux select-pane -t "${SESSION}:.2" -T "editor"
+  tmux select-pane -t "${SESSION}:.2"
+else
+  # Right pane = 67% width (becomes editor)
+  tmux split-window -h -l 67%
 
-# Back to left pane, bottom split = 18% height (becomes terminal)
-tmux select-pane -L
-tmux split-window -v -l 18%
+  # Back to left pane, bottom split = 18% height (becomes terminal)
+  tmux select-pane -L
+  tmux split-window -v -l 18%
 
-# Pane 1 = top-left, pane 2 = bottom-left, pane 3 = right
-tmux select-pane -t "${SESSION}:.1" -T "claude"
-tmux select-pane -t "${SESSION}:.2" -T "terminal"
-tmux select-pane -t "${SESSION}:.3" -T "editor"
+  # Pane 1 = top-left, pane 2 = bottom-left, pane 3 = right
+  tmux select-pane -t "${SESSION}:.1" -T "claude"
+  tmux select-pane -t "${SESSION}:.2" -T "terminal"
+  tmux select-pane -t "${SESSION}:.3" -T "editor"
 
-# Navigate 1 → right: primes directional tracking so C-h returns to claude
-tmux select-pane -t "${SESSION}:.1"
-tmux select-pane -R
+  # Navigate 1 → right: primes directional tracking so C-h returns to claude
+  tmux select-pane -t "${SESSION}:.1"
+  tmux select-pane -R
+fi
 
 tmux attach-session -t "$SESSION"
