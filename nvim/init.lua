@@ -20,7 +20,7 @@ vim.diagnostic.config({
 })
 
 vim.lsp.enable({
-  "lua",
+  "lua_ls",
   "ruff",
   "pyright",
   "gopls",
