@@ -19,4 +19,5 @@ yq = "4.53.2"
 "npm:typescript-language-server" = { version = "5", node = "24" }
 "npm:typescript" = { version = "6", node = "24" }
 "npm:vscode-json-languageserver" = "latest"
+"npm:@types/node" = "latest"
 
