@@ -1,11 +1,8 @@
 # ── Theme ─────────────────────────────────────────────────────────────────────
-# Toggled manually by commenting out one line. (Auto light/dark via
-# `theme = light:Catppuccin Latte,dark:Catppuccin Macchiato` is supported but
-# not currently used.)
+# Default committed here; active selection lives in theme.conf (gitignored).
+# Use the `theme` shell function to switch variants and hot-reload Ghostty.
 theme = Catppuccin Mocha
-# theme = Catppuccin Macchiato
-# theme = Catppuccin Frappe
-# theme = Catppuccin Latte
+config-file = ?theme.conf
 
 # ── Font ──────────────────────────────────────────────────────────────────────
 # JetBrainsMono Nerd Font supplies the glyphs used by starship (e.g. ⎈ for

@@ -18,10 +18,19 @@ return {
     lazy = false,
     priority = 1000,
     config = function()
-      vim.cmd.colorscheme("catppuccin-mocha") -- # Darkest
-      -- vim.cmd.colorscheme("catppuccin-macchiato") -- # Medium contrast
-      -- vim.cmd.colorscheme("catppuccin-frappe") -- # Less vibrant
-      -- vim.cmd.colorscheme("catppuccin-latte") -- # Light
+      -- Reads active variant from theme.conf; single-theme syntax only (not "light:X,dark:Y").
+      -- Use the `theme` shell function to switch; theme.conf is gitignored.
+      local variant = "mocha"
+      pcall(function()
+        local f = vim.fn.expand("~/.config/ghostty/theme.conf")
+        if vim.fn.filereadable(f) == 1 then
+          local line = vim.fn.readfile(f)[1] or ""
+          local m = line:match("Catppuccin (%a+)")
+          local valid = { mocha = true, macchiato = true, frappe = true, latte = true }
+          if m and valid[m:lower()] then variant = m:lower() end
+        end
+      end)
+      vim.cmd.colorscheme("catppuccin-" .. variant)
     end
   },
 }
