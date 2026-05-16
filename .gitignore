@@ -5,6 +5,7 @@ vim/.netrwhist
 tmux/plugins/
 .claude/
 CLAUDE.md
+!/CLAUDE.md
 
 # Secrets — sourced by .zshrc, never committed.
 zsh/.zsh_secrets

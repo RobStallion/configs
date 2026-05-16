@@ -1,0 +1,35 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+## Repo Structure
+
+Personal config files, symlinked to their expected locations:
+
+| Repo path | Symlinked from |
+|---|---|
+| `nvim/` | `~/.config/nvim` |
+| `ghostty/` | `~/.config/ghostty` |
+| `zsh/` | `~/.config/zsh` (whole dir) |
+| `zsh/.zshrc` | `~/.zshrc` |
+| `zsh/.zprofile` | `~/.zprofile` |
+| `starship/` | `~/.config/starship` (whole dir) |
+| `vim/` | legacy only, not symlinked |
+| `.tool-versions` | `~/.tool-versions` |
+| `mise/config.toml` | `~/.config/mise/config.toml` |
+| `tmux/` | `~/.config/tmux` (whole dir) |
+| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` (file symlink) |
+| `fd/ignore` | `~/.config/fd/ignore` (file symlink) |
+
+`claude/statusline/` is a Rust crate that builds the statusline binary invoked by the shell wrapper. Build artifacts in `target/` are gitignored.
+
+## Architecture Decision Records
+
+`adr/` contains numbered ADRs explaining *why* configuration choices were made (e.g., `005-asdf-to-mise.md`). Read the relevant ADR before changing related config. New decisions should follow the format in `adr/README.md`.
+
+## Where to look
+
+Load the relevant doc on demand instead of assuming context from here:
+- Working in `nvim/` → `nvim/TIPS.md`, `nvim/PACKAGES.md`
+- Working in `tmux/` → `tmux/CHEATSHEET.md`
+- Working in `zsh/` → `zsh/TIPS.md`
