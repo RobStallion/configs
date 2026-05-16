@@ -3,7 +3,7 @@
 // Compiled binary symlinked to ~/.claude/statusline-command and invoked from settings.json.
 //
 // Layout:
-//   <model>  $<cost>  ctx:<pct>%  eff:<level>  5h:<pct>%  [CAVEMAN]
+//   <model>  $<cost>  ctx:<pct>%  eff:<level>  5h:<pct>%  [MCP:AUTH]  [CAVEMAN]
 //
 // Model is read from the transcript (the model the upstream API actually served),
 // not from payload.model.id (which is whatever alias Claude Code asked for).
@@ -23,6 +23,7 @@ const C_WARN: &str = "\x1b[33m";
 const C_BAD: &str = "\x1b[31m";
 const C_EFFORT: &str = "\x1b[35m";
 const C_CAVEMAN: &str = "\x1b[38;5;172m";
+const C_MCP_AUTH: &str = "\x1b[31m";
 
 // Read at most this many bytes from the end of the transcript when scanning for
 // the most recent assistant message. Bounds work on long sessions.
@@ -98,6 +99,21 @@ fn main() {
     }
     if let Some(s) = rate_warn(&payload, "/rate_limits/seven_day/used_percentage", "7d") {
         parts.push(s);
+    }
+
+    if let Some(home) = env::var_os("HOME") {
+        let auth_cache = Path::new(&home).join(".claude/mcp-needs-auth-cache.json");
+        if let Ok(raw) = fs::read_to_string(&auth_cache) {
+            if let Ok(map) = serde_json::from_str::<serde_json::Map<String, Value>>(&raw) {
+                if !map.is_empty() {
+                    let names: Vec<&str> = map
+                        .keys()
+                        .map(|k| k.split('|').next().unwrap_or(k.as_str()))
+                        .collect();
+                    parts.push(format!("{C_MCP_AUTH}[MCP:AUTH {}]{RESET}", names.join(",")));
+                }
+            }
+        }
     }
 
     if let Some(home) = env::var_os("HOME") {
