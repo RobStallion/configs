@@ -76,7 +76,3 @@ export MANPAGER='nvim +Man!'
 # ~/.config/starship/starship.toml (whole dir symlinked from the repo), so
 # point STARSHIP_CONFIG at it explicitly.
 export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
-
-# ── caveman (Claude Code plugin) ──────────────────────────────────────────────
-# Disable auto-activation on session start. Invoke manually with /caveman.
-export CAVEMAN_DEFAULT_MODE=off
