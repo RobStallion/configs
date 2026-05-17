@@ -15,7 +15,7 @@ _tmux_find_dir() {
     return
   fi
   local result
-  result="$(find ~/code -maxdepth 3 -type d -name "$target" 2>/dev/null \
+  result="$(fd --type d --max-depth 3 "$target" ~/code 2>/dev/null \
     | fzf --select-1 --exit-0)"
   [[ -z "$result" ]] && { echo "tmux: '$target' not found under ~/code" >&2; return 1; }
   echo "$result"
