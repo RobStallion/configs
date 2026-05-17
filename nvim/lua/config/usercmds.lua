@@ -1,9 +1,9 @@
-vim.api.nvim_create_user_command('LspRestart', function()
+vim.api.nvim_create_user_command('LspReload', function()
   local bufnr = vim.api.nvim_get_current_buf()
   local clients = vim.lsp.get_clients({ bufnr = bufnr })
 
   if #clients == 0 then
-    vim.notify('LspRestart: no clients attached', vim.log.levels.WARN)
+    vim.notify('LspReload: no clients attached', vim.log.levels.WARN)
     return
   end
 
@@ -21,12 +21,12 @@ vim.api.nvim_create_user_command('LspRestart', function()
   local remaining = #clients
 
   vim.api.nvim_create_autocmd('LspDetach', {
-    group = vim.api.nvim_create_augroup('lsp-restart-' .. bufnr, { clear = true }),
+    group = vim.api.nvim_create_augroup('lsp-reload-' .. bufnr, { clear = true }),
     buffer = bufnr,
     callback = function(_)
       remaining = remaining - 1
       if remaining == 0 then
-        vim.api.nvim_del_augroup_by_name('lsp-restart-' .. bufnr)
+        vim.api.nvim_del_augroup_by_name('lsp-reload-' .. bufnr)
         vim.cmd('edit')
       end
     end,
@@ -35,4 +35,4 @@ vim.api.nvim_create_user_command('LspRestart', function()
   for _, client in ipairs(clients) do
     client:stop()
   end
-end, { desc = 'Restart LSP clients attached to current buffer' })
+end, { desc = 'Reload lsp/<name>.lua config from disk and reattach LSP clients for current buffer' })

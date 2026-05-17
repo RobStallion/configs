@@ -21,18 +21,23 @@ _tmux_find_dir() {
   echo "$result"
 }
 
-# tp <project> [panes] — open project in tmux with dev layout.
-# panes=2: 50/50 claude|editor. panes=3 (default): claude/terminal|editor.
-# Outside tmux: starts a new session. Inside tmux: opens a new window.
-tp() {
+# tw <project> [panes] — open project in a new tmux window.
+# panes=1 (default): plain window. panes=2: 50/50 claude|editor.
+# panes=3: claude/terminal|editor.
+tw() {
+  if [[ -z "$TMUX" ]]; then
+    echo "tw: must be inside tmux" >&2
+    return 1
+  fi
+
   local dir panes
-  dir="$(_tmux_find_dir "${1:?usage: tp <project> [panes]}")" || return 1
-  panes="${2:-3}"
+  dir="$(_tmux_find_dir "${1:?usage: tw <project> [panes]}")" || return 1
+  panes="${2:-1}"
   local name
   name="$(basename "$dir")"
 
-  if [[ -z "$TMUX" ]]; then
-    ~/.config/tmux/dev-session.sh "$name" "$dir" "$panes"
+  if [[ "$panes" == "1" ]]; then
+    tmux new-window -c "$dir" -n "$name"
     return
   fi
 
@@ -55,21 +60,6 @@ tp() {
     tmux select-pane -t ":.1"
     tmux select-pane -R
   fi
-}
-
-# tw <project> — open project in a plain new tmux window (single pane).
-tw() {
-  local dir
-  dir="$(_tmux_find_dir "${1:?usage: tw <project>}")" || return 1
-  local name
-  name="$(basename "$dir")"
-
-  if [[ -z "$TMUX" ]]; then
-    tmux new-session -A -s "$name" -c "$dir"
-    return
-  fi
-
-  tmux new-window -c "$dir" -n "$name"
 }
 
 # Re-render tmux status bar immediately on `cd` so the path module stays in sync

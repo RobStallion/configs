@@ -30,6 +30,10 @@ Personal config files, symlinked to their expected locations:
 ## Where to look
 
 Load the relevant doc on demand instead of assuming context from here:
-- Working in `nvim/` → `nvim/TIPS.md`, `nvim/PACKAGES.md`
+- Working in `nvim/` → `nvim/CONVENTIONS.md` (structure + LSP setup), `nvim/TIPS.md`, `nvim/PACKAGES.md`
 - Working in `tmux/` → `tmux/CHEATSHEET.md`
 - Working in `zsh/` → `zsh/TIPS.md`
+
+## Invariants
+
+- The nvim config uses native `vim.lsp.config` (Neovim 0.11+), **not** `nvim-lspconfig`. Commands like `:LspInfo`/`:LspStart`/`:LspRestart` from that plugin do not exist here. See `nvim/CONVENTIONS.md`.
