@@ -8,6 +8,7 @@ node = "26"
 go = "1"
 uv = "0.11"
 python = "3.14"
+deno = "2"
 
 kubectl = "1.36"
 yq = "4.53.2"
@@ -16,6 +17,10 @@ yq = "4.53.2"
 # terraform = "1.15"
 # gomplate = "5.1.0"
 
-"npm:typescript-language-server" = { version = "5", node = "24" }
+# vtsls is the LSP for Node/TS projects (replaces typescript-language-server
+# for better refactorings: file-rename, add-all-missing-imports, etc.). Global
+# `typescript` is the fallback tsserver used when a project doesn't ship its
+# own. Orphan JS/TS files are handled by deno.
+"npm:@vtsls/language-server" = { version = "latest", node = "24" }
 "npm:typescript" = { version = "6", node = "24" }
 "npm:vscode-json-languageserver" = "latest"
