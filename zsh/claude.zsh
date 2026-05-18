@@ -9,7 +9,7 @@
 # export ANTHROPIC_DEFAULT_HAIKU_MODEL='rvu-default-haiku'
 # export ANTHROPIC_DEFAULT_SONNET_MODEL='rvu-default-sonnet'
 # export ANTHROPIC_DEFAULT_OPUS_MODEL='rvu-default-opus'
-#
+
 # Opt out of experimental betas — they were intermittently breaking Claude Code.
 # Re-evaluate when a feature ships stable.
 export CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1

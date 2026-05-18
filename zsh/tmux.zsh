@@ -22,7 +22,7 @@ _tmux_find_dir() {
 }
 
 # tw <project> [panes] — open project in a new tmux window.
-# panes=1 (default): plain window. panes=2: 50/50 claude|editor.
+# panes=1 (default): plain window. panes=2: 35/65 claude|editor.
 # panes=3: claude/terminal|editor.
 tw() {
   if [[ -z "$TMUX" ]]; then
@@ -46,7 +46,7 @@ tw() {
   tmux new-window -c "$dir" -n "$name" "claude; exec ${SHELL:-zsh} -l"
 
   if [[ "$panes" == "2" ]]; then
-    tmux split-window -h -p 50 -c "$dir"
+    tmux split-window -h -p 65 -c "$dir"
     tmux select-pane -t ":.1" -T "claude"
     tmux select-pane -t ":.2" -T "editor"
     tmux select-pane -t ":.2"
