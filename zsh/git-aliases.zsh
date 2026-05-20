@@ -81,21 +81,21 @@ alias gcmsg='git commit --message'
 alias gca!='git commit --verbose --all --amend'
 alias gcan!='git commit --verbose --all --no-edit --amend'
 
-# diff
-alias gd='git diff'
-alias gds='git diff --staged'
-alias gdw='git diff --word-diff'
-alias gdup='git diff @{upstream}'
+# diff — open in nvim (readonly) so output doesn't flood the terminal
+function gd()   { git diff --color=never "$@"           | nvim -R - -c 'set ft=diff' }
+function gds()  { git diff --staged --color=never "$@"  | nvim -R - -c 'set ft=diff' }
+function gdw()  { git diff --word-diff --color=never "$@" | nvim -R - -c 'set ft=diff' }
+function gdup() { git diff @{upstream} --color=never "$@" | nvim -R - -c 'set ft=diff' }
 
 # fetch
 alias gf='git fetch'
 alias gfo='git fetch origin'
 alias gfa='git fetch --all --tags --prune'
 
-# log
-alias glog='git log --oneline --decorate --graph'
-alias gloga='git log --oneline --decorate --graph --all'
-alias glol='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset"'
+# log — open in nvim so the graph doesn't scroll away
+function glog()  { git log --oneline --decorate --graph --color=never "$@"     | nvim -R - }
+function gloga() { git log --oneline --decorate --graph --all --color=never "$@" | nvim -R - }
+function glol()  { git log --graph --color=never --pretty="%h -%d %s (%ar) <%an>" "$@" | nvim -R - }
 
 # merge
 alias gm='git merge'
@@ -121,8 +121,8 @@ alias grhh='git reset --hard'
 alias grhs='git reset --soft'
 
 # show / blame
-alias gsh='git show'
-alias gbl='git blame -w'
+function gsh() { git show --color=never "$@" | nvim -R - -c 'set ft=diff' }
+function gbl() { git blame -w "$@"           | nvim -R - }
 
 # stash
 alias gsta='git stash push'
