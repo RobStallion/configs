@@ -7,6 +7,15 @@ return {
     Lua = {
       runtime = { version = 'LuaJIT' },
       diagnostics = { globals = { 'vim' } },
+      workspace = {
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME,
+          '${3rd}/luv/library',
+          vim.fn.stdpath('data') .. '/lazy/blink.cmp/lua',
+          vim.fn.stdpath('data') .. '/lazy/render-markdown.nvim/lua',
+        },
+      },
       telemetry = { enable = false },
     },
   },
