@@ -9,11 +9,13 @@ Bound by `fzf --zsh` (cached in `~/.cache/zsh_fzf_init`):
 - `<C-r>` — fuzzy-search command history (reverse-chronological, exact match)
 - `<C-t>` — fuzzy-pick file/dir into the current command line, with `bat` preview
 - `<M-c>` — fuzzy-pick a directory and `cd` into it, with `eza --tree` preview
+- `<C-f>` — fuzzy-pick file and open it in nvim, with `bat` preview (defined in `fzf.zsh`)
 
 Inside fzf:
 - `<C-j>` / `<C-k>` or arrows — navigate
 - `<Tab>` — multi-select (where supported)
 - `<C-/>` — toggle preview window
+- `<S-Up>` / `<S-Down>` — scroll the preview window
 - Type to filter, `<CR>` to accept, `<Esc>` to cancel
 
 Override globals in `zsh/fzf.zsh` (`FZF_CTRL_R_OPTS`, `FZF_CTRL_T_OPTS`, `FZF_ALT_C_OPTS`).

@@ -7,18 +7,8 @@ export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 
 # ── Shell integration ────────────────────────────────────────────────────────
 # Wires Ctrl+R (fuzzy history), Ctrl+T (file picker), Alt+C (cd picker).
-# Cached the same way as brew/starship init to avoid a subprocess on every
-# shell start. Cache regenerates when the fzf binary updates.
-_fzf_cache="$HOME/.cache/zsh_fzf_init"
-_fzf_bin=$(command -v fzf)
-if [[ -n "$_fzf_bin" ]]; then
-  if [[ ! -f "$_fzf_cache" || "$_fzf_bin" -nt "$_fzf_cache" ]]; then
-    mkdir -p "$HOME/.cache"
-    "$_fzf_bin" --zsh > "$_fzf_cache"
-  fi
-  source "$_fzf_cache"
-fi
-unset _fzf_cache _fzf_bin
+# Cached to avoid a subprocess on every shell start.
+_cached_init fzf --zsh
 
 # Per-binding opts (kept out of FZF_DEFAULT_OPTS so fzf-lua isn't polluted with
 # shell-only opts like preview windows).
@@ -29,3 +19,22 @@ export FZF_CTRL_T_OPTS="--preview 'bat --color=always --style=numbers {}' --prev
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Alt+C — directory picker: tree preview.
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons=auto {}' --preview-window right:55%"
+
+# Ctrl+F — fuzzy find file and open in nvim (Shift+Up/Down scrolls preview).
+# Guarded against non-empty $BUFFER so a stray Ctrl+F mid-typing doesn't wipe input.
+_fvim() {
+  if [[ -n "$BUFFER" ]]; then
+    zle -M "_fvim: clear the line first (^U)"
+    return
+  fi
+  local file
+  file=$(eval "$FZF_DEFAULT_COMMAND" | fzf --preview 'bat --color=always --style=numbers {}' --preview-window right:55%)
+  if [[ -n "$file" ]]; then
+    BUFFER="nvim ${(q)file}"
+    zle accept-line
+  else
+    zle reset-prompt
+  fi
+}
+zle -N _fvim
+bindkey '^f' _fvim

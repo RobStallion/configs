@@ -3,20 +3,9 @@
 alias k="kubectl"
 
 # Cached kubectl completion. Without this, `kubectl get <Tab>` and friends
-# don't expand resources/namespaces. kubectl is managed by mise; resolve via
-# `command -v` and cache the generated init to skip a fork on each shell.
-# `compdef k=kubectl` reuses the same completion for the `k` alias.
-_kctl_cache="$HOME/.cache/zsh_kubectl_init"
-_kctl_bin=$(command -v kubectl)
-if [[ -n "$_kctl_bin" ]]; then
-  if [[ ! -f "$_kctl_cache" || "$_kctl_bin" -nt "$_kctl_cache" ]]; then
-    mkdir -p "$HOME/.cache"
-    "$_kctl_bin" completion zsh > "$_kctl_cache"
-  fi
-  source "$_kctl_cache"
-  compdef k=kubectl
-fi
-unset _kctl_cache _kctl_bin
+# don't expand resources/namespaces. `compdef k=kubectl` reuses the same
+# completion for the `k` alias.
+_cached_init kubectl completion zsh && compdef k=kubectl
 
 alias kg="kubectl get"
 alias kd="kubectl describe"
