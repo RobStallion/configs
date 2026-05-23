@@ -1,24 +1,34 @@
-# Echo the active Catppuccin theme string ("Catppuccin Latte") from theme.conf,
-# or empty if not set. Callers that want just the variant lowercase ("latte")
-# can pipe through `awk '{print tolower($NF)}'`.
+# Echo the active theme name in nvim colorscheme format (e.g. "catppuccin-latte")
+# from ~/.config/theme, or empty if not set.
 _theme_current() {
-  local conf="$HOME/.config/ghostty/theme.conf"
-  [[ -f "$conf" ]] && grep -o 'Catppuccin \w*' "$conf" | head -1
+  local state="$HOME/.config/theme"
+  [[ -f "$state" ]] && cat "$state"
 }
 
-# Bootstrap BAT_THEME from theme.conf at shell startup. Kept in sync at runtime
-# by the `theme` function below (which exports BAT_THEME after writing the conf).
-export BAT_THEME="${$(_theme_current):-Catppuccin Mocha}"
+# Maps the state file format (catppuccin-mocha) to the bat theme format (Catppuccin Mocha).
+_theme_bat() {
+  case "$(_theme_current)" in
+    *mocha*)     echo "Catppuccin Mocha"     ;;
+    *macchiato*) echo "Catppuccin Macchiato" ;;
+    *frappe*)    echo "Catppuccin Frappe"    ;;
+    *latte*)     echo "Catppuccin Latte"     ;;
+    *)           echo "Catppuccin Mocha"     ;;
+  esac
+}
+
+# Bootstrap BAT_THEME from the canonical theme state at shell startup.
+# Kept in sync at runtime by the `theme` function below.
+export BAT_THEME="${$(_theme_bat):-Catppuccin Mocha}"
 
 theme() {
   local variant="${1:-}"
   if [[ -z "$variant" ]]; then
-    local current
-    current=$(_theme_current | awk '{print tolower($NF)}')
+    local current="${$(_theme_current)##*-}"
     # any non-latte variant (mocha, macchiato, frappe) toggles to latte and back
     variant=$([[ "$current" == "latte" ]] && echo "mocha" || echo "latte")
   fi
 
+  local state_file="$HOME/.config/theme"
   local theme_conf="$HOME/.config/ghostty/theme.conf"
 
   local ghostty_theme
@@ -30,6 +40,7 @@ theme() {
     *) echo "Usage: theme [mocha|macchiato|frappe|latte]"; return 1 ;;
   esac
 
+  echo "catppuccin-${variant}" > "$state_file"
   echo "theme = ${ghostty_theme}" > "$theme_conf"
   export BAT_THEME="$ghostty_theme"
   pkill -USR2 Ghostty 2>/dev/null || pkill -USR2 ghostty 2>/dev/null || true
