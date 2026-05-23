@@ -1,14 +1,13 @@
 local function resolve_variant()
+  local variant = "mocha"
   local f = vim.fn.expand("~/.config/ghostty/theme.conf")
-  if vim.fn.filereadable(f) == 1 then
-    local line = vim.fn.readfile(f)[1] or ""
-    local m = line:match("Catppuccin (%a+)")
+  local ok, lines = pcall(vim.fn.readfile, f)
+  if ok then
+    local m = (lines[1] or ""):match("Catppuccin (%a+)")
     local valid = { mocha = true, macchiato = true, frappe = true, latte = true }
-    if m and valid[m:lower()] then return m:lower() end
+    if m and valid[m:lower()] then variant = m:lower() end
   end
-  return "mocha"
+  return variant
 end
 
-local ok, variant = pcall(resolve_variant)
-if not ok then variant = "mocha" end
-vim.cmd.colorscheme("catppuccin-" .. variant)
+vim.cmd.colorscheme("catppuccin-" .. resolve_variant())
