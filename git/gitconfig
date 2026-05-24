@@ -8,7 +8,7 @@
 	diffFilter = delta --color-only
 [delta]
 	navigate = true
-	pager = less -R
+	pager = less -RF
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
