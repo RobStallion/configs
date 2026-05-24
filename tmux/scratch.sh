@@ -1,3 +1,3 @@
 #!/bin/bash
-tmux attach-session -t popup 2>/dev/null || \
-  tmux new-session -s popup nvim -c 'colorscheme rose-pine-dawn' ~/scratch.md
+# -A: attach to existing 'popup' session if it exists, otherwise create it
+tmux new-session -A -s popup nvim --cmd 'let g:fixed_colorscheme=1' -c 'colorscheme rose-pine-dawn' ~/scratch.md

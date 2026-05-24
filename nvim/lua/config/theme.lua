@@ -8,6 +8,7 @@ local function resolve_theme()
 end
 
 local function apply_theme()
+  if vim.g.fixed_colorscheme then return end
   local theme = resolve_theme()
   if vim.g.colors_name ~= theme then
     vim.cmd.colorscheme(theme)
