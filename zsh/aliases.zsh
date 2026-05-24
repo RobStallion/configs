@@ -4,7 +4,11 @@ alias vtv="v ~/.tool-versions"
 
 # ── zshrc ─────────────────────────────────────────────────────────────────────
 alias vz="v ~/.zshrc"
-alias sz='. ~/.zshrc'
+function sz() {
+  . ~/.zshrc
+  # $TMUX is set by tmux when running inside a session; -n guards against sourcing outside one
+  [[ -n $TMUX ]] && tmux source-file ~/.config/tmux/tmux.conf
+}
 
 # ── ls (eza) ──────────────────────────────────────────────────────────────────
 # eza = modern Rust replacement for ls. Colours by type, --git shows per-file
