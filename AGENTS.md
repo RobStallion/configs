@@ -18,6 +18,7 @@ Personal config files, symlinked to their expected locations:
 | `.tool-versions` | `~/.tool-versions` |
 | `mise/config.toml` | `~/.config/mise/config.toml` |
 | `tmux/` | `~/.config/tmux` (whole dir) |
+| `git/gitconfig` | `~/.gitconfig` (file symlink) |
 | `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` (file symlink) |
 | `fd/ignore` | `~/.config/fd/ignore` (file symlink) |
 | `theme` | `~/.config/theme` (file symlink, `skip-worktree` — runtime changes don't dirty the repo) |
