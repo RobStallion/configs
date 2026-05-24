@@ -5,8 +5,9 @@ _theme_current() {
   [[ -f "$state" ]] && cat "$state"
 }
 
-# Maps the state file format (catppuccin-mocha) to the bat theme format (Catppuccin Mocha).
-_theme_bat() {
+# Catppuccin canonical format (catppuccin-mocha) → display name (Catppuccin Mocha).
+# Used by BAT_THEME and Ghostty's theme.conf.
+_theme_display_name() {
   case "$(_theme_current)" in
     *mocha*)     echo "Catppuccin Mocha"     ;;
     *macchiato*) echo "Catppuccin Macchiato" ;;
@@ -16,33 +17,31 @@ _theme_bat() {
   esac
 }
 
-# Bootstrap BAT_THEME from the canonical theme state at shell startup.
-# Kept in sync at runtime by the `theme` function below.
-export BAT_THEME="${$(_theme_bat):-Catppuccin Mocha}"
+# Regenerate Ghostty's theme.conf from the canonical state file.
+# theme.conf is a derived artifact — never edit it directly.
+_theme_sync_ghostty() {
+  echo "theme = $(_theme_display_name)" > "$HOME/.config/ghostty/theme.conf"
+}
+
+# Bootstrap: sync Ghostty and BAT_THEME from the canonical theme state at shell startup.
+_theme_sync_ghostty
+export BAT_THEME="$(_theme_display_name)"
 
 theme() {
   local variant="${1:-}"
   if [[ -z "$variant" ]]; then
     local current="${$(_theme_current)##*-}"
-    # any non-latte variant (mocha, macchiato, frappe) toggles to latte and back
     variant=$([[ "$current" == "latte" ]] && echo "mocha" || echo "latte")
   fi
 
-  local state_file="$HOME/.config/theme"
-  local theme_conf="$HOME/.config/ghostty/theme.conf"
-
-  local ghostty_theme
   case "$variant" in
-    mocha)     ghostty_theme="Catppuccin Mocha"     ;;
-    macchiato) ghostty_theme="Catppuccin Macchiato" ;;
-    frappe)    ghostty_theme="Catppuccin Frappe"    ;;
-    latte)     ghostty_theme="Catppuccin Latte"     ;;
+    mocha|macchiato|frappe|latte) ;;
     *) echo "Usage: theme [mocha|macchiato|frappe|latte]"; return 1 ;;
   esac
 
-  echo "catppuccin-${variant}" > "$state_file"
-  echo "theme = ${ghostty_theme}" > "$theme_conf"
-  export BAT_THEME="$ghostty_theme"
+  echo "catppuccin-${variant}" > "$HOME/.config/theme"
+  export BAT_THEME="$(_theme_display_name)"
+  _theme_sync_ghostty
   pkill -USR2 Ghostty 2>/dev/null || pkill -USR2 ghostty 2>/dev/null || true
   echo "→ theme: ${variant}"
 }

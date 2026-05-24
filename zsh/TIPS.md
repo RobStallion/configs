@@ -107,7 +107,7 @@ theme            # no arg: toggle between latte and current dark variant
 
 Ghostty hot-reloads immediately. New Neovim instances open with the updated theme; running instances are unaffected.
 
-State is stored in `~/.config/ghostty/theme.conf` (gitignored). Defined in `zsh/theme.zsh`.
+Canonical state: `~/.config/theme` (tracked in git with `skip-worktree`; runtime changes don't dirty the repo). Ghostty's `theme.conf` is derived from it at shell startup — never edit `theme.conf` directly. Defined in `zsh/theme.zsh`.
 
 ## Ghostty shortcuts
 

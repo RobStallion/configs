@@ -1,5 +1,6 @@
 # ── Theme ─────────────────────────────────────────────────────────────────────
-# Default committed here; active selection lives in theme.conf (gitignored).
+# Canonical state: ~/.config/theme (catppuccin-<variant> format).
+# theme.conf is derived from it at shell startup — never edit theme.conf directly.
 # Use the `theme` shell function to switch variants and hot-reload Ghostty.
 theme = Catppuccin Mocha
 config-file = ?theme.conf

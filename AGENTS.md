@@ -20,7 +20,7 @@ Personal config files, symlinked to their expected locations:
 | `tmux/` | `~/.config/tmux` (whole dir) |
 | `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` (file symlink) |
 | `fd/ignore` | `~/.config/fd/ignore` (file symlink) |
-| `theme` | `~/.config/theme` (file symlink) |
+| `theme` | `~/.config/theme` (file symlink, `skip-worktree` — runtime changes don't dirty the repo) |
 
 `claude/statusline/` is a Rust crate that builds the statusline binary invoked by the shell wrapper. Build artifacts in `target/` are gitignored.
 
