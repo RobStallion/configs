@@ -71,15 +71,6 @@ export EDITOR=nvim
 export VISUAL=nvim
 export MANPAGER='nvim +Man!'
 
-# ── Pager (less) ──────────────────────────────────────────────────────────────
-# Override git's default LESS=FRX so that:
-#   - less ALWAYS opens the scrollable viewer (no `F` = no quit-if-one-screen),
-#     so short output like `glog` doesn't dump into the terminal
-#   - less uses the terminal's alternate screen (no `X` = use init/deinit), so
-#     pressing `q` cleans up and returns to a fresh prompt with no output trail
-#   - `R` keeps raw ANSI color escapes (delta colours render correctly)
-export LESS=-R
-
 # ── starship ──────────────────────────────────────────────────────────────────
 # Starship looks for ~/.config/starship.toml by default. Our config lives in
 # ~/.config/starship/starship.toml (whole dir symlinked from the repo), so
