@@ -28,4 +28,5 @@ vim.lsp.enable({
   "vtsls",
   "deno",
   "jsonls",
+  "expert",
 })

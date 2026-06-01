@@ -10,6 +10,9 @@ uv = "0.11"
 python = "3.14"
 deno = "2"
 
+erlang = "latest"
+elixir = "latest"
+
 kubectl = "1.36"
 yq = "4.53.2"
 
