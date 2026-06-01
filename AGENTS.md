@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to AI agents (like Claude Code) when working with code in this repository.
 
 ## Repo Structure
 
@@ -39,3 +39,4 @@ Load the relevant doc on demand instead of assuming context from here:
 ## Invariants
 
 - The nvim config uses native `vim.lsp.config` (Neovim 0.11+), **not** `nvim-lspconfig`. Commands like `:LspInfo`/`:LspStart`/`:LspRestart` from that plugin do not exist here. See `nvim/CONVENTIONS.md`.
+- Claude Code is launched via the `c` zsh function (`zsh/claude-wrapper.zsh`), not the raw `claude` binary. `c` enforces `--strict-mcp-config` and attaches MCP servers per-session from `~/.mcp-profiles/` (outside this repo — holds a GitHub PAT). See ADR-007.

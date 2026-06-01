@@ -9,6 +9,7 @@ source ~/.config/zsh/git-aliases.zsh
 source ~/.config/zsh/kube.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/claude.zsh
+source ~/.config/zsh/claude-wrapper.zsh  # defines `c` function — must come after aliases.zsh so it overrides the (now-removed) `c` alias if re-sourced
 source ~/.config/zsh/theme.zsh
 source ~/.config/zsh/tmux.zsh
 source ~/.config/zsh/.zsh_secrets   # API keys etc. (gitignored, sourced via the symlinked dir)

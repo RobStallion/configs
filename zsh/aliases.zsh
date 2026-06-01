@@ -25,4 +25,3 @@ alias md='mkdir -p'
 alias xx="exit"
 alias s="open -a SourceTree ."
 alias z="zed ."
-alias c="claude"
