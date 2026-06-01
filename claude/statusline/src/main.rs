@@ -14,6 +14,7 @@ use std::env;
 use std::fs;
 use std::io::{self, Read, Seek, SeekFrom};
 use std::path::Path;
+use std::time::{SystemTime, UNIX_EPOCH};
 
 const RESET: &str = "\x1b[0m";
 const C_MODEL: &str = "\x1b[36m";
@@ -28,6 +29,12 @@ const C_MCP_AUTH: &str = "\x1b[31m";
 // Read at most this many bytes from the end of the transcript when scanning for
 // the most recent assistant message. Bounds work on long sessions.
 const TRANSCRIPT_TAIL_BYTES: u64 = 64 * 1024;
+
+// MCP auth cache entries older than this are considered stale and hidden.
+// The cache is a historical record — entries persist after the MCP is removed
+// from config, so without an expiry, every past auth failure haunts the
+// statusline forever. A live auth failure repopulates within seconds.
+const MCP_AUTH_FRESH_MS: u128 = 15 * 60 * 1000;
 
 fn main() {
     let mut input = String::new();
@@ -105,11 +112,21 @@ fn main() {
         let auth_cache = Path::new(&home).join(".claude/mcp-needs-auth-cache.json");
         if let Ok(raw) = fs::read_to_string(&auth_cache) {
             if let Ok(map) = serde_json::from_str::<serde_json::Map<String, Value>>(&raw) {
-                if !map.is_empty() {
-                    let names: Vec<&str> = map
-                        .keys()
-                        .map(|k| k.split('|').next().unwrap_or(k.as_str()))
-                        .collect();
+                let now_ms = SystemTime::now()
+                    .duration_since(UNIX_EPOCH)
+                    .map(|d| d.as_millis())
+                    .unwrap_or(0);
+                let names: Vec<&str> = map
+                    .iter()
+                    .filter(|(_, v)| {
+                        v.get("timestamp")
+                            .and_then(|t| t.as_u64())
+                            .map(|ts| now_ms.saturating_sub(ts as u128) <= MCP_AUTH_FRESH_MS)
+                            .unwrap_or(false)
+                    })
+                    .map(|(k, _)| k.split('|').next().unwrap_or(k.as_str()))
+                    .collect();
+                if !names.is_empty() {
                     parts.push(format!("{C_MCP_AUTH}[MCP:AUTH {}]{RESET}", names.join(",")));
                 }
             }
