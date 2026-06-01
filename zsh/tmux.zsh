@@ -41,9 +41,9 @@ tw() {
     return
   fi
 
-  # Launch claude in the first pane. When claude exits, exec a login shell so
-  # the pane stays alive instead of closing.
-  tmux new-window -c "$dir" -n "$name" "claude; exec ${SHELL:-zsh} -l"
+  # Left pane is for `c <profile>` — left empty so you pick profiles
+  # deliberately rather than auto-launching with ambient MCPs (see ADR-007).
+  tmux new-window -c "$dir" -n "$name"
 
   if [[ "$panes" == "2" ]]; then
     tmux split-window -h -p 65 -c "$dir"
