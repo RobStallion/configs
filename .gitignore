@@ -4,6 +4,7 @@ vim/plugged
 vim/.netrwhist
 tmux/plugins/
 .claude/
+.antigravitycli/
 CLAUDE.md
 !/CLAUDE.md
 
