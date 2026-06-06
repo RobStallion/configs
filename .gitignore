@@ -7,6 +7,8 @@ tmux/plugins/
 .antigravitycli/
 CLAUDE.md
 !/CLAUDE.md
+GEMINI.md
+!/GEMINI.md
 
 # Secrets — sourced by .zshrc, never committed.
 zsh/.zsh_secrets
