@@ -43,10 +43,7 @@ tw() {
 
   # Left pane is for `c <profile>` — left empty so you pick profiles
   # deliberately rather than auto-launching with ambient MCPs (see ADR-007).
-  # Brief pause lets the PTY settle before splitting, avoiding a race where
-  # zsh draws its first prompt mid-resize and shows a spurious `%`.
   tmux new-window -c "$dir" -n "$name"
-  sleep 0.1
 
   if [[ "$panes" == "2" ]]; then
     tmux split-window -h -p 65 -c "$dir"
