@@ -22,7 +22,7 @@ c() {
       mcp_json="${dir}/.mcp.json"
       break
     fi
-    [[ -z "${git_root}" || "${dir}" == "${git_root}" ]] && break
+    [[ -z "${git_root}" || "${dir}" == "${git_root}" || "${dir}" == "/" ]] && break
     dir="${dir:h}"
   done
   printf '%s' "${base}" > "${tmp}"
