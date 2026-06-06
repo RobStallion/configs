@@ -6,8 +6,9 @@ alias vtv="v ~/.tool-versions"
 alias vz="v ~/.zshrc"
 function sz() {
   . ~/.zshrc
-  # $TMUX is set by tmux when running inside a session; -n guards against sourcing outside one
-  [[ -n $TMUX ]] && tmux source-file ~/.config/tmux/tmux.conf
+  if [[ -n "$TMUX" ]]; then
+    tmux source-file ~/.config/tmux/tmux.conf
+  fi
 }
 
 # ── ls (eza) ──────────────────────────────────────────────────────────────────
