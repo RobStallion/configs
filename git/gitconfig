@@ -3,12 +3,18 @@
 	email = robertefrancis18@gmail.com
 [core]
 	excludesfile = /Users/robertfrancis/.gitignore_global
-	pager = delta
+	pager = LESS=FR delta
 [interactive]
 	diffFilter = delta --color-only
 [delta]
 	navigate = true
-	pager = less -RF
+[diff]
+	algorithm = histogram
+	colorMoved = default
+[pull]
+	rebase = true
+[init]
+	defaultBranch = main
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
