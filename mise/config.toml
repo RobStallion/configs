@@ -9,6 +9,7 @@ go = "1"
 uv = "0.11"
 python = "3.14"
 deno = "2"
+bun = "latest"
 
 erlang = "latest"
 elixir = "latest"

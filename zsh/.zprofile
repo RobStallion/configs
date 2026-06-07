@@ -29,20 +29,6 @@ unset _brew_cache       # clean up — no reason for this var to leak into the e
 # Adds ~/.deno/bin to PATH so the `deno` binary can be found.
 [ -f "$HOME/.deno/env" ] && . "$HOME/.deno/env"
 
-# ── bun ───────────────────────────────────────────────────────────────────────
-# BUN_INSTALL is where bun lives. We export it so other tools can reference it,
-# then add its bin/ dir to PATH.
-# The case block is a guard — prevents duplicating the PATH entry if this file
-# is somehow sourced more than once.
-export BUN_INSTALL="$HOME/.bun"
-case ":${PATH}:" in
-    *:"$BUN_INSTALL/bin":*)
-        ;;  # already on PATH, do nothing
-    *)
-        export PATH="$BUN_INSTALL/bin:$PATH"
-        ;;
-esac
-
 # ── mise ──────────────────────────────────────────────────────────────────────
 # cpython 3.13.0 predates mise's attestation support; disable for installs.
 # Safe to remove when Python is upgraded to a version that has attestations.
