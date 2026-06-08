@@ -3,13 +3,33 @@ alias v="nvim -O"
 alias vtv="v ~/.tool-versions"
 
 # ── zshrc ─────────────────────────────────────────────────────────────────────
-alias vz="v ~/.zshrc"
 function sz() {
+  local target_all=false
+  if [[ "$1" == "-a" || "$1" == "--all" ]]; then
+    target_all=true
+  fi
+
   . ~/.zshrc
+
   if [[ -n "$TMUX" ]]; then
     tmux source-file ~/.config/tmux/tmux.conf
+    if [[ "$target_all" == "true" ]]; then
+      local pane_id cmd
+      tmux list-panes -F '#{pane_id} #{pane_current_command}' | while read -r pane_id cmd; do
+        if [[ "$pane_id" == "$TMUX_PANE" ]]; then
+          continue
+        fi
+        if [[ "$cmd" == *zsh ]]; then
+          echo "sz: sending reload to pane $pane_id (zsh)"
+          tmux send-keys -t "$pane_id" "sz" C-m
+        else
+          echo "sz: skipping pane $pane_id (running $cmd)"
+        fi
+      done
+    fi
   fi
 }
+compdef '_arguments "1:options:((-a\ --all))"' sz
 
 # ── ls (eza) ──────────────────────────────────────────────────────────────────
 # eza = modern Rust replacement for ls. Colours by type, --git shows per-file
