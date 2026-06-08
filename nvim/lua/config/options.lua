@@ -16,3 +16,7 @@ vim.opt.expandtab = true
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.softtabstop = 2
+
+-- Cursor styling: force insert-mode vertical bar to use the lCursor highlight group
+-- for maximum visibility across both dark and light themes (e.g. rose-pine-dawn).
+vim.opt.guicursor = "n-v-c-sm:block,i-ci-ve:ver25-lCursor,r-cr-o:hor20,t:block-blinkon500-blinkoff500-TermCursor"

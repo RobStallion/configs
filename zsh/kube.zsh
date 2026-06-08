@@ -31,33 +31,82 @@ alias kdc="kubectl describe cronjob"
 alias kc1="kubectl config use-context eks-01"
 alias kc2="kubectl config use-context eks-02"
 
-# set kube namespace
-function kns() {
-  local ctx ns nsExists
-  ctx=$(kubectl config current-context)
-  ns=$1
+# switch kubernetes context and/or namespace
+function kc() {
+  local arg1=$1
+  local arg2=$2
 
-  if [[ -z "$ns" ]]; then
-    echo "usage: kns <namespace>" >&2
-    return 1
+  if [[ -z "$arg1" ]]; then
+    local current_context current_namespace
+    current_context=$(kubectl config current-context 2>/dev/null)
+    if [[ -z "$current_context" ]]; then
+      echo "No current Kubernetes context set" >&2
+      return 1
+    fi
+    current_namespace=$(kubectl config view --minify --output 'jsonpath={..namespace}' 2>/dev/null)
+    [[ -z "$current_namespace" ]] && current_namespace="default"
+    echo "Context: $current_context"
+    echo "Namespace: $current_namespace"
+    return 0
   fi
 
-  # verify that the namespace exists
-  nsExists=$(kubectl get namespace "$ns" --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
-  if [[ -z "$nsExists" ]]; then
-    echo "Namespace ($ns) not found" >&2
-    return 1
+  local -a contexts
+  if command -v kubectl >/dev/null; then
+    contexts=( $(kubectl config get-contexts -o name 2>/dev/null) )
   fi
 
-  kubectl config set-context "${ctx}" --namespace="${ns}"
-  echo "Namespace set to $ns"
+  if [[ -n "$arg2" ]]; then
+    # Two arguments: kc <context> <namespace>
+    if [[ ! " ${contexts[*]} " =~ " ${arg1} " ]]; then
+      echo "Context ($arg1) not found" >&2
+      return 1
+    fi
+    kubectl config use-context "$arg1" || return 1
+    local nsExists
+    nsExists=$(kubectl get namespace "$arg2" --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+    if [[ -z "$nsExists" ]]; then
+      echo "Namespace ($arg2) not found in context ($arg1)" >&2
+      return 1
+    fi
+    kubectl config set-context "$arg1" --namespace="$arg2"
+    echo "Switched to context $arg1, namespace $arg2"
+  else
+    # One argument: kc <context-or-namespace>
+    # 1. Is it a context?
+    if [[ " ${contexts[*]} " =~ " ${arg1} " ]]; then
+      kubectl config use-context "$arg1"
+      return $?
+    fi
+
+    # 2. Is it a namespace in the current context?
+    local current_context
+    current_context=$(kubectl config current-context 2>/dev/null)
+    if [[ -n "$current_context" ]]; then
+      local nsExists
+      nsExists=$(kubectl get namespace "$arg1" --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+      if [[ -n "$nsExists" ]]; then
+        kubectl config set-context "${current_context}" --namespace="${arg1}"
+        echo "Namespace set to $arg1"
+        return 0
+      fi
+    fi
+
+    echo "Argument ($arg1) is neither a valid context nor a namespace in the current context." >&2
+    return 1
+  fi
 }
 
-# ── Completion for kns ────────────────────────────────────────────────────────
-_kns_complete() {
+alias kns="kc"
+
+# ── Completion for kc / kns ──────────────────────────────────────────────────
+_kc_complete() {
   local cache_file="${HOME}/.cache/kns_namespaces"
-  local -a namespaces
+  local -a namespaces contexts
   local cache_valid=false
+
+  if command -v kubectl >/dev/null; then
+    contexts=( $(kubectl config get-contexts -o name 2>/dev/null) )
+  fi
 
   if [[ -f "$cache_file" ]]; then
     zmodload -F zsh/stat b:zstat 2>/dev/null
@@ -81,6 +130,12 @@ _kns_complete() {
       fi
     fi
   fi
-  _describe -t namespaces 'namespaces' namespaces
+
+  if (( CURRENT == 2 )); then
+    _describe -t contexts 'contexts' contexts
+    _describe -t namespaces 'namespaces' namespaces
+  elif (( CURRENT == 3 )); then
+    _describe -t namespaces 'namespaces' namespaces
+  fi
 }
-compdef _kns_complete kns
+compdef _kc_complete kc kns
