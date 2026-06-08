@@ -52,3 +52,32 @@ function kns() {
   kubectl config set-context "${ctx}" --namespace="${ns}"
   echo "Namespace set to $ns"
 }
+
+# ── Completion for kns ────────────────────────────────────────────────────────
+_kns_complete() {
+  local cache_file="${HOME}/.zcompcache/kns_namespaces"
+  local -a namespaces
+  local cache_valid=false
+
+  if [[ -f "$cache_file" ]]; then
+    zmodload -F zsh/stat b:zstat 2>/dev/null
+    zmodload -F zsh/datetime b:strftime 2>/dev/null
+    local -A file_info
+    if zstat -H file_info "$cache_file" 2>/dev/null; then
+      if (( EPOCHSECONDS - file_info[mtime] < 300 )); then
+        cache_valid=true
+      fi
+    fi
+  fi
+
+  if [[ "$cache_valid" == "true" ]]; then
+    namespaces=( ${(f)"$(cat "$cache_file")"} )
+  else
+    if command -v kubectl >/dev/null; then
+      namespaces=( $(kubectl get namespaces -o jsonpath='{.items[*].metadata.name}' 2>/dev/null) )
+      [[ ${#namespaces[@]} -gt 0 ]] && printf "%s\n" "${namespaces[@]}" > "$cache_file"
+    fi
+  fi
+  _describe -t namespaces 'namespaces' namespaces
+}
+compdef _kns_complete kns

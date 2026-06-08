@@ -11,10 +11,32 @@
 # not color the autosuggestion ghost text regardless of order; that text is
 # styled separately by ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE.
 
-_zas="/opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
-[[ -f "$_zas" ]] && source "$_zas"
-unset _zas
+local brew_prefix
+if command -v brew >/dev/null; then
+  brew_prefix="$(brew --prefix)"
+else
+  brew_prefix="/opt/homebrew" # fallback
+fi
 
-_fsh="/opt/homebrew/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
-[[ -f "$_fsh" ]] && source "$_fsh"
-unset _fsh
+local zas_paths=(
+  "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+  "/usr/local/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+)
+for p in "${zas_paths[@]}"; do
+  if [[ -f "$p" ]]; then
+    source "$p"
+    break
+  fi
+done
+
+local fsh_paths=(
+  "$brew_prefix/opt/zsh-fast-syntax-highlighting/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+  "$brew_prefix/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+  "/usr/local/share/zsh-fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+)
+for p in "${fsh_paths[@]}"; do
+  if [[ -f "$p" ]]; then
+    source "$p"
+    break
+  fi
+done

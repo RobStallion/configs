@@ -12,14 +12,13 @@ function __git_prompt_git() {
 
 # Prints the name of the current branch (e.g. "main", "feature/foo")
 function git_current_branch() {
-  local ref
-  ref=$(__git_prompt_git symbolic-ref --quiet HEAD 2>/dev/null)
-  local ret=$?
-  if [[ $ret != 0 ]]; then
-    [[ $ret == 128 ]] && return  # not in a git repo
-    ref=$(__git_prompt_git rev-parse --short HEAD 2>/dev/null) || return
+  local branch
+  branch=$(__git_prompt_git branch --show-current 2>/dev/null)
+  if [[ -n "$branch" ]]; then
+    echo "$branch"
+  else
+    __git_prompt_git rev-parse --short HEAD 2>/dev/null
   fi
-  echo ${ref#refs/heads/}
 }
 
 # Prints "main", "master", "trunk" etc — whichever the repo uses as default
@@ -144,14 +143,5 @@ alias gfg='git ls-files | grep'                               # grep tracked fil
 # ── Functions ─────────────────────────────────────────────────────────────────
 
 # Opens the github page for a given repo (renamed from `gh` to avoid
-# shadowing the GitHub CLI if it ever gets installed).
-function gho() {
-  # check if we pass in a remote
-  url=$(git config remote.$1.url)
-  if [ -n "$url" ]; then
-    open "$url"
-    return
-  fi
-
-  open "$(git config remote.origin.url)"
-}
+# Opens the github page for the current repo using the GitHub CLI.
+alias gho="gh repo view --web"
