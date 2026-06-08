@@ -40,3 +40,4 @@ Load the relevant doc on demand instead of assuming context from here:
 
 - The nvim config uses native `vim.lsp.config` (Neovim 0.11+), **not** `nvim-lspconfig`. Commands like `:LspInfo`/`:LspStart`/`:LspRestart` from that plugin do not exist here. See `nvim/CONVENTIONS.md`.
 - Claude Code is launched via the `c` zsh function (`zsh/claude-wrapper.zsh`), not the raw `claude` binary. `c` enforces `--strict-mcp-config` and attaches MCP servers per-session from `~/.mcp-profiles/` (outside this repo — holds a GitHub PAT). See ADR-007.
+- **No autonomous git commits:** Do not run `git commit` or commit files unless the user has explicitly reviewed the changes first and instructed you to commit.

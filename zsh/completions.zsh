@@ -20,8 +20,16 @@ unset _zdump
 # Tab opens a menu when multiple matches exist
 zstyle ':completion:*' menu select
 
-# Case-insensitive matching
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+# Case-insensitive, smart-path, and substring/fuzzy matching dynamically based on length
+zstyle -e ':completion:*' matcher-list '
+  if (( ${#PREFIX} < 3 )); then
+    # Less than 3 characters: Case-insensitive prefix and path-segments only
+    reply=("m:{a-z}={A-Z}" "r:|[._-]=* r:|=*")
+  else
+    # 3 or more characters: Add substring/fuzzy matching to prefix matching in a single pass
+    reply=("m:{a-z}={A-Z} l:|=* r:|=*")
+  fi
+'
 
 # Cache completions (avoids re-generating on every shell start)
 zstyle ':completion:*' use-cache yes
