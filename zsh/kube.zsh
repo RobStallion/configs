@@ -55,7 +55,7 @@ function kns() {
 
 # ── Completion for kns ────────────────────────────────────────────────────────
 _kns_complete() {
-  local cache_file="${HOME}/.zcompcache/kns_namespaces"
+  local cache_file="${HOME}/.cache/kns_namespaces"
   local -a namespaces
   local cache_valid=false
 
@@ -75,7 +75,10 @@ _kns_complete() {
   else
     if command -v kubectl >/dev/null; then
       namespaces=( $(kubectl get namespaces -o jsonpath='{.items[*].metadata.name}' 2>/dev/null) )
-      [[ ${#namespaces[@]} -gt 0 ]] && printf "%s\n" "${namespaces[@]}" > "$cache_file"
+      if [[ ${#namespaces[@]} -gt 0 ]]; then
+        mkdir -p "${cache_file:h}"
+        printf "%s\n" "${namespaces[@]}" > "$cache_file"
+      fi
     fi
   fi
   _describe -t namespaces 'namespaces' namespaces
