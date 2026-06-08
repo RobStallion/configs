@@ -13,6 +13,7 @@ function sz() {
 
   if [[ -n "$TMUX" ]]; then
     tmux source-file ~/.config/tmux/tmux.conf
+    echo "sz: reloaded current pane $TMUX_PANE"
     if [[ "$target_all" == "true" ]]; then
       local pane_id cmd
       tmux list-panes -F '#{pane_id} #{pane_current_command}' | while read -r pane_id cmd; do
@@ -27,9 +28,17 @@ function sz() {
         fi
       done
     fi
+  else
+    echo "sz: reloaded current shell"
   fi
 }
-compdef '_arguments "1:options:((-a\ --all))"' sz
+
+_sz_complete() {
+  _arguments \
+    '-a[reload all panes in current tmux window]' \
+    '--all[reload all panes in current tmux window]'
+}
+compdef _sz_complete sz
 
 # ── ls (eza) ──────────────────────────────────────────────────────────────────
 # eza = modern Rust replacement for ls. Colours by type, --git shows per-file
