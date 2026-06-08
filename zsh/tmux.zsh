@@ -15,8 +15,26 @@ _tmux_find_dir() {
     return
   fi
   local result
-  result="$(fd --type d --max-depth 3 "$target" ~/code 2>/dev/null \
-    | fzf --select-1 --exit-0)"
+  if [[ -z "$target" ]]; then
+    local -a projects
+    projects=(
+      ~/code/*(N/)
+      ~/code/personal/*(N/)
+      ~/code/spike/*(N/)
+      ~/code/claude-projects/*(N/)
+    )
+    projects=( ${projects#$HOME/code/} )
+    projects=( ${projects:#personal} )
+    projects=( ${projects:#spike} )
+    projects=( ${projects:#claude-projects} )
+    local selection
+    selection=$(printf "%s\n" "${projects[@]}" | fzf --exit-0)
+    [[ -z "$selection" ]] && return 1
+    result="$HOME/code/$selection"
+  else
+    result="$(fd --type d --max-depth 3 "$target" ~/code 2>/dev/null \
+      | fzf --select-1 --exit-0)"
+  fi
   [[ -z "$result" ]] && { echo "tmux: '$target' not found under ~/code" >&2; return 1; }
   echo "$result"
 }
@@ -30,9 +48,17 @@ tw() {
     return 1
   fi
 
-  local dir panes
-  dir="$(_tmux_find_dir "${1:?usage: tw <project> [panes]}")" || return 1
-  panes="${2:-1}"
+  local target panes
+  if [[ "$1" =~ ^[1-3]$ ]]; then
+    target=""
+    panes="$1"
+  else
+    target="$1"
+    panes="${2:-1}"
+  fi
+
+  local dir
+  dir="$(_tmux_find_dir "$target")" || return 1
   local name
   name="$(basename "$dir")"
 
@@ -87,3 +113,37 @@ ts() {
   dir="$(_tmux_find_dir "$1")" || return 1
   tmux split-window -h -c "$dir"
 }
+
+# ── Completions ──────────────────────────────────────────────────────────────
+
+# Completion for tw and ts
+_tw_complete() {
+  local -a projects
+  projects=(
+    ~/code/*(N/)
+    ~/code/personal/*(N/)
+    ~/code/spike/*(N/)
+    ~/code/claude-projects/*(N/)
+  )
+  projects=( ${projects#$HOME/code/} )
+  projects=( ${projects:#personal} )
+  projects=( ${projects:#spike} )
+  projects=( ${projects:#claude-projects} )
+
+  if [[ "$service" == "ts" ]]; then
+    _arguments '1:project:($projects)'
+  else
+    _arguments \
+      '1:project:($projects)' \
+      '2:panes:(1 2 3)'
+  fi
+}
+compdef _tw_complete tw ts
+
+# Completion for t (suggests active sessions to attach to)
+_t_complete() {
+  local -a sessions
+  sessions=( ${(f)"$(tmux list-sessions -F '#S' 2>/dev/null)"} )
+  _arguments '1:session:($sessions)'
+}
+compdef _t_complete t
