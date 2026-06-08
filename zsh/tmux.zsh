@@ -10,10 +10,19 @@ t() {
 # Find a project directory by name under ~/code (fzf if multiple matches).
 _tmux_find_dir() {
   local target="$1"
+
+  # 1. Direct match: check if target is an absolute path or relative to current dir
   if [[ -d "$target" ]]; then
     echo "$target"
     return
   fi
+
+  # 2. Direct match under ~/code: check if target is a direct relative path (e.g. personal/configs)
+  if [[ -n "$target" && -d "$HOME/code/$target" ]]; then
+    echo "$HOME/code/$target"
+    return
+  fi
+
   local result
   if [[ -z "$target" ]]; then
     local -a projects
@@ -32,8 +41,24 @@ _tmux_find_dir() {
     [[ -z "$selection" ]] && return 1
     result="$HOME/code/$selection"
   else
-    result="$(fd --type d --max-depth 3 "$target" ~/code 2>/dev/null \
-      | fzf --select-1 --exit-0)"
+    # 3. Intelligent path splitting if target contains a slash (e.g. personal/conf)
+    if [[ "$target" == */* ]]; then
+      local dir_part="${target%/*}"
+      local pattern_part="${target##*/}"
+      local search_root="$HOME/code/$dir_part"
+      if [[ -d "$search_root" ]]; then
+        result="$(fd --type d --max-depth 2 "$pattern_part" "$search_root" 2>/dev/null \
+          | fzf --select-1 --exit-0)"
+      else
+        # Fallback to full path search if the prefix directory doesn't exist
+        result="$(fd -p --type d --max-depth 3 "$target" ~/code 2>/dev/null \
+          | fzf --select-1 --exit-0)"
+      fi
+    else
+      # 4. Standard search for single term (e.g. configs)
+      result="$(fd --type d --max-depth 3 "$target" ~/code 2>/dev/null \
+        | fzf --select-1 --exit-0)"
+    fi
   fi
   [[ -z "$result" ]] && { echo "tmux: '$target' not found under ~/code" >&2; return 1; }
   echo "$result"
