@@ -61,3 +61,7 @@ end, { desc = 'Yank filename (no extension)' })
 vim.keymap.set('n', '<leader>yp', function()
   yank(vim.fn.expand('%:p'), 'path')
 end, { desc = 'Yank full file path' })
+
+-- Go to file shortcuts (gs opens file under cursor in vertical split)
+vim.keymap.set('n', 'gs', '<Cmd>vertical wincmd f<CR>', { desc = 'Go to file in vertical split' })
+

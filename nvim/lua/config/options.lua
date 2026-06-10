@@ -4,6 +4,9 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
+vim.opt.iskeyword:append("-")
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.undofile = true
