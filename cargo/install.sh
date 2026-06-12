@@ -9,3 +9,5 @@ cargo install git-delta
 cargo install ripgrep
 cargo install starship
 cargo install tree-sitter-cli
+cargo install rumdl
+

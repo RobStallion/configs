@@ -29,4 +29,5 @@ vim.lsp.enable({
   "deno",
   "jsonls",
   "expert",
+  "rumdl",
 })
