@@ -39,9 +39,13 @@ end, { desc = 'Source current file' })
 vim.keymap.set('n', '<leader>ll', ':.lua<CR>', { desc = 'Run current line as Lua' })
 vim.keymap.set('v', '<leader>ll', ':lua<CR>', { desc = 'Run selection as Lua' })
 
--- LSP format visual selection
-vim.keymap.set('v', '<leader>=', function()
-  vim.lsp.buf.format({ async = false })
+-- Format file / selection
+vim.keymap.set('n', '<leader>ff', function()
+  require('config.formatter').format_file()
+end, { desc = 'Format file' })
+
+vim.keymap.set('v', '<leader>ff', function()
+  require('config.formatter').format_selection()
 end, { desc = 'Format selection' })
 
 vim.keymap.set('n', '<leader>rf', function()

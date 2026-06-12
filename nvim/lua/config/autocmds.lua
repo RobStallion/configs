@@ -48,6 +48,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Only register format-on-save if this client actually supports formatting.
     -- e.g. pyright skips this, ruff takes it.
     if not client or not client:supports_method('textDocument/formatting') then return end
+
+    if client.name == 'rumdl' then
+      -- Only format on save if a local rumdl configuration file exists in the directory tree
+      local buf_name = vim.api.nvim_buf_get_name(args.buf)
+      local config_files = vim.fs.find({ '.rumdl.toml', 'rumdl.toml' }, {
+        upward = true,
+        path = vim.fs.dirname(buf_name),
+      })
+      if #config_files == 0 then
+        return
+      end
+    end
+
     -- Buffer-scoped group with clear=true prevents stacking callbacks if the
     -- LSP restarts and re-attaches to the same buffer.
     vim.api.nvim_create_autocmd('BufWritePre', {
