@@ -2,7 +2,7 @@
 	name = Robert Francis
 	email = robertefrancis18@gmail.com
 [core]
-	excludesfile = /Users/robertfrancis/.gitignore_global
+	excludesfile = $HOME/.gitignore_global
 	pager = LESS=FR delta
 [interactive]
 	diffFilter = delta --color-only
