@@ -1,3 +1,10 @@
+# ── Grok ──────────────────────────────────────────────────────────────────────
+# Added by the grok installer. PATH and fpath for the Grok CLI and its
+# shell completions. Placed here (before compinit) so Grok's completions
+# are picked up by the main completion initialization below.
+export PATH="$HOME/.grok/bin:$PATH"
+fpath=(~/.grok/completions/zsh $fpath)
+
 # Initialise completion system.
 # -d: use explicit dumpfile path so we can track it.
 # Fast path: if the dump is fresh (modified <24h ago), skip compinit's
