@@ -1,0 +1,8 @@
+# The `theme` file is the single source of truth for the current colorscheme
+# (catppuccin-xxx). It is updated at runtime by the `theme` shell function
+# (and read by nvim, ghostty, tmux, bat, etc.).
+#
+# We don't want runtime theme switches to dirty the working tree or risk
+# accidental commits, so always treat changes to this file as if
+# `git update-index --skip-worktree` had been run.
+theme skip-worktree
