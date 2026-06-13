@@ -26,7 +26,7 @@ Reference for getting more out of the current setup before adding plugins.
 - `ciw` / `daw` / `yi"` — text objects chain with every operator
 - `:InspectTree` — open treesitter AST viewer for current buffer
 - `:Inspect` — show syntax and highlight groups at cursor
-- `vim.lsp.buf.format({ range = ... })` works in visual mode — consider binding `<leader>=`
+- Format file/selection with `<leader>=` (normal = whole file, visual = range). This uses the custom formatter (`lua/config/formatter.lua`) which has special handling for JSON (via `jq`) and Markdown (via rumdl with reflow) before falling back to LSP. The raw `vim.lsp.buf.format` builtin is still available directly.
 
 ## mini.nvim modules you have
 

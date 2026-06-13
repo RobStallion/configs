@@ -40,11 +40,11 @@ vim.keymap.set('n', '<leader>ll', ':.lua<CR>', { desc = 'Run current line as Lua
 vim.keymap.set('v', '<leader>ll', ':lua<CR>', { desc = 'Run selection as Lua' })
 
 -- Format file / selection
-vim.keymap.set('n', '<leader>ff', function()
+vim.keymap.set('n', '<leader>=', function()
   require('config.formatter').format_file()
 end, { desc = 'Format file' })
 
-vim.keymap.set('v', '<leader>ff', function()
+vim.keymap.set('v', '<leader>=', function()
   require('config.formatter').format_selection()
 end, { desc = 'Format selection' })
 
