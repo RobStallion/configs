@@ -135,28 +135,26 @@ Ghostty's native selection (spans panes).
 
 ---
 
-## Dev layout
+## Dev layout (shell functions)
+
+From outside tmux, use the `t` command (defined in `zsh/tmux.zsh`):
 
 ```bash
-~/.config/tmux/dev-session.sh          # launch 3-pane dev session
-~/.config/tmux/dev-session.sh myname   # use custom session name
+t                    # create/attach "base" session with "home" window
+t myproject          # create/attach session named "myproject"
 ```
 
-```
-┌────────────┬──────────────────────┐
-│  claude    │                      │
-│  (top-left)│   editor / nvim      │
-│            │   (right, 2/3 width) │
-├────────────┤                      │
-│  terminal  │                      │
-│ (bot-left) │                      │
-└────────────┴──────────────────────┘
+Inside an existing tmux session, use `tw` / `ts` (also in `zsh/tmux.zsh`) for project windows with optional pane layouts:
+
+```bash
+tw                   # open current dir as a new window
+tw personal/configs  # open a specific project
+tw 3                 # 3-pane layout (claude + terminal | editor)
 ```
 
 Zoom the editor pane with `prefix z` while coding. Zoom out to return.
 
-Pane labels above each pane (`claude` / `terminal` / `editor`) come from
-`tmux select-pane -T <name>` set by the layout script.
+Pane labels (e.g. "claude", "terminal", "editor") are set via `tmux select-pane -T <name>` in the layout functions.
 
 ---
 

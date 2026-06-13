@@ -7,7 +7,7 @@ PATH="/opt/homebrew/bin:/usr/local/bin:$PATH"
 CACHE="$HOME/.cache/tmux-calendar"
 mkdir -p "$CACHE"
 
-# Skip if cache is fresh (< 60s) — guards against burst from dev-session.sh
+# Skip if cache is fresh (< 60s) — guards against burst from rapid session creation (e.g. multiple `t` / layout launches)
 if [[ -f "$CACHE/events.json" ]]; then
   age=$(( $(date +%s) - $(stat -f %m "$CACHE/events.json") ))
   [[ $age -lt 60 ]] && exit 0

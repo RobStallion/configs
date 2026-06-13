@@ -96,14 +96,14 @@ location for regenerable derived data. `mkdir -p` is idempotent — safe to run
 every time.
 
 ```bash
-# Skip if cache is fresh (< 60s) — guards against burst from dev-session.sh
+# Skip if cache is fresh (< 60s) — guards against burst from rapid session creation (e.g. multiple `t` / layout launches)
 if [[ -f "$CACHE/events.json" ]]; then
   age=$(( $(date +%s) - $(stat -f %m "$CACHE/events.json") ))
   [[ $age -lt 60 ]] && exit 0
 fi
 ```
 
-`dev-session.sh` and similar tooling spin up multiple tmux sessions in
+Tools like the `t` shell function (or layout helpers) that create multiple tmux sessions in
 quick succession, each firing the `session-created` hook. Without this
 guard, that triggers N parallel `gcalcli` calls — wasteful and a recipe
 for being rate-limited.
