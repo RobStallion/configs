@@ -7,25 +7,22 @@ code in this repository.
 
 Personal config files, symlinked to their expected locations:
 
-| Repo path | Symlinked from |
-|---|---|
-| `nvim/` | `~/.config/nvim` |
-| `ghostty/` | `~/.config/ghostty` |
-| `zsh/` | `~/.config/zsh` (whole dir) |
-| `zsh/.zshrc` | `~/.zshrc` |
-| `zsh/.zprofile` | `~/.zprofile` |
-| `starship/` | `~/.config/starship` (whole dir) |
-| `vim/` | legacy only, not symlinked |
-| `.tool-versions` | `~/.tool-versions` |
-| `mise/config.toml` | `~/.config/mise/config.toml` |
-| `tmux/` | `~/.config/tmux` (whole dir) |
-| `git/gitconfig` | `~/.gitconfig` (file symlink) |
-| `claude/statusline-command.sh` | `~/.claude/statusline-command.sh` (file symlink) |
-| `fd/ignore` | `~/.config/fd/ignore` (file symlink) |
-| `theme` | `~/.config/theme` (file symlink, `skip-worktree` — runtime changes don't dirty the repo) |
+| Repo path | Symlinked to | Notes |
+|---|---|---|
+| `nvim/` | `~/.config/nvim` | |
+| `ghostty/` | `~/.config/ghostty` | |
+| `zsh/` | `~/.config/zsh` (whole dir) | |
+| `zsh/.zshrc` | `~/.zshrc` | |
+| `zsh/.zprofile` | `~/.zprofile` | |
+| `starship/` | `~/.config/starship` (whole dir) | |
+| `mise/config.toml` | `~/.config/mise/config.toml` | |
+| `tmux/` | `~/.config/tmux` (whole dir) | |
+| `git/gitconfig` | `~/.gitconfig` | file symlink |
+| `fd/ignore` | `~/.config/fd/ignore` | file symlink |
+| `theme` | `~/.config/theme` | file symlink, `skip-worktree` (runtime changes don't dirty the repo) |
+| `claude/statusline/` | (builds the binary) | binary symlinked to `~/.claude/statusline-command`; `target/` gitignored |
 
-`claude/statusline/` is a Rust crate that builds the statusline binary invoked
-by the shell wrapper. Build artifacts in `target/` are gitignored.
+**Agent guidance files:** `CLAUDE.md` and `GEMINI.md` at the repo root are **symlinks to `AGENTS.md`**. This provides filename compatibility for Claude Code, Gemini, and other agents while keeping a single source of truth. Edit `AGENTS.md` only.
 
 ## Architecture Decision Records
 

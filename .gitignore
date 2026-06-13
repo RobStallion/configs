@@ -1,10 +1,16 @@
 ghostty/theme.conf
 
-vim/plugged
-vim/.netrwhist
 tmux/plugins/
 .claude/
 .antigravitycli/
+
+# Agent guidance files.
+# AGENTS.md is the single source of truth.
+# CLAUDE.md and GEMINI.md at the repo root are symlinks to AGENTS.md
+# (for compatibility with Claude Code, Gemini, and other agents that look for
+# their specific filenames).
+# The negation lines allow the root symlinks to remain tracked.
+# Any additional copies in subdirectories or other locations are ignored.
 CLAUDE.md
 !/CLAUDE.md
 GEMINI.md
@@ -15,3 +21,7 @@ zsh/.zsh_secrets
 
 # Rust build artifacts
 claude/statusline/target/
+
+# Generated tool state / caches (not project configs)
+.expert/
+.rumdl_cache/
