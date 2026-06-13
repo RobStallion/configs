@@ -50,6 +50,20 @@ esac
 # Adds ~/.local/bin to PATH so the `uv` binary can be found.
 [ -f "$HOME/.local/bin/env" ] && . "$HOME/.local/bin/env"
 
+# ── grok ──────────────────────────────────────────────────────────────────────
+# Adds ~/.grok/bin to PATH for the Grok CLI. Prepended (rather than appended)
+# so the grok-installed version takes precedence. The fpath addition for its
+# zsh completions must live in completions.zsh and run before compinit.
+# PATH change lives here (login shell) so it is inherited by tmux panes,
+# subshells, and scripts without re-exporting on every .zshrc source.
+case ":${PATH}:" in
+    *:"$HOME/.grok/bin":*)
+        ;;  # already on PATH, do nothing
+    *)
+        export PATH="$HOME/.grok/bin:$PATH"
+        ;;
+esac
+
 # ── Editor ────────────────────────────────────────────────────────────────────
 # Used by git commit (no -m), kubectl edit, crontab -e, Ctrl+X+E in zsh, etc.
 # Without this, those tools fall back to system vi, not nvim.

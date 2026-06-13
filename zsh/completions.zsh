@@ -1,8 +1,12 @@
 # ── Grok ──────────────────────────────────────────────────────────────────────
-# Added by the grok installer. PATH and fpath for the Grok CLI and its
-# shell completions. Placed here (before compinit) so Grok's completions
-# are picked up by the main completion initialization below.
-export PATH="$HOME/.grok/bin:$PATH"
+# fpath addition for the Grok CLI's native zsh completions.
+# Must appear before compinit below so that ~/.grok/completions/zsh/_grok
+# is discovered during initialization.
+#
+# The PATH export was originally placed here by the grok installer but has
+# been moved to .zprofile (per the convention that PATH changes and exported
+# env vars belong in the login-shell file for inheritance into tmux panes,
+# subshells, etc.).
 fpath=(~/.grok/completions/zsh $fpath)
 
 # Initialise completion system.
