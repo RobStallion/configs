@@ -1,6 +1,7 @@
 # ── nvim ──────────────────────────────────────────────────────────────────────
 alias v="nvim -O"
-alias vtv="v ~/.tool-versions"
+alias vz="v ~/.zshrc"
+alias vtv="v ~/.config/mise/config.toml"
 
 # ── zshrc ─────────────────────────────────────────────────────────────────────
 function sz() {
@@ -50,6 +51,17 @@ alias ll='eza -lh --git --no-user --no-permissions --time-style=relative --group
 alias lp='eza -lah --git --time-style=relative --group-directories-first --icons=auto'  # full info incl. perms + user
 alias lt='eza --tree --level=2 --icons=auto'
 alias md='mkdir -p'
+
+# ── navigation ────────────────────────────────────────────────────────────────
+alias ...='cd ../..'
+alias ....='cd ../../..'
+alias .....='cd ../../../..'
+alias -- -='cd -'             # - goes to previous directory
+
+# Makes a directory and cd into it
+function take() {
+  mkdir -p "$1" && cd "$1"
+}
 
 # ── rest ──────────────────────────────────────────────────────────────────────
 alias xx="exit"

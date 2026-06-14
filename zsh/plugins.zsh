@@ -11,12 +11,7 @@
 # not color the autosuggestion ghost text regardless of order; that text is
 # styled separately by ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE.
 
-local brew_prefix
-if command -v brew >/dev/null; then
-  brew_prefix="$(brew --prefix)"
-else
-  brew_prefix="/opt/homebrew" # fallback
-fi
+local brew_prefix="${HOMEBREW_PREFIX:-/opt/homebrew}"
 
 local zas_paths=(
   "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"

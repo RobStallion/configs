@@ -142,6 +142,5 @@ alias gfg='git ls-files | grep'                               # grep tracked fil
 
 # ── Functions ─────────────────────────────────────────────────────────────────
 
-# Opens the github page for a given repo (renamed from `gh` to avoid
 # Opens the github page for the current repo using the GitHub CLI.
 alias gho="gh repo view --web"

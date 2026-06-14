@@ -20,14 +20,3 @@ setopt pushdminus             # swap + and - meanings for pushd (feels more natu
 setopt interactivecomments    # allow # comments in interactive shell
 setopt multios                # allow multiple redirections: cmd > f1 > f2
 setopt long_list_jobs         # show PID when listing jobs
-
-# ── Directory shortcuts ───────────────────────────────────────────────────────
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias .....='cd ../../../..'
-alias -- -='cd -'             # - goes to previous directory
-
-# Makes a directory and cd into it
-function take() {
-  mkdir -p "$1" && cd "$1"
-}

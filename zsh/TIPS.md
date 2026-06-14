@@ -88,7 +88,7 @@ Tab completion works on both `kubectl` and `k` once cache is built (regenerates 
 
 | Alias | Expands to |
 |---|---|
-| `v` / `vz` / `vtv` | `nvim -O` / edit `.zshrc` / edit `.tool-versions` |
+| `v` / `vz` / `vtv` | `nvim -O` / edit `.zshrc` / edit `mise/config.toml` |
 | `sz` | source `.zshrc` |
 | `xx` | `exit` |
 | `s` / `z` | open SourceTree / Zed in cwd |
