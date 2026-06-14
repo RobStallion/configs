@@ -1,3 +1,17 @@
+local library = {
+  vim.env.VIMRUNTIME,
+  '${3rd}/luv/library',
+}
+
+-- Dynamically add all lazy.nvim plugins to workspace library for autocompletion
+local lazy_path = vim.fn.stdpath('data') .. '/lazy'
+local ok, list = pcall(vim.fn.readdir, lazy_path)
+if ok then
+  for _, dir in ipairs(list) do
+    table.insert(library, lazy_path .. '/' .. dir .. '/lua')
+  end
+end
+
 return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -9,12 +23,7 @@ return {
       diagnostics = { globals = { 'vim' } },
       workspace = {
         checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME,
-          '${3rd}/luv/library',
-          vim.fn.stdpath('data') .. '/lazy/blink.cmp/lua',
-          vim.fn.stdpath('data') .. '/lazy/render-markdown.nvim/lua',
-        },
+        library = library,
       },
       telemetry = { enable = false },
     },

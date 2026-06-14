@@ -30,6 +30,11 @@ return {
     require("mini.surround").setup()
     require("mini.pairs").setup()
     require("mini.icons").setup()
+    require("mini.files").setup({
+      mappings = {
+        go_in_plus = '<CR>',
+      },
+    })
     -- require("mini.operators").setup()
   end
 }

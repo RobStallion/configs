@@ -69,3 +69,9 @@ end, { desc = 'Yank full file path' })
 -- Go to file shortcuts (gs opens file under cursor in vertical split)
 vim.keymap.set('n', 'gs', '<Cmd>vertical wincmd f<CR>', { desc = 'Go to file in vertical split' })
 
+-- File Manager (mini.files)
+vim.keymap.set('n', '-', function()
+  local mf = require('mini.files')
+  if not mf.close() then mf.open(vim.api.nvim_buf_get_name(0)) end
+end, { desc = 'Open file manager' })
+
