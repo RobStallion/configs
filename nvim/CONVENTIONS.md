@@ -17,7 +17,7 @@ This config uses the Neovim 0.11+ native LSP API. **`nvim-lspconfig` is not inst
 - `:LspInfo` — use `:checkhealth vim.lsp` or `:lua =vim.lsp.get_clients({ bufnr = 0 })`
 - `:LspStart` / `:LspStop` — use `vim.lsp.enable`/`vim.lsp.stop_client()`
 - `:LspRestart` — does not exist. The user has `:LspReload` (defined in `lua/config/usercmds.lua`) which re-reads `lsp/<name>.lua` from disk *and* reattaches clients for the current buffer — use that when iterating on LSP config. For a generic detach without config reload, use `vim.lsp.stop_client(id)` + `:edit`.
-- `:LspLog` — this one IS built-in to Neovim, safe to suggest
+- `:LspLog` (an `nvim-lspconfig` command) — does not exist in native LSP. Use `:lua vim.cmd.edit(vim.lsp.get_log_path())` to view server logs.
 
 ### Useful native commands
 
@@ -27,7 +27,7 @@ This config uses the Neovim 0.11+ native LSP API. **`nvim-lspconfig` is not inst
 | Full client details for current buffer | `:lua =vim.lsp.get_clients({ bufnr = 0 })` |
 | All active LSP clients | `:lua =vim.lsp.get_clients()` |
 | LSP health | `:checkhealth vim.lsp` |
-| Server logs | `:LspLog` (built-in) |
+| Server logs | `:lua vim.cmd.edit(vim.lsp.get_log_path())` |
 | Stop a specific client | `:lua vim.lsp.stop_client(<id>)` |
 
 ### Why native instead of nvim-lspconfig

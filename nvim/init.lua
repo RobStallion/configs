@@ -30,4 +30,5 @@ vim.lsp.enable({
   "jsonls",
   "expert",
   "rumdl",
+  "svelte",
 })

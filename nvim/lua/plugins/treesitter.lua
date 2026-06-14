@@ -28,6 +28,7 @@ return {
         "regex",
         "ruby",
         "sql",
+        "svelte",
         "terraform",
         "toml",
         "tsx",
