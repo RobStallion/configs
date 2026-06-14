@@ -28,7 +28,7 @@ shell-integration = zsh
 shell-integration-features = cursor,sudo,title
 
 # ── UI ────────────────────────────────────────────────────────────────────────
-unfocused-split-opacity = 0.6
+
 cursor-style = block
 mouse-hide-while-typing = true
 

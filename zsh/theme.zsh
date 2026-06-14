@@ -42,6 +42,7 @@ theme() {
   echo "catppuccin-${variant}" > "$HOME/.config/theme"
   export BAT_THEME="$(_theme_display_name)"
   _theme_sync_ghostty
+  touch "$HOME/.config/ghostty/config"
   pkill -USR2 Ghostty 2>/dev/null || pkill -USR2 ghostty 2>/dev/null || true
   if tmux info &>/dev/null; then
     tmux source-file ~/.config/tmux/tmux.conf 2>/dev/null || true
