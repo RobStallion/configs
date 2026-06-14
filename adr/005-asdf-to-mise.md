@@ -1,7 +1,7 @@
 # ADR-005: Migrate from asdf to mise
 
 **Date**: 2026-05-09
-**Status**: Accepted (executed 2026-05-09, soak period in progress)
+**Status**: Completed (completed 2026-05-16, ASDF removed)
 
 ## For / Against
 
@@ -49,28 +49,31 @@ available outside project dirs, so shimless carries no practical downside.
 
 ## What changed
 
-`.tool-versions` was pruned and bumped as part of this migration:
+Tool configurations were consolidated and migrated from the legacy `~/.tool-versions` structure into the modern [mise/config.toml](file:///Users/robertfrancis/code/personal/configs/mise/config.toml) file.
 
-**Removed from version management** (moved to brew — no version pinning needed):
-`bat`, `fd`, `neovim`, `lua-language-server`
+**Consolidated and managed via Mise:**
+* `node = "26"`
+* `go = "1"`
+* `uv = "0.11"`
+* `python = "3.14"`
+* `deno = "2"`
+* `bun = "latest"`
+* `erlang = "latest"` (Restored)
+* `elixir = "latest"` (Restored)
+* `kubectl = "1.36"`
+* `yq = "4.53.2"`
 
-**Removed entirely** (unused runtimes):
-`elixir`, `erlang`, `clojure`, `java`, `lein`, `argo`, `kubectx`
-
-**Removed** (native management preferred):
-`gcloud` (managed via `gcloud components update`),
-`ruff` (managed via `uv tool install`),
-`poetry` (vfox plugin broken on 2.x; managed per-project via `uv tool install poetry`)
-
-**Remaining tools** (all bumped to latest stable/LTS):
-`nodejs`, `kubectl`, `terraform`, `golang`, `python`, `yq`, `kustomize`, `uv`, `gomplate`, `bun`
+**Removed from global runtime management:**
+* `terraform`, `kustomize`, and `gomplate` (de-prioritized or commented out).
+* `bat`, `fd`, `neovim`, `lua-language-server` (delegated to system package managers like Homebrew).
+* `gcloud` (self-managed via component updater), `ruff` and `poetry` (managed via `uv tool install`).
 
 **Shell wiring:**
-- `zsh/mise.zsh` added — cached `mise activate zsh` (same pattern as starship init)
-- Sourced first in `.zshrc` so all subsequent modules see mise-managed PATH
-- `zsh/.zprofile` asdf block commented out (not deleted — rollback available)
-- `mise/config.toml` added to repo, symlinked to `~/.config/mise/config.toml`
-- `~/.tool-versions` symlinked to repo for version control
+- `zsh/mise.zsh` added — cached `mise activate zsh` (same pattern as starship init).
+- Sourced first in `.zshrc` so all subsequent modules see mise-managed PATH.
+- Commented asdf block was fully removed from `zsh/.zprofile` after successful soak.
+- `mise/config.toml` added to repo, symlinked to `~/.config/mise/config.toml`.
+- Legacy `~/.tool-versions` file removed entirely as configurations are now consolidated in `mise/config.toml`.
 
 **Python attestation note:** cpython 3.13.0 predates mise's GitHub artifact
 attestation support. `MISE_PYTHON_GITHUB_ATTESTATIONS=false` set in `.zprofile`
@@ -82,13 +85,13 @@ as a workaround. Remove when Python is bumped to a version that has attestations
 2. Uncomment the asdf block in `.zprofile`
 3. `~/.asdf` is untouched — asdf is immediately functional again
 
-## Remove asdf (after soak period ~2026-05-16)
+## Remove asdf (Completed 2026-05-16)
 
-```sh
-brew uninstall asdf
-rm -rf ~/.asdf
-# Delete the commented asdf block from zsh/.zprofile
-```
+The soak period completed successfully. `asdf` was uninstalled via Homebrew, `~/.asdf` deleted, and the legacy commented asdf block was removed from `zsh/.zprofile`.
+
+## Assumptions
+
+We assume that macOS is the primary operating system, and all developer tools are managed either via Homebrew (for system-wide utilities) or Mise (for language runtimes and LSP binaries).
 
 ## Consequences
 

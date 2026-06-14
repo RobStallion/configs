@@ -17,7 +17,8 @@ Personal config files, symlinked to their expected locations:
 | `starship/` | `~/.config/starship` (whole dir) | |
 | `mise/config.toml` | `~/.config/mise/config.toml` | |
 | `tmux/` | `~/.config/tmux` (whole dir) | |
-| `git/gitconfig` | `~/.gitconfig` | file symlink |
+| git/gitconfig | `~/.gitconfig` | file symlink |
+| `git/gitignore` | `~/.gitignore_global` | file symlink |
 | `fd/ignore` | `~/.config/fd/ignore` | file symlink |
 | `theme` | `~/.config/theme` | file symlink, `skip-worktree` (runtime changes don't dirty the repo) |
 | `claude/statusline/` | (builds the binary) | binary symlinked to `~/.claude/statusline-command`; `target/` gitignored |
