@@ -1,4 +1,5 @@
 ghostty/theme.conf
+theme
 
 tmux/plugins/
 .claude/

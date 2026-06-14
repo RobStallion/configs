@@ -88,12 +88,12 @@ link_item "$REPO_DIR/tmux" "~/.config/tmux" "Tmux multiplexer config"
 link_item "$REPO_DIR/git/gitconfig" "~/.gitconfig" "Global Git settings"
 link_item "$REPO_DIR/git/gitignore" "~/.gitignore_global" "Global Git ignore rules"
 link_item "$REPO_DIR/fd/ignore" "~/.config/fd/ignore" "Global fd finder ignores"
+# Bootstrap the local gitignored theme file from the checked-in default
+if [[ ! -f "$REPO_DIR/theme" ]]; then
+  cp "$REPO_DIR/theme.default" "$REPO_DIR/theme"
+  echo -e "  [Created] Initialized $REPO_DIR/theme from theme.default"
+fi
 link_item "$REPO_DIR/theme" "~/.config/theme" "Global theme state (Catppuccin)"
-
-# ── Git Invariants ────────────────────────────────────────────────────────────
-echo -e "\n${GREEN}--- Setting up local Git indexes ---${NC}"
-# Set theme to skip-worktree so local runtime changes don't dirty the git status
-(cd "$REPO_DIR" && git update-index --skip-worktree theme 2>/dev/null && echo "  [Git] Marked 'theme' as skip-worktree.") || true
 
 # ── Homebrew Bundle ───────────────────────────────────────────────────────────
 echo -e "\n${GREEN}--- Installing Homebrew dependencies ---${NC}"

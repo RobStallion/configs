@@ -20,7 +20,7 @@ Personal config files, symlinked to their expected locations:
 | git/gitconfig | `~/.gitconfig` | file symlink |
 | `git/gitignore` | `~/.gitignore_global` | file symlink |
 | `fd/ignore` | `~/.config/fd/ignore` | file symlink |
-| `theme` | `~/.config/theme` | file symlink, `skip-worktree` (runtime changes don't dirty the repo) |
+| `theme` | `~/.config/theme` | file symlink, gitignored (bootstrapped from `theme.default` at install time) |
 | `claude/statusline/` | (builds the binary) | binary symlinked to `~/.claude/statusline-command`; `target/` gitignored |
 
 **Agent guidance files:** `CLAUDE.md` and `GEMINI.md` at the repo root are **symlinks to `AGENTS.md`**. This provides filename compatibility for Claude Code, Gemini, and other agents while keeping a single source of truth. Edit `AGENTS.md` only.
