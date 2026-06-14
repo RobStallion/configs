@@ -78,7 +78,11 @@ echo -e "\n${GREEN}--- Linking configuration files ---${NC}"
 # Define the maps of sources in REPO_DIR to targets in $HOME
 # Format: link_item "source" "destination" "description"
 link_item "$REPO_DIR/nvim" "~/.config/nvim" "Neovim config"
-link_item "$REPO_DIR/ghostty" "~/.config/ghostty" "Ghostty Terminal config"
+if [[ -L "$HOME/.config/ghostty" ]]; then
+  rm "$HOME/.config/ghostty"
+fi
+mkdir -p "$HOME/.config/ghostty"
+link_item "$REPO_DIR/ghostty/config" "~/.config/ghostty/config" "Ghostty Terminal config"
 link_item "$REPO_DIR/zsh" "~/.config/zsh" "Zsh modules directory"
 link_item "$REPO_DIR/zsh/.zshrc" "~/.zshrc" "Zsh runtime configuration"
 link_item "$REPO_DIR/zsh/.zprofile" "~/.zprofile" "Zsh environment variables"

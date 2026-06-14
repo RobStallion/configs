@@ -10,7 +10,7 @@ Personal config files, symlinked to their expected locations:
 | Repo path | Symlinked to | Notes |
 |---|---|---|
 | `nvim/` | `~/.config/nvim` | |
-| `ghostty/` | `~/.config/ghostty` | |
+| `ghostty/config` | `~/.config/ghostty/config` | file symlink (enables FSEvents auto-reload on macOS) |
 | `zsh/` | `~/.config/zsh` (whole dir) | |
 | `zsh/.zshrc` | `~/.zshrc` | |
 | `zsh/.zprofile` | `~/.zprofile` | |
