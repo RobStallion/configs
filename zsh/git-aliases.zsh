@@ -143,4 +143,19 @@ alias gfg='git ls-files | grep'                               # grep tracked fil
 # ── Functions ─────────────────────────────────────────────────────────────────
 
 # Opens the github page for the current repo using the GitHub CLI.
-alias gho="gh repo view --web"
+gho() {
+  local remote="${1:-}"
+  if [[ -z "$remote" ]]; then
+    gh repo view --web
+  else
+    local url
+    url=$(git remote get-url "$remote" 2>/dev/null)
+    if [[ -n "$url" ]]; then
+      gh repo view "$url" --web
+    else
+      # Fallback to passing the argument directly to gh (e.g. for owner/repo)
+      gh repo view "$remote" --web
+    fi
+  fi
+}
+

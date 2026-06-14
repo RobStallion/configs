@@ -7,6 +7,22 @@ t() {
   tmux new-session -A -s "$name" -n "home"
 }
 
+# List all configured project directories under ~/code
+_tmux_list_projects() {
+  local -a projects
+  projects=(
+    ~/code/*(N/)
+    ~/code/personal/*(N/)
+    ~/code/spike/*(N/)
+    ~/code/claude-projects/*(N/)
+  )
+  projects=( ${projects#$HOME/code/} )
+  projects=( ${projects:#personal} )
+  projects=( ${projects:#spike} )
+  projects=( ${projects:#claude-projects} )
+  printf "%s\n" "${projects[@]}"
+}
+
 # Find a project directory by name under ~/code (fzf if multiple matches).
 _tmux_find_dir() {
   local target="$1"
@@ -26,16 +42,7 @@ _tmux_find_dir() {
   local result
   if [[ -z "$target" ]]; then
     local -a projects
-    projects=(
-      ~/code/*(N/)
-      ~/code/personal/*(N/)
-      ~/code/spike/*(N/)
-      ~/code/claude-projects/*(N/)
-    )
-    projects=( ${projects#$HOME/code/} )
-    projects=( ${projects:#personal} )
-    projects=( ${projects:#spike} )
-    projects=( ${projects:#claude-projects} )
+    projects=( ${(f)"$(_tmux_list_projects)"} )
     local selection
     selection=$(printf "%s\n" "${projects[@]}" | fzf --exit-0)
     [[ -z "$selection" ]] && return 1
@@ -144,16 +151,7 @@ ts() {
 # Completion for tw and ts
 _tw_complete() {
   local -a projects
-  projects=(
-    ~/code/*(N/)
-    ~/code/personal/*(N/)
-    ~/code/spike/*(N/)
-    ~/code/claude-projects/*(N/)
-  )
-  projects=( ${projects#$HOME/code/} )
-  projects=( ${projects:#personal} )
-  projects=( ${projects:#spike} )
-  projects=( ${projects:#claude-projects} )
+  projects=( ${(f)"$(_tmux_list_projects)"} )
 
   if [[ "$service" == "ts" ]]; then
     _arguments '1:project:($projects)'

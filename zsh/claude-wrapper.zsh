@@ -10,9 +10,9 @@ c() {
   emulate -L zsh
   local tmp
   tmp="$(mktemp "${TMPDIR:-/tmp}/claude-mcp.XXXXXX")" || return 1
+  trap 'rm -f -- "${tmp}" "${tmp}.json"' EXIT INT TERM HUP
   mv -- "${tmp}" "${tmp}.json"
   tmp="${tmp}.json"
-  trap "rm -f -- '${tmp}'" EXIT INT TERM HUP
 
   local base='{"mcpServers": {}}'
   local git_root dir mcp_json=""
@@ -36,6 +36,10 @@ c() {
     if [[ "${arg}" == -* ]]; then
       claude_args+=("${arg}")
     elif [[ "$parsing_profiles" == "true" && -f "${HOME}/.mcp-profiles/${arg}.json" ]]; then
+      if ! command -v jq &>/dev/null; then
+        print -u2 "c: error: jq is required to merge MCP profiles. Please install it first."
+        return 1
+      fi
       profile_args+=("${arg}")
       local pfile="${HOME}/.mcp-profiles/${arg}.json"
       local merged

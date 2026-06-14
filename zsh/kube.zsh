@@ -57,7 +57,7 @@ function kc() {
 
   if [[ -n "$arg2" ]]; then
     # Two arguments: kc <context> <namespace>
-    if [[ ! " ${contexts[*]} " =~ " ${arg1} " ]]; then
+    if (( ! contexts[(I)$arg1] )); then
       echo "Context ($arg1) not found" >&2
       return 1
     fi
@@ -73,7 +73,7 @@ function kc() {
   else
     # One argument: kc <context-or-namespace>
     # 1. Is it a context?
-    if [[ " ${contexts[*]} " =~ " ${arg1} " ]]; then
+    if (( contexts[(I)$arg1] )); then
       kubectl config use-context "$arg1"
       return $?
     fi

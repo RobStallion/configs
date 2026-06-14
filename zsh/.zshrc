@@ -12,7 +12,7 @@ source ~/.config/zsh/claude.zsh
 source ~/.config/zsh/claude-wrapper.zsh  # defines the `c` function
 source ~/.config/zsh/theme.zsh
 source ~/.config/zsh/tmux.zsh
-source ~/.config/zsh/.zsh_secrets   # API keys etc. (gitignored, sourced via the symlinked dir)
+[[ -f ~/.config/zsh/.zsh_secrets ]] && source ~/.config/zsh/.zsh_secrets   # API keys etc. (gitignored, sourced via the symlinked dir)
 source ~/.config/zsh/plugins.zsh    # LAST: fast-syntax-highlighting and zsh-autosuggestions wrap ZLE widgets
 
 # ── Prompt ────────────────────────────────────────────────────────────────────
