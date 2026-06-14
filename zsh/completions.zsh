@@ -57,9 +57,32 @@ zstyle ':completion:*:descriptions' format '%B%d%b'
 
 # ── Lazy completions ──────────────────────────────────────────────────────────
 
-# bun completions — lazy: load on first `bun` call, not every shell start
-bun() {
+# bun completions — lazy: load on first `bun` call, not every shell start.
+# Auto-loads if starting in or entering a bun repository.
+_load_bun() {
   unfunction bun 2>/dev/null
+  if (( $+functions[_bun_auto_load_hook] )); then
+    autoload -Uz add-zsh-hook
+    add-zsh-hook -d chpwd _bun_auto_load_hook
+    unfunction _bun_auto_load_hook 2>/dev/null
+  fi
   _cached_init bun completions
+}
+
+bun() {
+  _load_bun
   command bun "$@"
 }
+
+_bun_auto_load_hook() {
+  if [[ -f bun.lockb || -f bun.lock ]]; then
+    _load_bun
+  fi
+}
+
+if [[ -f bun.lockb || -f bun.lock ]]; then
+  _load_bun
+else
+  autoload -Uz add-zsh-hook
+  add-zsh-hook chpwd _bun_auto_load_hook
+fi
