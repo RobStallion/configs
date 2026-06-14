@@ -5,6 +5,7 @@ Reference for getting more out of the current setup before adding plugins.
 ## Built-in Neovim (0.11+)
 
 ### LSP defaults (no config needed)
+
 - `K` — hover docs
 - `grn` — rename symbol
 - `gra` — code action
@@ -16,6 +17,7 @@ Reference for getting more out of the current setup before adding plugins.
 - `<C-w>d` — open diagnostic float for current line
 
 ### Other built-ins people miss
+
 - `gx` — open URL under cursor in browser
 - `gf` — go to file under cursor (respects `path` option)
 - `gd` / `gD` — local / global declaration (LSP overrides to definition)
@@ -26,11 +28,16 @@ Reference for getting more out of the current setup before adding plugins.
 - `ciw` / `daw` / `yi"` — text objects chain with every operator
 - `:InspectTree` — open treesitter AST viewer for current buffer
 - `:Inspect` — show syntax and highlight groups at cursor
-- Format file/selection with `<leader>=` (normal = whole file, visual = range). This uses the custom formatter (`lua/config/formatter.lua`) which has special handling for JSON (via `jq`) and Markdown (via rumdl with reflow) before falling back to LSP. The raw `vim.lsp.buf.format` builtin is still available directly.
+- Format file/selection with `<leader>=` (normal = whole file, visual = range).
+  This uses the custom formatter (`lua/config/formatter.lua`) which has special
+  handling for JSON (via `jq`) and Markdown (via rumdl with reflow) before
+  falling back to LSP. The raw `vim.lsp.buf.format` builtin is still available
+  directly.
 
 ## mini.nvim modules you have
 
 ### mini.ai — extended text objects
+
 - `vaf` / `vif` — select around / inside function
 - `vac` / `vic` — around / inside class
 - `va)` / `vi)` — around / inside parentheses (next/last)
@@ -38,6 +45,7 @@ Reference for getting more out of the current setup before adding plugins.
 - Works with any operator: `daf` delete whole function, `yi{` yank inside braces
 
 ### mini.surround — surround edits
+
 - `sa{motion}{char}` — add surround (e.g. `saiw"` wraps word in quotes)
 - `sd{char}` — delete surround (e.g. `sd"` removes surrounding quotes)
 - `sr{old}{new}` — replace surround (e.g. `sr"'` changes `"` to `'`)
@@ -45,11 +53,13 @@ Reference for getting more out of the current setup before adding plugins.
 - `sh` — highlight surround
 
 ### mini.statusline
+
 - Already displays mode, git, diagnostics, filename, location. No config needed.
 
 ## blink.cmp (completion)
 
 Default preset keymaps while the menu is open:
+
 - `<C-space>` — trigger completion
 - `<C-n>` / `<C-p>` or `<Down>` / `<Up>` — navigate items
 - `<C-y>` — accept
@@ -57,12 +67,15 @@ Default preset keymaps while the menu is open:
 - `<Tab>` / `<S-Tab>` — snippet forward/backward when in snippet
 - `<C-k>` — toggle signature help
 
-Docs popup only shows when manually triggered — bind `<C-d>` / `<C-f>` if you want to scroll docs.
+Docs popup only shows when manually triggered — bind `<C-d>` / `<C-f>` if you
+want to scroll docs.
 
 ## fzf-lua pickers worth knowing
 
 Beyond the ones already bound:
-- `:FzfLua resume` — re-open last picker with its query (great after you close one by accident)
+
+- `:FzfLua resume` — re-open last picker with its query (great after you close
+  one by accident)
 - `:FzfLua buffers` — switch buffers
 - `:FzfLua diagnostics_document` — fuzzy through current file's diagnostics
 - `:FzfLua diagnostics_workspace` — workspace-wide
@@ -78,19 +91,22 @@ Inside any picker: `<C-q>` sends results to quickfix.
 ## gitsigns (already loaded)
 
 Default mappings (check `:h gitsigns-maps`):
+
 - `]c` / `[c` — next/prev hunk
 - `:Gitsigns preview_hunk` — floating preview
 - `:Gitsigns stage_hunk` / `reset_hunk` — stage or reset under cursor
 - `:Gitsigns blame_line` — inline blame for current line
 - `:Gitsigns toggle_current_line_blame` — persistent inline blame
 
-Worth binding: `<leader>hs` (stage), `<leader>hr` (reset), `<leader>hp` (preview), `<leader>hb` (blame).
+Worth binding: `<leader>hs` (stage), `<leader>hr` (reset), `<leader>hp`
+(preview), `<leader>hb` (blame).
 
 ## treesitter
 
 - `:TSUpdate` — update parsers
 - `:TSPlayground` (if installed) or `:InspectTree` — AST viewer
-- Queries live in `runtime/queries/<lang>/*.scm` — override in `~/.config/nvim/queries/<lang>/`
+- Queries live in `runtime/queries/<lang>/*.scm` — override in
+  `~/.config/nvim/queries/<lang>/`
 
 ## Lazy.nvim
 
@@ -125,7 +141,8 @@ Worth binding: `<leader>hs` (stage), `<leader>hr` (reset), `<leader>hp` (preview
 
 ## Marks
 
-- `ma` — set mark `a` (lowercase = buffer-local, uppercase = global across files)
+- `ma` — set mark `a` (lowercase = buffer-local, uppercase = global across
+  files)
 - `'a` / `` `a `` — jump to mark (line / exact position)
 - `:marks` — list marks
 - `` `. `` — last change, `` `^ `` — last insert position
