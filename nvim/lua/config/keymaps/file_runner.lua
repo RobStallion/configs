@@ -19,11 +19,18 @@ end
 -- is not sufficient to pick the right runner in those cases.
 local lsp_runners = {
   deno = function(fp, args) return make_pane_cmd('deno run --allow-all', fp, args) end,
+  vtsls = function(fp, args) return make_pane_cmd('node', fp, args) end,
 }
 
 -- Filetype-keyed runners are the fallback for languages with no LSP ambiguity.
 local ft_runners = {
   python = function(fp, args) return make_pane_cmd('python3', fp, args) end,
+  go = function(fp, args) return make_pane_cmd('go run', fp, args) end,
+  elixir = function(fp, args) return make_pane_cmd('elixir', fp, args) end,
+  sh = function(fp, args) return make_pane_cmd('bash', fp, args) end,
+  zsh = function(fp, args) return make_pane_cmd('zsh', fp, args) end,
+  lua = function(fp, args) return make_pane_cmd('lua', fp, args) end,
+  bun = function(fp, args) return make_pane_cmd('bun run', fp, args) end,
 }
 
 local function resolve_runner(filepath, args)
