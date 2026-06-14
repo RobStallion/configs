@@ -9,7 +9,9 @@
 c() {
   emulate -L zsh
   local tmp
-  tmp="$(mktemp -t claude-mcp.XXXXXX.json)" || return 1
+  tmp="$(mktemp "${TMPDIR:-/tmp}/claude-mcp.XXXXXX")" || return 1
+  mv -- "${tmp}" "${tmp}.json"
+  tmp="${tmp}.json"
   trap "rm -f -- '${tmp}'" EXIT INT TERM HUP
 
   local base='{"mcpServers": {}}'
@@ -28,25 +30,25 @@ c() {
   printf '%s' "${base}" > "${tmp}"
 
   local -a profile_args claude_args attached
+  local parsing_profiles=true
   local arg
   for arg in "$@"; do
     if [[ "${arg}" == -* ]]; then
-      claude_args+="${arg}"
+      claude_args+=("${arg}")
+    elif [[ "$parsing_profiles" == "true" && -f "${HOME}/.mcp-profiles/${arg}.json" ]]; then
+      profile_args+=("${arg}")
+      local pfile="${HOME}/.mcp-profiles/${arg}.json"
+      local merged
+      merged="$(jq -s '.[0] * .[1]' "${tmp}" "${pfile}")" || return 1
+      printf '%s' "${merged}" > "${tmp}"
+      attached+=("${arg}")
     else
-      profile_args+="${arg}"
+      parsing_profiles=false
+      if [[ -z "${attached}" && ! "${arg}" =~ " " && "${arg}" != "help" ]]; then
+        print -u2 "c: warning: '${arg}' is not a known profile; treating as prompt."
+      fi
+      claude_args+=("${arg}")
     fi
-  done
-
-  for arg in "${profile_args[@]}"; do
-    local pfile="${HOME}/.mcp-profiles/${arg}.json"
-    if [[ ! -f "${pfile}" ]]; then
-      print -u2 "c: no profile '${arg}' at ${pfile}"
-      return 1
-    fi
-    local merged
-    merged="$(jq -s '.[0] * .[1]' "${tmp}" "${pfile}")" || return 1
-    printf '%s' "${merged}" > "${tmp}"
-    attached+="${arg}"
   done
 
   local summary="(no MCP servers)"
