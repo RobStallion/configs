@@ -62,8 +62,8 @@ Sessions persist after you close the terminal. `tmux attach` brings you back.
 
 | Key | Action |
 |---|---|
-| `prefix g` | Toggle floating scratchpad (`todo.md` inside persistent `popup` session) |
-| `prefix C-g` | Open fresh throwaway terminal popup in current directory |
+| `prefix g` | Toggle floating scratchpad (`todo.md` inside persistent `scratch_popup` session) |
+| `prefix C-g` | Toggle floating general-purpose terminal (persistent `terminal_popup` session) |
 | `prefix C-c` | Open fresh 2-pane configuration popup (claude & editor) |
 
 ---
