@@ -35,8 +35,3 @@ bindkey "^[." insert-last-word
 # Make Ctrl+w / Alt+b/f stop at slashes so path edits work as expected.
 # Default WORDCHARS includes `/`, so Ctrl+w on `/path/to/file` deletes the lot.
 WORDCHARS='*?_-.[]~&;!#$%^(){}<>'
-
-# Bracketed paste — paste text literally (no accidental execution).
-# Must be registered AFTER any other self-insert hooks so it wins on paste.
-autoload -Uz bracketed-paste-magic
-zle -N bracketed-paste bracketed-paste-magic
