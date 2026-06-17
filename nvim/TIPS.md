@@ -34,6 +34,14 @@ Reference for getting more out of the current setup before adding plugins.
   falling back to LSP. The raw `vim.lsp.buf.format` builtin is still available
   directly.
 
+### Spell checking (enabled on markdown, gitcommit, text)
+
+- `<C-n>` / `<C-p>` (or `]s` / `[s`) — jump to next/prev spelling error
+- `z=` — show spelling suggestions for word under cursor
+- `zg` — add word under cursor to dictionary (whitelist permanently)
+- `zG` — add word to temporary dictionary (current session only)
+- `zug` — undo adding word to dictionary
+
 ## mini.nvim modules you have
 
 ### mini.ai — extended text objects

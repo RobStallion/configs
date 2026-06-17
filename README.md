@@ -10,14 +10,14 @@ macOS, Ghostty, Zsh, Neovim 0.11+, Tmux, and Mise.
 This repository coordinates the following tools into a cohesive development
 environment:
 
-* **Terminal:** [Ghostty](https://ghostty.org/) (with custom keybindings,
+* **Terminal:** [Ghostty](https://ghostty.org/) (with custom key-bindings,
   terminal-features, and dynamic theme hot-reloading).
 * **Shell:** Zsh (using a modular structure, lazy completion loading, and
-  startup command execution caching).
+  start-up command execution caching).
 * **Prompt:** [Starship](https://starship.rs/) (configured with right-aligned
   git stats, context-aware Kubernetes modules, and palette syncing).
 * **Multiplexer:** Tmux (integrated with smart-splits cursor routing, float
-  popup scratchpads, and a custom background Google Calendar agenda chip).
+  pop-up scratch pads, and a custom background Google Calendar agenda chip).
 * **Editor:** Neovim 0.11+ (running a custom config leveraging native
   `vim.lsp.config`, `blink.cmp` autocomplete, `fzf-lua` search, and visual
   formatting hooks).
@@ -89,12 +89,12 @@ Macchiato, Mocha).
   `skip-worktree` to avoid dirtying git commits).
 * **Changing themes:** Run the shell helper command `theme <variant>` (e.g.
   `theme latte` or `theme mocha`).
-* **Hot-reloading behavior:**
+* **Hot-reloading behaviour:**
   * **Ghostty:** Hot-reloads immediately by rewriting `theme.conf` and sending a
     `USR2` signal.
   * **Tmux:** Hot-reloads by re-reading `@catppuccin_flavor` and re-applying
     status-bar templates.
-  * **Neovim:** Detects the change and updates the active color scheme
+  * **Neovim:** Detects the change and updates the active colour scheme
     automatically upon regaining focus (`FocusGained`).
 
 ---
@@ -120,7 +120,7 @@ unused JSON-RPC MCP schemas (described in
 
 ## 📝 Reference Guides
 
-For specific keybindings, shell aliases, and editor shortcuts, refer to:
+For specific key-bindings, shell aliases, and editor shortcuts, refer to:
 
 * [Zsh Cheat Sheet & Globbing Tips](file:///Users/robertfrancis/code/personal/configs/zsh/TIPS.md)
 * [Neovim Native LSP & Text Objects](file:///Users/robertfrancis/code/personal/configs/nvim/TIPS.md)
