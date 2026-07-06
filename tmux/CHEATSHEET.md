@@ -1,7 +1,7 @@
 # tmux Cheatsheet
 
-Prefix = `C-a` (hold Ctrl, tap a)
-> Note: `C-a C-a` sends `C-a` to the shell (readline: jump to line start)
+Prefix = `C-b` (hold Ctrl, tap b)
+> Note: `C-b C-b` sends `C-b` to the shell
 
 ## Concepts
 
@@ -63,7 +63,7 @@ Sessions persist after you close the terminal. `tmux attach` brings you back.
 | Key | Action |
 |---|---|
 | `prefix g` | Toggle floating scratchpad (`todo.md` inside persistent `scratch_popup` session) |
-| `prefix C-g` | Toggle floating general-purpose terminal (persistent `terminal_popup` session) |
+| `prefix C-g` | Toggle floating general-purpose terminal (persistent project-specific popup session) |
 | `prefix C-c` | Open fresh 2-pane configuration popup (claude & editor) |
 
 ---
