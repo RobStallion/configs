@@ -1,0 +1,58 @@
+{
+  "history": [
+    {
+      "date": "2026-06-18T22:28:43+01:00",
+      "score": "2/4"
+    },
+    {
+      "date": "2026-06-19T22:14:20+01:00",
+      "score": "3/4"
+    }
+  ],
+  "shortcuts": {
+    "tmux_split_vertical": {
+      "box": 2,
+      "interval_days": 3,
+      "last_asked": "2026-06-18T22:28:43+01:00",
+      "times_asked": 1,
+      "times_correct": 1
+    },
+    "nvim_rename_symbol": {
+      "box": 2,
+      "interval_days": 3,
+      "last_asked": "2026-06-19T22:14:20+01:00",
+      "times_asked": 2,
+      "times_correct": 1
+    },
+    "zsh_fzf_cd": {
+      "box": 1,
+      "interval_days": 1,
+      "last_asked": "2026-06-19T22:14:20+01:00",
+      "times_asked": 2,
+      "times_correct": 0
+    },
+    "nvim_lsp_reload": {
+      "box": 2,
+      "interval_days": 3,
+      "last_asked": "2026-06-18T22:28:43+01:00",
+      "times_asked": 1,
+      "times_correct": 1
+    },
+    "tmux_scratchpad": {
+      "box": 2,
+      "interval_days": 3,
+      "last_asked": "2026-06-19T22:14:20+01:00",
+      "times_asked": 1,
+      "times_correct": 1
+    },
+    "nvim_goto_file_split": {
+      "box": 2,
+      "interval_days": 3,
+      "last_asked": "2026-06-19T22:14:20+01:00",
+      "times_asked": 1,
+      "times_correct": 1
+    }
+  },
+  "manually_muted": [],
+  "current_session": null
+}
