@@ -35,6 +35,40 @@ return {
         go_in_plus = '<CR>',
       },
     })
+
+    local map_split = function(buf_id, lhs, direction)
+      local rhs = function()
+        -- Get current entry under cursor
+        local entry = MiniFiles.get_fs_entry()
+        if not entry or entry.fs_type ~= 'file' then
+          -- If not a file (e.g. a directory), just do normal navigation
+          MiniFiles.go_in()
+          return
+        end
+
+        -- If it is a file, split and open
+        local cur_target = MiniFiles.get_explorer_state().target_window
+        local new_target = vim.api.nvim_win_call(cur_target, function()
+          vim.cmd(direction)
+          return vim.api.nvim_get_current_win()
+        end)
+
+        MiniFiles.set_target_window(new_target)
+        MiniFiles.go_in()
+      end
+
+      vim.keymap.set('n', lhs, rhs, { buffer = buf_id, desc = 'Split ' .. direction })
+    end
+
+    vim.api.nvim_create_autocmd('User', {
+      pattern = 'MiniFilesBufferCreate',
+      callback = function(args)
+        local buf_id = args.data.buf_id
+        map_split(buf_id, 'gs', 'split')
+        map_split(buf_id, 'gv', 'vsplit')
+      end,
+    })
+
     -- require("mini.operators").setup()
   end
 }
