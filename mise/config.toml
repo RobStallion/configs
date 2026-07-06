@@ -3,6 +3,9 @@
 # No shims directory — PATH is injected directly on cd.
 trusted_config_paths = ["~/code"]
 
+[settings.ruby]
+compile = false
+
 [tools]
 node = "26"
 go = "1"
