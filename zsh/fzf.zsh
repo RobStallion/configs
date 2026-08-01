@@ -20,17 +20,27 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Alt+C — directory picker: tree preview.
 export FZF_ALT_C_OPTS="--preview 'eza --tree --level=2 --icons=auto {}' --preview-window right:55%"
 
-# Ctrl+F — fuzzy find file and open in nvim (Shift+Up/Down scrolls preview).
+# Ctrl+F — fuzzy find file(s) and open in nvim.
+# Tab selects multiple files; Enter opens all. --height keeps rg output visible above.
 # Guarded against non-empty $BUFFER so a stray Ctrl+F mid-typing doesn't wipe input.
 _fvim() {
   if [[ -n "$BUFFER" ]]; then
     zle -M "_fvim: clear the line first (^U)"
     return
   fi
-  local file
-  file=$(eval "$FZF_DEFAULT_COMMAND" | fzf --preview 'bat --color=always --style=numbers {}' --preview-window right:55%)
-  if [[ -n "$file" ]]; then
-    BUFFER="nvim ${(q)file}"
+  local -a files
+  files=(${(f)"$(eval "$FZF_DEFAULT_COMMAND" | fzf \
+    --preview 'bat --color=always --style=numbers {}' \
+    --preview-window right:55% \
+    --height 50% \
+    --multi)"})
+  if [[ ${#files} -gt 0 ]]; then
+    local cmd="v"
+    local f
+    for f in "${files[@]}"; do
+      cmd+=" ${(q)f}"
+    done
+    BUFFER=$cmd
     zle accept-line
   else
     zle reset-prompt
