@@ -1,5 +1,5 @@
 vim.opt.number = true
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.splitright = true
 vim.opt.splitbelow = true
 vim.opt.clipboard = "unnamedplus"
