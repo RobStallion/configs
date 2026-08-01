@@ -67,3 +67,29 @@ c() {
 
   command claude --mcp-config "${tmp}" --strict-mcp-config "${claude_args[@]}"
 }
+
+_c() {
+  [[ "${words[$CURRENT]}" == -* ]] && { _default; return }
+
+  local -a profiles used
+  local i w
+
+  profiles=(${HOME}/.mcp-profiles/*.json(N:t:r))
+
+  for (( i = 2; i < CURRENT; i++ )); do
+    w="${words[i]}"
+    if [[ "${w}" == -* ]]; then
+      _default; return
+    fi
+    used+=("${w}")
+  done
+
+  local -a remaining=()
+  for p in "${profiles[@]}"; do
+    (( ${used[(Ie)${p}]} )) || remaining+=("${p}")
+  done
+
+  _describe 'MCP profile' remaining
+}
+
+compdef _c c
