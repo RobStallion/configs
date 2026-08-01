@@ -45,6 +45,12 @@ function M.format_file()
     else
       vim.notify("Markdown reflow failed", vim.log.levels.ERROR)
     end
+  elseif vim.bo.filetype == 'json' or vim.bo.filetype == 'jsonc' then
+    if format_json(vim.api.nvim_buf_get_lines(0, 0, -1, false), 0, -1) then
+      vim.notify("JSON formatted", vim.log.levels.INFO)
+    else
+      vim.notify("JSON formatting failed (is jq installed?)", vim.log.levels.ERROR)
+    end
   else
     vim.lsp.buf.format({ async = true })
   end
