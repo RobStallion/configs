@@ -4,42 +4,39 @@ alias vz="v ~/.zshrc"
 alias vtv="v ~/.config/mise/config.toml"
 
 # ── zshrc ─────────────────────────────────────────────────────────────────────
+# Reloads .zshrc in this pane, then fans out to every other idle zsh pane in
+# the *current window* — siblings only, other windows and sessions are left
+# alone. A reload only takes effect inside the shell itself, so siblings are
+# poked with send-keys and each prints its own "reloaded current pane" line.
+# SZ_CHILD guards the fan-out: without it the pane we poke would poke us back
+# and the two would ping-pong forever.
 function sz() {
-  local target_all=false
-  if [[ "$1" == "-a" || "$1" == "--all" ]]; then
-    target_all=true
-  fi
-
   . ~/.zshrc
 
-  if [[ -n "$TMUX" ]]; then
-    tmux source-file ~/.config/tmux/tmux.conf
-    echo "sz: reloaded current pane $TMUX_PANE"
-    if [[ "$target_all" == "true" ]]; then
-      local pane_id cmd
-      tmux list-panes -F '#{pane_id} #{pane_current_command}' | while read -r pane_id cmd; do
-        if [[ "$pane_id" == "$TMUX_PANE" ]]; then
-          continue
-        fi
-        if [[ "$cmd" == *zsh ]]; then
-          echo "sz: sending reload to pane $pane_id (zsh)"
-          tmux send-keys -t "$pane_id" "sz" C-m
-        else
-          echo "sz: skipping pane $pane_id (running $cmd)"
-        fi
-      done
-    fi
-  else
+  if [[ -z "$TMUX" ]]; then
     echo "sz: reloaded current shell"
+    return
   fi
-}
 
-_sz_complete() {
-  _arguments \
-    '-a[reload all panes in current tmux window]' \
-    '--all[reload all panes in current tmux window]'
+  tmux source-file ~/.config/tmux/tmux.conf
+  echo "sz: reloaded current pane $TMUX_PANE"
+
+  [[ -n "$SZ_CHILD" ]] && return
+
+  local pane_id cmd
+  # No -s: list-panes defaults to the current window.
+  tmux list-panes -F '#{pane_id} #{pane_current_command}' | while read -r pane_id cmd; do
+    if [[ "$pane_id" == "$TMUX_PANE" ]]; then
+      continue
+    fi
+    if [[ "$cmd" == *zsh ]]; then
+      echo "sz: sending reload to pane $pane_id (zsh)"
+      tmux send-keys -t "$pane_id" "SZ_CHILD=1 sz" C-m
+    else
+      echo "sz: skipping pane $pane_id (running $cmd)"
+    fi
+  done
 }
-compdef _sz_complete sz
 
 # ── ls (eza) ──────────────────────────────────────────────────────────────────
 # eza = modern Rust replacement for ls. Colours by type, --git shows per-file

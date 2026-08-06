@@ -89,7 +89,7 @@ Tab completion works on both `kubectl` and `k` once cache is built (regenerates 
 | Alias | Expands to |
 |---|---|
 | `v` / `vz` / `vtv` | `nvim -O` / edit `.zshrc` / edit `mise/config.toml` |
-| `sz` | source `.zshrc` |
+| `sz` | source `.zshrc` + tmux.conf, and reload every other idle zsh pane in the current tmux window |
 | `xx` | `exit` |
 | `s` / `z` | open SourceTree / Zed in cwd |
 | `gho [remote]` | open GitHub page for current repo (defaults to `origin`) |
