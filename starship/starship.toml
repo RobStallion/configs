@@ -7,22 +7,21 @@ add_newline = true
 
 palette = "rcm"
 
+# Bumped from the 500ms default: the dir_clean/dir_dirty/git_count modules each
+# shell out to git, and a module that times out silently vanishes from the
+# prompt. 1s is generous enough that a large repo still renders.
+command_timeout = 1000
+
 format = """
-$directory\
+${custom.dir_clean}\
+${custom.dir_dirty}\
+${custom.git_count}\
 $nodejs\
 $python\
 $ruby\
 $cmd_duration\
 $status\
 $character\
-"""
-
-# Right-aligned: contextual info that's nice to glance at but not the primary
-# focus (kube context, git branch, git status). Keeps the left side clean.
-right_format = """
-${custom.kube}\
-$git_branch\
-$git_status\
 """
 
 [character]
@@ -37,17 +36,47 @@ format = "[$symbol$status]($style) "
 symbol = "✘ "
 style = "bold red"
 
+# ── Directory + working-tree state ────────────────────────────────────────────
+# The path itself carries the git signal: bold cyan when the working tree is
+# clean, bold yellow when there are uncommitted changes. custom.git_count then
+# appends "N±", where N is the number of files with changes.
+#
+# `-uno` skips untracked files, which is what makes this fast enough to run on
+# every prompt — scanning for untracked files is the expensive part of git
+# status. Trade-off: a brand-new file shows nothing until you `git add` it.
+#
+# [directory] is disabled because its `style` is static — starship gives no way
+# to vary it by git state. custom.dir_clean / custom.dir_dirty render the path
+# instead. Both call prompt-dir.sh, which reimplements the truncation settings
+# left below for reference; change them in BOTH places or they'll drift.
 [directory]
-style = "bold cyan"
-truncation_length = 3
+disabled = true
+truncation_length = 3         # mirrored as $max in prompt-dir.sh
 truncate_to_repo = true       # in a repo: show path relative to repo root
 truncation_symbol = "…/"      # leading "…/" when path is truncated
-format = "[$path]($style) "
 
-# Optional: per-dir aliases. Uncomment + tweak to shorten common paths.
-# [directory.substitutions]
-# "~/code/personal" = "personal"
-# "~/code/work"     = "work"
+# Exactly one of these fires — the `when` conditions are mutually exclusive.
+# Outside a git repo `git status` fails, so the clean (cyan) branch wins, which
+# is what we want: no repo means nothing to be dirty about.
+[custom.dir_clean]
+command = '$HOME/.config/starship/prompt-dir.sh'
+when = 'test -z "$(git status --porcelain -uno 2>/dev/null)"'
+style = "bold cyan"
+format = "[$output]($style) "
+
+[custom.dir_dirty]
+command = '$HOME/.config/starship/prompt-dir.sh'
+when = 'test -n "$(git status --porcelain -uno 2>/dev/null)"'
+style = "bold yellow"
+format = "[$output]($style) "
+
+# Count of tracked files with changes, staged or not. Hidden entirely when the
+# tree is clean rather than showing "0±".
+[custom.git_count]
+command = 'git status --porcelain -uno 2>/dev/null | wc -l | tr -d " "'
+when = 'test -n "$(git status --porcelain -uno 2>/dev/null)"'
+style = "yellow"
+format = "[$output±]($style) "
 
 [cmd_duration]
 min_time = 2000
@@ -57,40 +86,16 @@ format = "took [$duration](yellow) "
 disabled = true
 
 [kubernetes]
-disabled = true  # replaced by custom.kube below
-
-# Show kube context anywhere within a project that has a kube manifests dir.
-# detect_folders triggers on the parent (dir that contains kube/k8s/__kube__),
-# but disappears once you cd into those dirs. This custom module walks to the
-# git root and checks there instead, so context stays visible throughout the
-# project tree.
-[custom.kube]
-command = "kubectl config current-context"
-when = 'command -v kubectl > /dev/null 2>&1 && root=$(git rev-parse --show-toplevel 2>/dev/null) && (test -d "$root/kube" || test -d "$root/k8s" || test -d "$root/__kube__")'
-symbol = "⎈ "
-style = "bold peach"
-format = "[$symbol$output]($style) "
+disabled = true
 
 [gcloud]
 disabled = true
 
 [git_branch]
-format = "[$branch](blue) "
+disabled = true
 
 [git_status]
-format = "$all_status$ahead_behind"
-conflicted = "[!](bold red)"
-staged = "[+](green)"
-modified = "[·](yellow)"
-untracked = "[?](bright-black)"
-deleted = "[✘](red)"
-# Use a TOML literal string ('...') so the leading $ stays literal —
-# starship treats unescaped $ in basic strings as a variable prefix.
-stashed = '[\$](purple)'
-renamed = "[»](cyan)"
-ahead = "[↑](cyan)"
-behind = "[↓](red)"
-diverged = "[↕](bold red)"
+disabled = true
 
 [nodejs]
 format = "[node $version](green) "
@@ -105,4 +110,3 @@ format = "[rb $version](red) "
 # Defined LAST so the table header doesn't absorb top-level keys above. Add
 # new palettes below and switch via the top-level `palette = "..."` line.
 [palettes.rcm]
-peach = "#f5a97f"
