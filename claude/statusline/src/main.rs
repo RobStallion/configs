@@ -3,7 +3,7 @@
 // Compiled binary symlinked to ~/.claude/statusline-command and invoked from settings.json.
 //
 // Layout:
-//   <model>  $<cost>  ctx:<pct>%  eff:<level>  5h:<pct>%  [MCP:AUTH]  [CAVEMAN]
+//   <model>  $<cost>  ctx:<pct>%  eff:<level>  5h:<pct>%  [MCP:AUTH]
 //
 // Model is read from the transcript (the model the upstream API actually served),
 // not from payload.model.id (which is whatever alias Claude Code asked for).
@@ -23,7 +23,6 @@ const C_GOOD: &str = "\x1b[32m";
 const C_WARN: &str = "\x1b[33m";
 const C_BAD: &str = "\x1b[31m";
 const C_EFFORT: &str = "\x1b[35m";
-const C_CAVEMAN: &str = "\x1b[38;5;172m";
 const C_MCP_AUTH: &str = "\x1b[31m";
 
 // Read at most this many bytes from the end of the transcript when scanning for
@@ -130,20 +129,6 @@ fn main() {
                     parts.push(format!("{C_MCP_AUTH}[MCP:AUTH {}]{RESET}", names.join(",")));
                 }
             }
-        }
-    }
-
-    if let Some(home) = env::var_os("HOME") {
-        let flag = Path::new(&home).join(".claude/.caveman-active");
-        if flag.exists() {
-            let mode = fs::read_to_string(&flag).unwrap_or_default();
-            let mode = mode.trim();
-            let badge = if mode.is_empty() || mode == "full" {
-                "[CAVEMAN]".to_string()
-            } else {
-                format!("[CAVEMAN:{}]", mode.to_uppercase())
-            };
-            parts.push(format!("{C_CAVEMAN}{badge}{RESET}"));
         }
     }
 
