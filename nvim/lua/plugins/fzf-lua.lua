@@ -5,7 +5,7 @@ return {
       { "<leader>f.", "<cmd>FzfLua resume<CR>", desc = "Resume last picker" },
 
       -- Files
-      { "<leader>ff", "<cmd>FzfLua files<CR>",    desc = "Find files" },
+      { "<C-f>",      "<cmd>FzfLua files<CR>",    desc = "Find files" },
       { "<leader>fb", "<cmd>FzfLua buffers<CR>",  desc = "Find buffers" },
       { "<leader>fr", "<cmd>FzfLua oldfiles<CR>", desc = "Recent files" },
       {
@@ -20,7 +20,7 @@ return {
       },
 
       -- Search
-      { "<leader>sg", "<cmd>FzfLua live_grep<CR>",            desc = "Live grep" },
+      { "<C-g>",      "<cmd>FzfLua live_grep<CR>",            desc = "Live grep" },
       { "<leader>sw", "<cmd>FzfLua grep_cword<CR>",           desc = "Grep word under cursor" },
       { "<leader>sh", "<cmd>FzfLua helptags<CR>",             desc = "Search help tags" },
       { "<leader>sr", "<cmd>FzfLua lsp_references<CR>",       desc = "LSP references" },
