@@ -1,7 +1,17 @@
 # ADR-007: Claude Code MCP profile wrapper (`c`)
 
 **Date**: 2026-06-01
-**Status**: Active
+**Status**: Deprecated (2026-09-02)
+
+> Both root causes below (LiteLLM routing stripping Tool Search Tool, and a
+> locally-set `CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=1`) are gone — no more
+> LiteLLM routing, and the env var was removed. Tool Search Tool now defers
+> schema loading natively, so the full-schema-dump problem this ADR solved no
+> longer exists. Considered keeping `c` anyway for least-privilege/blast-radius
+> reasons (ambient write-capable MCP servers are reachable by any session,
+> increasing exposure to prompt injection from untrusted content), but decided
+> the risk is acceptable for solo local use. `c`, `zsh/claude-wrapper.zsh`, and
+> `~/.mcp-profiles/` are removed; `claude` launches directly again.
 
 ## Context
 

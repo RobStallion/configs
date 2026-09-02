@@ -9,7 +9,6 @@ source ~/.config/zsh/git-aliases.zsh
 source ~/.config/zsh/kube.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/claude.zsh
-source ~/.config/zsh/claude-wrapper.zsh  # defines the `c` function
 source ~/.config/zsh/theme.zsh
 source ~/.config/zsh/tmux.zsh
 [[ -f ~/.config/zsh/.zsh_secrets ]] && source ~/.config/zsh/.zsh_secrets   # API keys etc. (gitignored, sourced via the symlinked dir)
